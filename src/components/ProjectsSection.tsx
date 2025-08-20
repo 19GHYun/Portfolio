@@ -1,37 +1,38 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { projects } from '../data/projects';
 import './Section.css';
-
-interface Project {
-  id: number;
-  title: string;
-  description: string;
-  technologies: string[];
-  link?: string;
-  github?: string;
-}
+import './ProjectsSection.css';
 
 interface ProjectsSectionProps {}
 
 const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
-  // 샘플 프로젝트 데이터 - 나중에 실제 데이터로 교체
-  const projects: Project[] = [
-    {
-      id: 1,
-      title: '프로젝트 1',
-      description: '프로젝트에 대한 설명이 여기에 들어갑니다.',
-      technologies: ['React', 'TypeScript', 'CSS'],
-      link: '#',
-      github: '#'
-    },
-    {
-      id: 2,
-      title: '프로젝트 2',
-      description: '두 번째 프로젝트에 대한 설명입니다.',
-      technologies: ['JavaScript', 'Node.js', 'Express'],
-      link: '#',
-      github: '#'
+  const navigate = useNavigate();
+
+  const handleProjectClick = (projectId: string) => {
+    navigate(`/project/${projectId}`);
+  };
+
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case 'completed': return '완료';
+      case 'in-progress': return '진행중';
+      case 'planned': return '계획중';
+      default: return status;
     }
-  ];
+  };
+
+  const getCategoryText = (category: string) => {
+    switch (category) {
+      case 'web': return '웹 개발';
+      case 'mobile': return '모바일';
+      case 'desktop': return '데스크톱';
+      case 'ai': return 'AI/ML';
+      case 'research': return '연구';
+      case 'etc': return '기타';
+      default: return category;
+    }
+  };
 
   return (
     <section id="projects" className="section">
@@ -40,25 +41,42 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
         <div className="section-content">
           <div className="projects-grid">
             {projects.map((project) => (
-              <div key={project.id} className="project-card">
+              <div 
+                key={project.id} 
+                className="project-card"
+                onClick={() => handleProjectClick(project.id)}
+              >
+                <div className="project-card-header">
+                  <div className="project-badges">
+                    <span className={`status-badge ${project.status}`}>
+                      {getStatusText(project.status)}
+                    </span>
+                    <span className="category-badge">
+                      {getCategoryText(project.category)}
+                    </span>
+                  </div>
+                </div>
+                
                 <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
+                <p className="project-summary">{project.summary}</p>
+                
                 <div className="project-technologies">
-                  {project.technologies.map((tech, index) => (
+                  {project.technologies.slice(0, 3).map((tech, index) => (
                     <span key={index} className="tech-tag">{tech}</span>
                   ))}
+                  {project.technologies.length > 3 && (
+                    <span className="tech-more">+{project.technologies.length - 3}</span>
+                  )}
                 </div>
-                <div className="project-links">
-                  {project.link && (
-                    <a href={project.link} className="project-link" target="_blank" rel="noopener noreferrer">
-                      Demo
-                    </a>
-                  )}
-                  {project.github && (
-                    <a href={project.github} className="project-link" target="_blank" rel="noopener noreferrer">
-                      GitHub
-                    </a>
-                  )}
+                
+                <div className="project-footer">
+                  <div className="project-meta">
+                    <span className="team-size">👥 {project.teamSize}명</span>
+                    <span className="period">{project.startDate} ~ {project.endDate || '현재'}</span>
+                  </div>
+                  <div className="project-arrow">
+                    <span>자세히 보기 →</span>
+                  </div>
                 </div>
               </div>
             ))}

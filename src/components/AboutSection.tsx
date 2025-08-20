@@ -12,19 +12,19 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
           <div className="profile-image-container">
             <div className="profile-image">
               <img 
-                src="https://via.placeholder.com/300x300/4ade80/1a1a1a?text=YOUR+PHOTO" 
+                src="/images/profile.jpg" 
                 alt="Profile" 
               />
               <div className="profile-ring"></div>
             </div>
           </div>
           <div className="hero-text">
-            <h1 className="hero-title">안녕하세요! 👋</h1>
-            <h2 className="hero-subtitle">환영합니다</h2>
+            <h1 className="hero-title">누추하지만 어서와라.</h1>
+            <h2 className="hero-subtitle">고생이 많다.</h2>
             <p className="hero-description">
-              이곳은 저의 포트폴리오 웹사이트입니다.<br/>
-              개발에 대한 열정과 창의적인 아이디어로<br/>
-              더 나은 웹 경험을 만들어 나가고 있습니다.
+              이곳은 나의 실험실.<br/>
+              작은 목표를 세우고 달려본다.<br/>
+              잘 부탁 한다.
             </p>
             <div className="hero-buttons">
               <a href="#projects" className="cta-button primary">

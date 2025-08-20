@@ -1,0 +1,351 @@
+/* ProjectDetail.css */
+
+.project-detail-container {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
+  padding: 2rem 0;
+}
+
+.project-header {
+  margin-bottom: 3rem;
+}
+
+.back-button {
+  background: rgba(74, 222, 128, 0.1);
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  margin-bottom: 2rem;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background: rgba(74, 222, 128, 0.2);
+  transform: translateX(-3px);
+}
+
+.project-title-section {
+  text-align: center;
+}
+
+.project-title {
+  color: #ffffff;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.project-meta {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.status-badge, .category-badge, .period-badge {
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status-badge.completed {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.status-badge.in-progress {
+  background: rgba(245, 158, 11, 0.2);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.status-badge.planned {
+  background: rgba(156, 163, 175, 0.2);
+  color: #9ca3af;
+  border: 1px solid rgba(156, 163, 175, 0.3);
+}
+
+.category-badge {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.period-badge {
+  background: rgba(168, 85, 247, 0.2);
+  color: #a855f7;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+
+.project-overview {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 3rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.overview-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 2rem;
+}
+
+.overview-item h3 {
+  color: #4ade80;
+  font-size: 1.1rem;
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
+.overview-item p {
+  color: #e5e7eb;
+  line-height: 1.6;
+}
+
+.project-section {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.project-section h2 {
+  color: #4ade80;
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+  font-weight: 600;
+  border-bottom: 2px solid rgba(74, 222, 128, 0.3);
+  padding-bottom: 0.5rem;
+}
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tech-badge {
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  color: #1a1a1a;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.feature-list, .results-list {
+  list-style: none;
+  padding: 0;
+}
+
+.feature-list li, .results-list li {
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #e5e7eb;
+  border-left: 4px solid #4ade80;
+  position: relative;
+}
+
+.feature-list li::before {
+  content: '✓';
+  color: #4ade80;
+  font-weight: bold;
+  margin-right: 0.75rem;
+}
+
+.results-list li::before {
+  content: '🎯';
+  margin-right: 0.75rem;
+}
+
+.challenge-solution-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.challenges h3 {
+  color: #f59e0b;
+  margin-bottom: 1rem;
+}
+
+.solutions h3 {
+  color: #22c55e;
+  margin-bottom: 1rem;
+}
+
+.challenges ul, .solutions ul {
+  list-style: none;
+  padding: 0;
+}
+
+.challenges li {
+  background: rgba(245, 158, 11, 0.1);
+  border-left: 4px solid #f59e0b;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #fbbf24;
+}
+
+.solutions li {
+  background: rgba(34, 197, 94, 0.1);
+  border-left: 4px solid #22c55e;
+  margin-bottom: 0.75rem;
+  padding: 1rem;
+  border-radius: 8px;
+  color: #4ade80;
+}
+
+.project-links {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-top: 3rem;
+  flex-wrap: wrap;
+}
+
+.link-button {
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.link-button.demo {
+  background: linear-gradient(135deg, #4ade80, #22d3ee);
+  color: #1a1a1a;
+}
+
+.link-button.demo:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(74, 222, 128, 0.3);
+}
+
+.link-button.github {
+  background: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.link-button.github:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-3px);
+}
+
+.link-button.docs {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.link-button.docs:hover {
+  background: rgba(59, 130, 246, 0.3);
+  transform: translateY(-3px);
+}
+
+/* 하단 네비게이션 */
+.bottom-navigation {
+  text-align: center;
+  margin-top: 4rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.back-button-bottom {
+  background: rgba(74, 222, 128, 0.1);
+  border: 2px solid rgba(74, 222, 128, 0.3);
+  color: #4ade80;
+  padding: 1rem 2.5rem;
+  border-radius: 12px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.back-button-bottom:hover {
+  background: rgba(74, 222, 128, 0.2);
+  border-color: rgba(74, 222, 128, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(74, 222, 128, 0.2);
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+  .project-title {
+    font-size: 2rem;
+  }
+  
+  .project-meta {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .overview-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .challenge-solution-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .project-links {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .link-button {
+    width: 100%;
+    text-align: center;
+    max-width: 300px;
+  }
+  
+  .back-button-bottom {
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-detail-container {
+    padding: 1rem 0;
+  }
+  
+  .project-section {
+    padding: 1.5rem;
+  }
+  
+  .project-title {
+    font-size: 1.75rem;
+  }
+  
+  .back-button-bottom {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.9rem;
+    width: 100%;
+    max-width: 280px;
+  }
+}
