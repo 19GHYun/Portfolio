@@ -1,0 +1,68 @@
+:root {
+  /* 색상 변수 정의 */
+  --primary-color: #1a1a1a;       /* 검정색 */
+  --secondary-color: #4ade80;      /* 민트색 */
+  --accent-color: #22d3ee;         /* 밝은 민트색 */
+  --bg-dark: #0a0a0a;              /* 진한 검정 */
+  --bg-light: #f8fffe;             /* 연한 민트 톤 */
+  --text-light: #ffffff;           /* 흰색 텍스트 */
+  --text-dark: #1a1a1a;            /* 검정 텍스트 */
+  --text-muted: #6b7280;           /* 회색 텍스트 */
+  --gradient: linear-gradient(135deg, var(--primary-color) 0%, #2d2d2d 100%);
+  --mint-gradient: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.6;
+  color: var(--text-light);
+  background-color: var(--bg-dark);
+}
+
+.App {
+  padding-top: 80px; /* Header height offset */
+}
+
+main {
+  min-height: calc(100vh - 160px); /* Full height minus header and footer */
+}
+
+/* Smooth scrolling for navigation links */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 글로벌 스타일링 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* 스크롤바 스타일링 */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-color);
+}
