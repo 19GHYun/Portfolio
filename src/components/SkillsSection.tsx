@@ -15,38 +15,64 @@ interface SkillCategory {
 interface SkillsSectionProps {}
 
 const SkillsSection: React.FC<SkillsSectionProps> = () => {
-  // 스킬 카테고리별 데이터 - 프로젝트 작성 후 실제 데이터로 교체 예정
-  const hardSkills: Skill[] = [
-    { name: 'JavaScript', level: 0 },
-    { name: 'TypeScript', level: 0 },
-    { name: 'Python', level: 0 },
-    { name: 'Java', level: 0 },
-    { name: 'C/C++', level: 0 },
-    { name: 'SQL', level: 0 }
+  const programmingLanguages: Skill[] = [
+    { name: 'Python', level: 85 },
+    { name: 'Java', level: 80 },
+    { name: 'JavaScript/TypeScript', level: 75 },
+    { name: 'C#', level: 70 },
+    { name: 'C++', level: 65 },
+    { name: 'JASS', level: 60 }
   ];
 
-  const softSkills: Skill[] = [
-    { name: '팀워크', level: 0 },
-    { name: '의사소통', level: 0 },
-    { name: '문제해결', level: 0 },
-    { name: '리더십', level: 0 },
-    { name: '적응력', level: 0 },
-    { name: '창의성', level: 0 }
+  const frontendSkills: Skill[] = [
+    { name: 'React', level: 80 },
+    { name: 'Vue.js', level: 75 },
+    { name: 'TypeScript', level: 75 },
+    { name: 'CSS/Tailwind CSS', level: 70 },
+    { name: 'Three.js', level: 65 },
+    { name: 'React Router', level: 70 }
   ];
 
-  const frameworks: Skill[] = [
-    { name: 'React', level: 0 },
-    { name: 'Vue.js', level: 0 },
-    { name: 'Node.js', level: 0 },
-    { name: 'Express', level: 0 },
-    { name: 'Spring Boot', level: 0 },
-    { name: 'Django', level: 0 }
+  const backendSkills: Skill[] = [
+    { name: 'Spring Boot', level: 80 },
+    { name: 'Node.js', level: 70 },
+    { name: 'gRPC', level: 65 },
+    { name: 'JPA/QueryDSL', level: 75 },
+    { name: 'Spring Security', level: 70 },
+    { name: 'WebSocket/STOMP', level: 75 }
+  ];
+
+  const aiMlSkills: Skill[] = [
+    { name: 'TensorFlow', level: 80 },
+    { name: 'Computer Vision', level: 85 },
+    { name: 'Audio Processing', level: 70 },
+    { name: 'Model Optimization', level: 75 },
+    { name: 'Image Processing', level: 80 }
+  ];
+
+  const databaseCloudSkills: Skill[] = [
+    { name: 'MySQL', level: 75 },
+    { name: 'PostgreSQL', level: 70 },
+    { name: 'Redis', level: 65 },
+    { name: 'AWS', level: 70 },
+    { name: 'Cloudflare R2', level: 60 }
+  ];
+
+  const hardwareIotSkills: Skill[] = [
+    { name: 'Arduino', level: 80 },
+    { name: 'Raspberry Pi', level: 85 },
+    { name: 'RTL-SDR', level: 75 },
+    { name: 'NFC/RFID', level: 70 },
+    { name: 'RF Communication', level: 75 }
   ];
 
   const skillCategories: SkillCategory[] = [
-    { title: 'Hard Skills', skills: hardSkills },
-    { title: 'Soft Skills', skills: softSkills },
-    { title: 'Frameworks', skills: frameworks }
+    { title: 'Programming Languages', skills: programmingLanguages },
+    { title: 'Frontend Development', skills: frontendSkills },
+    { title: 'Backend Development', skills: backendSkills },
+    { title: 'AI/Machine Learning', skills: aiMlSkills },
+    { title: 'Database & Cloud', skills: databaseCloudSkills },
+    { title: 'Hardware & IoT', skills: hardwareIotSkills }
   ];
 
   const renderSkillBar = (skill: Skill) => (

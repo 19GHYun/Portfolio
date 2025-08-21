@@ -54,6 +54,11 @@ const ProjectDetail: React.FC = () => {
     }
   };
 
+  const getYouTubeEmbedUrl = (url: string) => {
+    const videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+    return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
+  };
+
   return (
     <div className="project-detail-container">
       <div className="container">
@@ -116,6 +121,22 @@ const ProjectDetail: React.FC = () => {
           </ul>
         </div>
 
+        {/* 유튜브 영상 */}
+        {project.youtubeUrl && (
+          <div className="project-section">
+            <h2>프로젝트 데모 영상</h2>
+            <div className="youtube-container">
+              <iframe
+                src={getYouTubeEmbedUrl(project.youtubeUrl) || ''}
+                title="프로젝트 데모 영상"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+        )}
+
         {/* 도전 과제와 해결책 */}
         <div className="project-section">
           <h2>도전 과제 및 해결책</h2>
@@ -148,6 +169,16 @@ const ProjectDetail: React.FC = () => {
             ))}
           </ul>
         </div>
+
+        {/* 프로젝트 회고 */}
+        {project.reflection && (
+          <div className="project-section">
+            <h2>프로젝트 회고</h2>
+            <div className="reflection-content">
+              <p>{project.reflection}</p>
+            </div>
+          </div>
+        )}
 
         {/* 링크들 */}
         <div className="project-links">

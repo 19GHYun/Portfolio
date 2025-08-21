@@ -30,6 +30,7 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
       case 'ai': return 'AI/ML';
       case 'research': return '연구';
       case 'etc': return '기타';
+      case 'hardware': return '하드웨어';
       default: return category;
     }
   };

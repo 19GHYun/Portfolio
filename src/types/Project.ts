@@ -6,7 +6,7 @@ export interface Project {
   summary: string;
   description: string;
   technologies: string[];
-  category: 'web' | 'mobile' | 'desktop' | 'ai' | 'research' | 'etc';
+  category: 'web' | 'mobile' | 'desktop' | 'ai' | 'research' | 'etc' | 'hardware';
   status: 'completed' | 'in-progress' | 'planned';
   startDate: string;
   endDate?: string;
@@ -19,5 +19,7 @@ export interface Project {
   images: string[];
   demoUrl?: string;
   githubUrl?: string;
+  youtubeUrl?: string;
   documentation?: string;
+  reflection?: string;
 }
