@@ -15,21 +15,21 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
               <h3 className="profile-category">기본 정보</h3>
               <div className="profile-item">
                 <h4>이름</h4>
-                <p>{process.env.REACT_APP_USER_NAME || '[이름을 입력하세요]'}</p>
-                <p>{process.env.REACT_APP_USER_NAME_EN || '[영문명을 입력하세요]'}</p>
-                <p>{process.env.REACT_APP_USER_NAME_CN || '[한자명을 입력하세요]'}</p>
+                <p>윤경호</p>
+                <p>Yun GyoungHo</p>
+                <p>尹景湖</p>
               </div>
               <div className="profile-item">
                 <h4>이메일</h4>
-                <p>{process.env.REACT_APP_USER_EMAIL || '[이메일을 입력하세요]'}</p>
+                <p>zxcvting1@gmail.com</p>
               </div>
               <div className="profile-item">
                 <h4>전화번호</h4>
-                <p>{process.env.REACT_APP_USER_PHONE || '[전화번호를 입력하세요]'}</p>
+                <p>010-2223-6196</p>
               </div>
               <div className="profile-item">
                 <h4>주소</h4>
-                <p>{process.env.REACT_APP_USER_ADDRESS || '[주소를 입력하세요]'}</p>
+                <p>광주광역시 서구 천변좌하로532 1204호</p>
               </div>
             </div>
 
@@ -37,12 +37,12 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
               <h3 className="profile-category">학력</h3>
               <div className="profile-item">
                 <h4>최종 학력</h4>
-                <p>{process.env.REACT_APP_UNIVERSITY || '[대학교명]'} - {process.env.REACT_APP_MAJOR || '[전공명]'}</p>
-                <span className="profile-date">{process.env.REACT_APP_GRADUATION_YEAR || '[졸업년도]'}</span>
+                <p>조선대학교 - 컴퓨터공학과</p>
+                <span className="profile-date">2024</span>
               </div>
               <div className="profile-item">
                 <h4>GPA</h4>
-                <p>{process.env.REACT_APP_GPA || '[학점을 입력하세요]'}</p>
+                <p>3.52</p>
               </div>
             </div>
 

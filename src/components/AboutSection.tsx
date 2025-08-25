@@ -19,12 +19,10 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
             </div>
           </div>
           <div className="hero-text">
-            <h1 className="hero-title">누추하지만 어서와라.</h1>
-            <h2 className="hero-subtitle">고생이 많다.</h2>
+            <h1 className="hero-title">안녕하세요.</h1>
+            <h2 className="hero-subtitle">윤경호의 포트폴리오 사이트 입니다.</h2>
             <p className="hero-description">
-              이곳은 나의 실험실.<br/>
-              작은 목표를 세우고 달려본다.<br/>
-              잘 부탁 한다.
+              잘 부탁 드립니다.
             </p>
             <div className="hero-buttons">
               <a href="#projects" className="cta-button primary">

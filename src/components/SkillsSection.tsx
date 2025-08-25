@@ -4,7 +4,6 @@ import './SkillsSection.css';
 
 interface Skill {
   name: string;
-  level: number; // 1-100
 }
 
 interface SkillCategory {
@@ -16,54 +15,54 @@ interface SkillsSectionProps {}
 
 const SkillsSection: React.FC<SkillsSectionProps> = () => {
   const programmingLanguages: Skill[] = [
-    { name: 'Python', level: 85 },
-    { name: 'Java', level: 80 },
-    { name: 'JavaScript/TypeScript', level: 75 },
-    { name: 'C#', level: 70 },
-    { name: 'C++', level: 65 },
-    { name: 'JASS', level: 60 }
+    { name: 'Python' },
+    { name: 'Java' },
+    { name: 'JavaScript/TypeScript' },
+    { name: 'C#' },
+    { name: 'C++' },
+    { name: 'JASS' }
   ];
 
   const frontendSkills: Skill[] = [
-    { name: 'React', level: 80 },
-    { name: 'Vue.js', level: 75 },
-    { name: 'TypeScript', level: 75 },
-    { name: 'CSS/Tailwind CSS', level: 70 },
-    { name: 'Three.js', level: 65 },
-    { name: 'React Router', level: 70 }
+    { name: 'React' },
+    { name: 'Vue.js' },
+    { name: 'TypeScript' },
+    { name: 'CSS/Tailwind CSS' },
+    { name: 'Three.js' },
+    { name: 'React Router' }
   ];
 
   const backendSkills: Skill[] = [
-    { name: 'Spring Boot', level: 80 },
-    { name: 'Node.js', level: 70 },
-    { name: 'gRPC', level: 65 },
-    { name: 'JPA/QueryDSL', level: 75 },
-    { name: 'Spring Security', level: 70 },
-    { name: 'WebSocket/STOMP', level: 75 }
+    { name: 'Spring Boot' },
+    { name: 'Node.js' },
+    { name: 'gRPC' },
+    { name: 'JPA/QueryDSL' },
+    { name: 'Spring Security' },
+    { name: 'WebSocket/STOMP' }
   ];
 
   const aiMlSkills: Skill[] = [
-    { name: 'TensorFlow', level: 80 },
-    { name: 'Computer Vision', level: 85 },
-    { name: 'Audio Processing', level: 70 },
-    { name: 'Model Optimization', level: 75 },
-    { name: 'Image Processing', level: 80 }
+    { name: 'TensorFlow' },
+    { name: 'Computer Vision' },
+    { name: 'Audio Processing' },
+    { name: 'Model Optimization' },
+    { name: 'Image Processing' }
   ];
 
   const databaseCloudSkills: Skill[] = [
-    { name: 'MySQL', level: 75 },
-    { name: 'PostgreSQL', level: 70 },
-    { name: 'Redis', level: 65 },
-    { name: 'AWS', level: 70 },
-    { name: 'Cloudflare R2', level: 60 }
+    { name: 'MySQL' },
+    { name: 'PostgreSQL' },
+    { name: 'Redis' },
+    { name: 'AWS' },
+    { name: 'Cloudflare R2' }
   ];
 
   const hardwareIotSkills: Skill[] = [
-    { name: 'Arduino', level: 80 },
-    { name: 'Raspberry Pi', level: 85 },
-    { name: 'RTL-SDR', level: 75 },
-    { name: 'NFC/RFID', level: 70 },
-    { name: 'RF Communication', level: 75 }
+    { name: 'Arduino' },
+    { name: 'Raspberry Pi' },
+    { name: 'RTL-SDR' },
+    { name: 'NFC/RFID' },
+    { name: 'RF Communication' }
   ];
 
   const skillCategories: SkillCategory[] = [
@@ -75,20 +74,9 @@ const SkillsSection: React.FC<SkillsSectionProps> = () => {
     { title: 'Hardware & IoT', skills: hardwareIotSkills }
   ];
 
-  const renderSkillBar = (skill: Skill) => (
+  const renderSkillItem = (skill: Skill) => (
     <div key={skill.name} className="skill-item">
-      <div className="skill-header">
-        <span className="skill-name">{skill.name}</span>
-        <span className="skill-percentage">
-          {skill.level > 0 ? `${skill.level}%` : '추후 업데이트'}
-        </span>
-      </div>
-      <div className="skill-bar">
-        <div 
-          className="skill-progress"
-          style={{ width: `${skill.level}%` }}
-        ></div>
-      </div>
+      <span className="skill-name">{skill.name}</span>
     </div>
   );
 
@@ -102,7 +90,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = () => {
               <div key={index} className="skill-category">
                 <h3 className="skill-category-title">{category.title}</h3>
                 <div className="skills-grid">
-                  {category.skills.map(renderSkillBar)}
+                  {category.skills.map(renderSkillItem)}
                 </div>
               </div>
             ))}
