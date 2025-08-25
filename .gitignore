@@ -20,7 +20,6 @@
 .env.production.local
 
 # images - personal photos
-/public/images/
 
 npm-debug.log*
 yarn-debug.log*
