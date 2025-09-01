@@ -291,7 +291,7 @@ export const projects: Project[] = [
     githubUrl: '#',
     reflection: '6명에서 진행한 대규모 프로젝트였다. AI 개발자로 참여하여 2주안에 실현가능성 및 테스트를 완료했고, 3주동안 모델을 학습시켰다. 그러면서 짬짬히 작은일 처리했지만.. 아무튼 다양한 AI 모델을 테스트하고 실현가능성을 검사 하였으나, 이게 게임에 다 안들어간게 많이 아쉬울 따름이다.. 그래도 6명에서 한 대규모 프로젝트 참 어려웠지만 좋았다.'
   },
-      {
+  {
     id: '8',
     title: 'AWNAS - Army Wireless Network Attack System',
     summary: '아두이노 기반 무인 지상 차량(UGV)과 네트워크 공격 시스템을 통합한 전술 시스템',
@@ -334,5 +334,46 @@ export const projects: Project[] = [
     images: ['/images/portfolio.jpg'],
     githubUrl: 'https://github.com/JunYBae/Army_Wireless_Network_Attack_System',
     reflection: '이 프로젝트는 하드웨어와 소프트웨어를 모두 다뤄볼 수 있는 좋은 경험이었습니다. 팀원과 역할을 분담하여 제가 차량 시스템을, 팀원이 네트워크 공격 시스템을 담당했는데, 서로 다른 영역의 기술을 통합하는 과정에서 많은 것을 배웠습니다. 특히 제한된 하드웨어 자원에서 여러 기능을 구현하는 것이 쉽지 않았지만, 창의적인 해결책을 찾아가며 완성했을 때의 성취감이 컸습니다.'
+  },
+    {
+    id: '9',
+    title: '신한 해커톤 - BNPL을 이용한 대학생 공동구매 플랫폼',
+    summary: '대학생을 위한 공동구매 플랫폼으로, BNPL(선구매 후결제) 시스템을 도입하여 경제적 부담 완화',
+    description: '신한 해커톤 본선에 올라간 프로젝트. 돈이 없는 대학생들을 위해 이자가 없는 후불결제를 지원하는 공동구매 플랫폼. 학생 정보를 연계하여 BNPL한도를 정하며, 신한몰과의 제휴로 안전하고 신뢰성 있는 제품을 확보',
+    technologies: ['React','TypeScript','Spring Boot','Redis','AWS','Docker','mySQL','github Action','Nginx','Gemini API', 'SSAFY 금융 API'],
+    category: 'web',
+    status: 'completed',
+    startDate: '2025-08',
+    endDate: '2025-08',
+    teamSize: 4,
+    myRole: ' AI Developer, Frontend Developer',
+    features: [
+      'BNPL(선구매 후결제) 시스템 도입',
+      '대학생 신용 평가 시스템 구축',
+      '신한몰과의 제휴를 통한 제품 확보',
+      '사용자 친화적인 UI/UX 디자인',
+      'Docker를 이용한 컨테이너화 및 배포',
+      'GitHub Action을 통한 CI/CD 파이프라인 구축'
+    ],
+    challenges: [
+      'BNPL 시스템의 신뢰성 확보',
+      '대학생 신용 평가 모델 개발하기',
+      '신한몰과의 원활한 제휴 및 제품 확보',
+      '안정적인 서비스 운영을 위한 인프라 구축'
+    ],
+    solutions: [
+      'SSAFY 금융 API를 활용한 공동구매 플랫폼 개발',
+      'Gemini API를 이용한 신용 평가 모델 개발',
+      'Spring Boot와 MySQL을 이용한 백엔드 시스템 구축',
+      'AWS와 Docker를 활용한 안정적인 인프라 구축'
+    ],
+    results: [
+      '신한 해커톤 본선 진출',
+      'BNPL 시스템을 통한 경제적 부담 완화',
+      '대학생 신용 평가 모델 성공적 개발'
+    ],
+    images: ['/images/portfolio.jpg'],
+    githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
+    reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
   }
 ];

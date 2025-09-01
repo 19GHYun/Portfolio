@@ -86,6 +86,16 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
             </div>
 
             <div className="profile-column">
+              <h3 className="profile-category">대외활동</h3>
+              <div className="profile-item">
+                <h4>주요 활동</h4>
+                <ul className="profile-list">
+                  <li>[신한 해커톤 with SSAFY 본선] ([2025-08])</li>
+                </ul>
+              </div>
+            </div>
+
+            <div className="profile-column">
               <h3 className="profile-category">논문 & 연구</h3>
               <div className="profile-item">
                 <h4>발표 논문</h4>

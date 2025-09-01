@@ -14,7 +14,6 @@ import './App.css';
 // 메인 포트폴리오 페이지 컴포넌트
 const MainPage: React.FC = () => (
   <>
-    <Header />
     <main>
       <AboutSection />
       <ProfileSection />
@@ -31,6 +30,7 @@ function App() {
     <Router>
       <ScrollToTopOnMount />
       <div className="App">
+        <Header />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/project/:id" element={<ProjectDetail />} />
