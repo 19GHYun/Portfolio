@@ -17,6 +17,7 @@ export interface Project {
   solutions: string[];
   results: string[];
   images: string[];
+  imageDescriptions?: string[];
   demoUrl?: string;
   githubUrl?: string;
   youtubeUrl?: string;

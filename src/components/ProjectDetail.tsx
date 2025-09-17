@@ -111,6 +111,27 @@ const ProjectDetail: React.FC = () => {
           </div>
         </div>
 
+        {/* 프로젝트 이미지 */}
+        {project.images && project.images.length > 0 && (
+          <div className="project-section">
+            <h2>프로젝트 이미지</h2>
+            <div className="project-images">
+              {project.images.map((image, index) => (
+                <div key={index} className="image-container">
+                  <img
+                    src={image}
+                    alt={project.imageDescriptions?.[index] || `${project.title} 이미지 ${index + 1}`}
+                    className="project-image"
+                  />
+                  {project.imageDescriptions?.[index] && (
+                    <p className="image-description">{project.imageDescriptions[index]}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
         {/* 주요 기능 */}
         <div className="project-section">
           <h2>주요 기능</h2>

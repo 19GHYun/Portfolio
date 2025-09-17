@@ -39,6 +39,7 @@ export const projects: Project[] = [
       '동시 접속자 수 10인에서 TTA시험 통과',
     ],
     images: ['/images/xr-platform.jpg'],
+    imageDescriptions: ['Unity로 구현된 XR 의학 교육 플랫폼의 실시간 다중접속 환경 스크린샷'],
     documentation: '/images/XR_논문.hwp',
     reflection: '제가 처음 연구실에 오고 진행 한 프로젝트입니다. 이미 진행 된 의학 실습 교육 플랫폼을 먼저 구조와 의도를 이해 한 다음 Photon서버를 연동했습니다. 당시에 AI를 활용하는 생각이 없던지라, 책으로 서버를 공부하면서 진행하였다. 지금 생각하면 시간에 비해 결과가 좀 아쉬웠지만, 그래도 연구실에서 첫 발자국을 성공적으로 내딛었다고 생각한다.'
   },
@@ -78,6 +79,7 @@ export const projects: Project[] = [
       'AI 모델을 통한 위성 사진 후처리 성공',
     ],
     images: ['/images/satellite-system.jpg'],
+    imageDescriptions: ['라즈베리파이와 RTL-SDR 안테나로 구성된 저비용 위성 기지국 시스템'],
     reflection: '이 프로젝트는 단순히 같이 있던 연구실 동료와 진행했던 프로젝트입니다. 연구실에 라즈베리파이가 남아 돌았고 + 막연하게 위성 통신을 해보고 싶다! 라는 생각으로 도전했습니다. 처음부터 라즈베리파이에 윈도우를 깔지, 라즈베리파이 OS를 깔지부터 많은 시행착오가 있었으며, 직접 안테나를 설치하고 위성 수신을 받았을때 쾌감을 느꼈습니다. 그 후 캡스톤 프로젝트까지 연결되어, 이 위성사진을 가지고 AI를 통한 후처리 및 서비스 제공까지 성공적으로 끝마치게 되어 보람을 느꼈습니다. 이 프로젝트를 통해 저비용으로도 위성 통신을 구현할 수 있다는 가능성을 확인할 수 있었습니다.'
   },
   {
@@ -111,10 +113,10 @@ export const projects: Project[] = [
     results: [
       '포트폴리오 사이트 성공적 배포를 목표',
       '모바일 호환성 100% 달성을 목표',
-      'Lighthouse 성능 점수 90점 이상 확보를 목표',
       '사용자 친화적 UI/UX 구현을 목표'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['React와 TypeScript로 구현된 반응형 포트폴리오 웹사이트 메인 페이지'],
     githubUrl: 'https://github.com/19GHYun/Portfolio',
     reflection: '포트폴리오를 만들면서 CI/CD까지 목표로 삼고 진행해보고 있습니다.'
   },
@@ -156,6 +158,7 @@ export const projects: Project[] = [
       '클리어 시 재화 지급으로 반복 플레이 유도'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['WarCraft3 맵 에디터로 제작된 주황버섯 소개팅 게임 플레이 화면'],
     githubUrl: 'https://github.com/jsm150/OrangeMushroomStory',
     youtubeUrl: 'https://www.youtube.com/watch?v=ccmLCGhR81Q',
     reflection: '이 프로젝트는 제가 처음으로 참여하여 마음이 많이 갑니다. 개발하면서 마음에 맞는 친절한 사람들도 많이 만났고 고맙습니다. 사람이 좋아할만한 것을 만드는 것은 매우 어렵다고 느꼈습니다. 하나의 레벨을 만드는데 적게는 6달에서 1년까지 걸렸습니다. 쉽게 만들면 쉬워서 욕먹고, 어렵게 만들면 어렵다고 욕먹기 때문에.. 아무튼 이 경험으로 인해서 추후 학부 연구생까지 들어오게 되고.. 많은 도움을 받은 것 같습니다. 자연스럽게 학부 연구생 일을 시작하게 되면서, 은퇴하게 되었고, 추후 디버깅과 테스트를 하면서 도와준게 기억이 남습니다.'
@@ -194,6 +197,7 @@ export const projects: Project[] = [
       '카이스트와의 협업을 통한 프로젝트 성공적 완료 및 논문 저자 참여 예정'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['Android Studio로 개발된 NFC 생체센서 통신 앱의 실시간 데이터 그래프 화면'],
     githubUrl: 'https://github.com/19GHYun/snl_rf',
     reflection: '이 프로젝트의 첫걸음은 그리 좋지 않았습니다. 일명 짬 맞은 프로젝트였기 때문입니다. 다른 인원이 진행하다가 결국 성공시키지 못해서 넘어왔는데, 인수인계받으면서도 다양한 불화가 있었습니다. 하지만, 이 프로젝트를 통해 어떤 프로젝트든 시도하는 것이 두렵지 않다는 것을 배웠습니다. 뭐든지 열심히 하면 되더라구요..'
   },
@@ -241,6 +245,7 @@ export const projects: Project[] = [
       '시연 中 참여를 통한 발표 제공'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['Spring Boot와 Vue.js로 구현된 NestQuest 부동산 검색 플랫폼 메인 화면'],
     githubUrl: 'https://github.com/19GHYun/NestQuest',
     reflection: 'SSAFY에 오고나서 제대로 배운 후 진행한 프로젝트였다. 로컬 까지만 배포된게 아쉬운 프로젝트. 동료를 아주 잘 만난 프로젝트였다. 내가 힘들땐 그만큼 동료가 채워주고, 동료가 힘들땐 내가 채워주는 그런 프로젝트였다. 서로의 부족한 부분을 채워주며, 협업의 중요성을 다시 한번 느낀 프로젝트였다. 또한, Spring Boot와 Vue.js를 활용한 풀스택 개발 경험을 쌓을 수 있었고, 실시간 채팅 기능과 AI 추천 시스템을 구현하면서 기술적인 도전도 많이 할 수 있었다. 이 프로젝트를 통해 팀워크와 커뮤니케이션의 중요성을 깊게 이해하게 되었다. 목표를 정하고 시간내에 완주하였다는 것에 성공한 프로젝트라고 생각한다.'
   },
@@ -285,9 +290,21 @@ export const projects: Project[] = [
       '다양한 AI 모델을 활용한 기능 구현 성공',
       '사용자 친화적인 UI/UX 디자인 적용',
       '실시간 음성 인식 및 텍스트 변환 기능 구현 성공',
-      '실시간 이미지 및 비디오 처리 기능 구현 성공'
+      '실시간 이미지 및 비디오 처리 기능 구현 성공',
+      '10개의 비전, 스피치 AI를 가져오고 테스트하여 다양한 AI의 중요한 경험이 됨',
+      'gRPC를 통해 통신시간 400ms -> 100ms 로 단축',
+      'Detic모델 학습을 통해 기존 Yolo 모델보다 15배(80 -> 1200) 더 다양한 객체를 찾는 모델을 갖춤',
+      'WebAssembly과 Tensorflow.js를 이용하여, 가벼운 모델의 경우 최소 2배부터 10배까지 지연 속도 향상을 이룸'
     ],
-    images: ['/images/portfolio.jpg'],
+    images: ['/images/yolo/yolo_face.png', '/images/yolo/yolo_clip.png', '/images/yolo/yolo_detic.jpg', '/images/yolo/yolo_detic_train.png','/images/yolo/yolo_first.png','/images/yolo/yolo_ingame.png'],
+    imageDescriptions: [
+      'Face it 이라는 게임에서 쓰이는 AI. DeepFace 모델을 사용하였으며, 정확한 측정을 위해 얼굴 인식 -> 배경을 지우고 -> 감정을 추출한다.',
+      'Draw it 이라는 게임에서 쓰이는 AI. CLIP 모델을 사용하였으며, 사용자가 그린 그림을 분석하여 가장 유사한 그림을 찾아낸다.',
+      'Bring it 이라는 게임에서 쓰일려고 학습한 AI. Detic 모델을 학습하였으며, 다양한 물체를 탐지할 수 있도록 하였다. 현재는 900개의 물체를 탐지할 수 있다. 아쉽게도 탐색 시간이 좀 걸려가지고.. 실시간 성이 떨어진다 판정하여 적용하지 못하였다.',
+      'Detic 모델을 학습하는 과정. LVIS 데이터셋을 활용하여 900개의 물체를 탐지할 수 있도록 학습시켰다.',
+      'Yolo Bring it 메인 페이지. React.js와 Three.js를 활용하여 3D로 구현하였다.',
+      'Yolo Bring it 게임 플레이 화면. 다양한 AI 모델을 활용하여 최대 6인이 실시간으로 게임을 즐길 수 있다.'
+    ],
     githubUrl: '#',
     reflection: '6명에서 진행한 대규모 프로젝트였다. AI 개발자로 참여하여 2주안에 실현가능성 및 테스트를 완료했고, 3주동안 모델을 학습시켰다. 그러면서 짬짬히 작은일 처리했지만.. 아무튼 다양한 AI 모델을 테스트하고 실현가능성을 검사 하였으나, 이게 게임에 다 안들어간게 많이 아쉬울 따름이다.. 그래도 6명에서 한 대규모 프로젝트 참 어려웠지만 좋았다.'
   },
@@ -332,10 +349,11 @@ export const projects: Project[] = [
       '실시간 상태 모니터링 및 피드백 시스템 완성'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['아두이노 기반 무인 지상 차량(UGV)과 네트워크 공격 시스템 하드웨어 구성도'],
     githubUrl: 'https://github.com/JunYBae/Army_Wireless_Network_Attack_System',
     reflection: '이 프로젝트는 하드웨어와 소프트웨어를 모두 다뤄볼 수 있는 좋은 경험이었습니다. 팀원과 역할을 분담하여 제가 차량 시스템을, 팀원이 네트워크 공격 시스템을 담당했는데, 서로 다른 영역의 기술을 통합하는 과정에서 많은 것을 배웠습니다. 특히 제한된 하드웨어 자원에서 여러 기능을 구현하는 것이 쉽지 않았지만, 창의적인 해결책을 찾아가며 완성했을 때의 성취감이 컸습니다.'
   },
-    {
+  {
     id: '9',
     title: '신한 해커톤 - BNPL을 이용한 대학생 공동구매 플랫폼',
     summary: '대학생을 위한 공동구매 플랫폼으로, BNPL(선구매 후결제) 시스템을 도입하여 경제적 부담 완화',
@@ -369,10 +387,40 @@ export const projects: Project[] = [
     ],
     results: [
       '신한 해커톤 본선 진출',
-      'BNPL 시스템을 통한 경제적 부담 완화',
-      '대학생 신용 평가 모델 성공적 개발'
+      'BNPL에 대한 이해 및 구현 경험',
+      '대학생 신용 평가 모델 개발 경험'
     ],
     images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['BNPL을 활용한 대학생 공동구매 플랫폼 메인 화면과 결제 시스템'],
+    githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
+    reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
+  },
+{
+    id: '10',
+    title: 'Plate-Pay - 주차장과 결합한 새로운 페이먼트 시스템',
+    summary: '자동차의 정보와 앱을 결합한 주차장 및 제휴매장 간편 결제 플랫폼',
+    description: '싸피 - 핀테크 프로젝트. 자동차의 번호판 인식과 앱을 결합하여 주차장 및 제휴 매장에서 간편하게 결제할 수 있는 플랫폼을 개발했습니다. 사용자는 차량 정보와 연동된 앱을 통해 빠르고 안전한 결제 경험을 누릴 수 있습니다.',
+    technologies: ['React native', 'SpringBoot','FastAPI' ,'EazyOCR','DeepFace','VGG-Face','YOLOv8n','Redis','Postgresql','Elastic Search','TypeScript','카카오 지도 API','Jsoup','Firebase','Nginx','Jenkins','STOMP', 'SSAFY 금융 API'],
+    category: 'mobile',
+    status: 'in-progress',
+    startDate: '2025-09',
+    endDate: '2025-09',
+    teamSize: 6,
+    myRole: ' AI Developer, Frontend Developer',
+    features: [
+      '진행중'
+    ],
+    challenges: [
+      '진행중'
+    ],
+    solutions: [
+      '진행중'
+    ],
+    results: [
+      '진행중'
+    ],
+    images: ['/images/portfolio.jpg'],
+    imageDescriptions: ['번호판 인식과 앱을 결합한 Plate-Pay 주차장 결제 시스템 (개발 진행 중)'],
     githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
     reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
   }

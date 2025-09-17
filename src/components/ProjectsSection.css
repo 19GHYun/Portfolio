@@ -1,5 +1,110 @@
 /* ProjectsSection.css */
 
+/* 정렬 및 필터링 컨트롤 */
+.projects-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 1rem;
+}
+
+.sort-controls,
+.filter-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.sort-controls label,
+.filter-controls label {
+  color: #e5e7eb;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.sort-select,
+.status-filter {
+  background: rgba(0, 0, 0, 0.3);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+}
+
+.sort-select:hover,
+.status-filter:hover {
+  border-color: rgba(74, 222, 128, 0.5);
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.sort-select:focus,
+.status-filter:focus {
+  outline: none;
+  border-color: #4ade80;
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.sort-select option,
+.status-filter option {
+  background: #1f2937;
+  color: #ffffff;
+  padding: 0.5rem;
+}
+
+/* 반응형 - 컨트롤 */
+@media (max-width: 768px) {
+  .projects-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+
+  .sort-controls,
+  .filter-controls {
+    justify-content: space-between;
+  }
+
+  .sort-select,
+  .status-filter {
+    min-width: auto;
+    flex: 1;
+  }
+}
+
+@media (max-width: 480px) {
+  .projects-controls {
+    padding: 1rem;
+  }
+
+  .sort-controls,
+  .filter-controls {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .sort-controls label,
+  .filter-controls label {
+    font-size: 0.85rem;
+  }
+
+  .sort-select,
+  .status-filter {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
