@@ -161,6 +161,7 @@ export const projects: Project[] = [
     imageDescriptions: ['WarCraft3 맵 에디터로 제작된 주황버섯 소개팅 게임 플레이 화면'],
     githubUrl: 'https://github.com/jsm150/OrangeMushroomStory',
     youtubeUrl: 'https://www.youtube.com/watch?v=ccmLCGhR81Q',
+    namuWikiUrl: 'https://namu.wiki/w/%EC%A3%BC%ED%99%A9%EB%B2%84%EC%84%AF%EC%9D%98%20%EC%86%8C%EA%B0%9C%ED%8C%85',
     reflection: '이 프로젝트는 제가 처음으로 참여하여 마음이 많이 갑니다. 개발하면서 마음에 맞는 친절한 사람들도 많이 만났고 고맙습니다. 사람이 좋아할만한 것을 만드는 것은 매우 어렵다고 느꼈습니다. 하나의 레벨을 만드는데 적게는 6달에서 1년까지 걸렸습니다. 쉽게 만들면 쉬워서 욕먹고, 어렵게 만들면 어렵다고 욕먹기 때문에.. 아무튼 이 경험으로 인해서 추후 학부 연구생까지 들어오게 되고.. 많은 도움을 받은 것 같습니다. 자연스럽게 학부 연구생 일을 시작하게 되면서, 은퇴하게 되었고, 추후 디버깅과 테스트를 하면서 도와준게 기억이 남습니다.'
   },
     {
@@ -244,8 +245,12 @@ export const projects: Project[] = [
       'AI 기반 추천 시스템을 통한 사용자 맞춤형 서비스 제공',
       '시연 中 참여를 통한 발표 제공'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['Spring Boot와 Vue.js로 구현된 NestQuest 부동산 검색 플랫폼 메인 화면'],
+    images: ['/images/nestquest/main.png','/images/nestquest/AI.gif','/images/nestquest/chating.gif','/images/nestquest/at.png'],
+    imageDescriptions: [
+      'Spring Boot와 Vue.js로 구현된 NestQuest 부동산 검색 플랫폼 메인 화면',
+      'GPT-API를 활용한 AI 기반 추천 시스템 기능 시연 화면',
+      'WebSocket을 이용한 실시간 채팅 기능 화면',
+      'NestQuest의 아키텍쳐 구성도'],
     githubUrl: 'https://github.com/19GHYun/NestQuest',
     reflection: 'SSAFY에 오고나서 제대로 배운 후 진행한 프로젝트였다. 로컬 까지만 배포된게 아쉬운 프로젝트. 동료를 아주 잘 만난 프로젝트였다. 내가 힘들땐 그만큼 동료가 채워주고, 동료가 힘들땐 내가 채워주는 그런 프로젝트였다. 서로의 부족한 부분을 채워주며, 협업의 중요성을 다시 한번 느낀 프로젝트였다. 또한, Spring Boot와 Vue.js를 활용한 풀스택 개발 경험을 쌓을 수 있었고, 실시간 채팅 기능과 AI 추천 시스템을 구현하면서 기술적인 도전도 많이 할 수 있었다. 이 프로젝트를 통해 팀워크와 커뮤니케이션의 중요성을 깊게 이해하게 되었다. 목표를 정하고 시간내에 완주하였다는 것에 성공한 프로젝트라고 생각한다.'
   },
@@ -348,8 +353,12 @@ export const projects: Project[] = [
       '스마트폰 앱과 웹 인터페이스를 통한 통합 제어 시스템',
       '실시간 상태 모니터링 및 피드백 시스템 완성'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['아두이노 기반 무인 지상 차량(UGV)과 네트워크 공격 시스템 하드웨어 구성도'],
+    images: ['/images/awnas/search.png','/images/awnas/attack.png','/images/awnas/attack_after.png'],
+    imageDescriptions: [
+      'ESP-01S 모듈을 통해 와이파이에 침입한 모습',
+      'Deauthentication 공격을 위해 네트워크 정보를 보는 모습',
+      'Deauthentication 공격 후 연결이 끊긴 모습'
+    ],
     githubUrl: 'https://github.com/JunYBae/Army_Wireless_Network_Attack_System',
     reflection: '이 프로젝트는 하드웨어와 소프트웨어를 모두 다뤄볼 수 있는 좋은 경험이었습니다. 팀원과 역할을 분담하여 제가 차량 시스템을, 팀원이 네트워크 공격 시스템을 담당했는데, 서로 다른 영역의 기술을 통합하는 과정에서 많은 것을 배웠습니다. 특히 제한된 하드웨어 자원에서 여러 기능을 구현하는 것이 쉽지 않았지만, 창의적인 해결책을 찾아가며 완성했을 때의 성취감이 컸습니다.'
   },
@@ -393,6 +402,7 @@ export const projects: Project[] = [
     images: ['/images/portfolio.jpg'],
     imageDescriptions: ['BNPL을 활용한 대학생 공동구매 플랫폼 메인 화면과 결제 시스템'],
     githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
+    documentation: '/images/sinhan/pt.pdf',
     reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
   },
 {

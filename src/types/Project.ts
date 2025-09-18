@@ -21,6 +21,7 @@ export interface Project {
   demoUrl?: string;
   githubUrl?: string;
   youtubeUrl?: string;
+  namuWikiUrl?: string;
   documentation?: string;
   reflection?: string;
 }

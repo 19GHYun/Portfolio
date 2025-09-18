@@ -218,6 +218,11 @@ const ProjectDetail: React.FC = () => {
               📚 문서 보기
             </a>
           )}
+          {project.namuWikiUrl && (
+            <a href={project.namuWikiUrl} target="_blank" rel="noopener noreferrer" className="link-button namuwiki">
+              🌱 나무위키 보기
+            </a>
+          )}
         </div>
 
         {/* 하단 뒤로가기 버튼 */}
