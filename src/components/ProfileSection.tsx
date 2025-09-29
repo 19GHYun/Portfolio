@@ -1,10 +1,37 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Section.css';
 import './ProfileSection.css';
+import CertificateModal from './CertificateModal';
 
 interface ProfileSectionProps {}
 
 const ProfileSection: React.FC<ProfileSectionProps> = () => {
+  const [modalData, setModalData] = useState<{
+    isOpen: boolean;
+    title: string;
+    pdfPath: string;
+  }>({
+    isOpen: false,
+    title: '',
+    pdfPath: ''
+  });
+
+  const openCertificate = (title: string, pdfPath: string) => {
+    setModalData({
+      isOpen: true,
+      title,
+      pdfPath
+    });
+  };
+
+  const closeCertificate = () => {
+    setModalData({
+      isOpen: false,
+      title: '',
+      pdfPath: ''
+    });
+  };
+
   return (
     <section id="profile" className="section">
       <div className="container">
@@ -51,8 +78,25 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
               <div className="profile-item">
                 <h4>주요 교육과정</h4>
                 <ul className="profile-list">
-                  <li>[Intelligent Networking Lab] - [학부연구생] ([2023-2024])</li>
-                  <li>[LG Aimers 4기] - [LG] ([2024])</li>
+                  <li>
+                    [Intelligent Networking Lab] - [
+                    <span
+                      className="clickable-certificate"
+                      onClick={() => openCertificate('학부연구생 참여연구원확인서', '/images/etc/참여연구원확인서_윤경호.pdf')}
+                    >
+                      학부연구생
+                    </span>
+                    ] ([2023-2024])
+                  </li>
+                  <li>
+                    [<span
+                      className="clickable-certificate"
+                      onClick={() => openCertificate('LG Aimers 4기 수료증', '/images/etc/경호_LG AI 수료증.pdf')}
+                    >
+                      LG Aimers 4기
+                    </span>
+                    ] - [LG] ([2024])
+                  </li>
                   <li>[SSAFY 13기] - [Samsung, MultCampus] ([2025])</li>
                 </ul>
               </div>
@@ -108,6 +152,13 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
           </div>
         </div>
       </div>
+
+      <CertificateModal
+        isOpen={modalData.isOpen}
+        onClose={closeCertificate}
+        title={modalData.title}
+        pdfPath={modalData.pdfPath}
+      />
     </section>
   );
 };

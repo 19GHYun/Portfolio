@@ -137,17 +137,31 @@
   }
 }
 
+/* 클릭 가능한 증빙 자료 링크 */
+.clickable-certificate {
+  color: #4ade80;
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+  font-weight: 500;
+}
+
+.clickable-certificate:hover {
+  color: #22c55e;
+  text-shadow: 0 0 8px rgba(74, 222, 128, 0.3);
+}
+
 /* 다크 모드 강화 */
 @media (prefers-color-scheme: dark) {
   .profile-column {
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
-  
+
   .profile-item p {
     color: #a1a1aa;
   }
-  
+
   .profile-list li {
     color: #a1a1aa;
   }

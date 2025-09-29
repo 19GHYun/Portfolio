@@ -17,9 +17,25 @@ const Header: React.FC<HeaderProps> = () => {
     setIsMenuOpen(false);
   };
 
+  const handleLogoClick = () => {
+    closeMenu();
+
+    // 현재 프로젝트 상세 페이지에 있는지 확인
+    if (location.pathname.startsWith('/project/')) {
+      // 메인 페이지로 이동한 후 맨 위로 스크롤
+      navigate('/', { replace: true });
+      setTimeout(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }, 100);
+    } else {
+      // 이미 메인 페이지에 있으면 바로 맨 위로 스크롤
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleNavClick = (sectionId: string) => {
     closeMenu();
-    
+
     // 현재 프로젝트 상세 페이지에 있는지 확인
     if (location.pathname.startsWith('/project/')) {
       // 메인 페이지로 이동한 후 해당 섹션으로 스크롤
@@ -43,7 +59,7 @@ const Header: React.FC<HeaderProps> = () => {
     <header className="header">
       <div className="container">
         <div className="logo">
-          <h2>Portfolio</h2>
+          <h2 onClick={handleLogoClick} style={{ cursor: 'pointer' }}>Portfolio</h2>
         </div>
         <nav className="nav">
           <button 

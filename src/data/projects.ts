@@ -38,9 +38,9 @@ export const projects: Project[] = [
       'IPIU 2024 학회 논문 발표',
       '동시 접속자 수 10인에서 TTA시험 통과',
     ],
-    images: ['/images/xr-platform.jpg'],
-    imageDescriptions: ['Unity로 구현된 XR 의학 교육 플랫폼의 실시간 다중접속 환경 스크린샷'],
-    documentation: '/images/XR_논문.hwp',
+    images: ['/images/vrar/vrar1.png','/images/vrar/vrar2.png'],
+    imageDescriptions: ['본 프로젝트의 실습자 관찰자 구조','Unity로 구현된 XR 의학 교육 플랫폼의  실제 화면에서의 실습자와 관찰자'],
+    documentation: '/images/vrar/XR_논문.hwp',
     reflection: '제가 처음 연구실에 오고 진행 한 프로젝트입니다. 이미 진행 된 의학 실습 교육 플랫폼을 먼저 구조와 의도를 이해 한 다음 Photon서버를 연동했습니다. 당시에 AI를 활용하는 생각이 없던지라, 책으로 서버를 공부하면서 진행하였다. 지금 생각하면 시간에 비해 결과가 좀 아쉬웠지만, 그래도 연구실에서 첫 발자국을 성공적으로 내딛었다고 생각한다.'
   },
   {
@@ -157,8 +157,8 @@ export const projects: Project[] = [
       '다양한 맵과 기믹으로 플레이어의 흥미 유도',
       '클리어 시 재화 지급으로 반복 플레이 유도'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['WarCraft3 맵 에디터로 제작된 주황버섯 소개팅 게임 플레이 화면'],
+    images: ['/images/orangemushroom/jubut1.gif','/images/orangemushroom/jubut2.gif','/images/orangemushroom/jubut3.gif'],
+    imageDescriptions: ['주황버섯 소개팅 1스테이지','주황버섯 소개팅 2스테이지', '주황버섯 소개팅 3스테이지'],
     githubUrl: 'https://github.com/jsm150/OrangeMushroomStory',
     youtubeUrl: 'https://www.youtube.com/watch?v=ccmLCGhR81Q',
     namuWikiUrl: 'https://namu.wiki/w/%EC%A3%BC%ED%99%A9%EB%B2%84%EC%84%AF%EC%9D%98%20%EC%86%8C%EA%B0%9C%ED%8C%85',
@@ -197,8 +197,8 @@ export const projects: Project[] = [
       '로컬스토리지에 데이터 저장 및 확인 기능 구현',
       '카이스트와의 협업을 통한 프로젝트 성공적 완료 및 논문 저자 참여 예정'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['Android Studio로 개발된 NFC 생체센서 통신 앱의 실시간 데이터 그래프 화면'],
+    images: ['/images/nfc/nfc1.png','/images/nfc/nfc2.jpg'],
+    imageDescriptions: ['NFC통신하면서 읽는 블록 번호','Android Studio로 개발된 NFC 생체센서 통신 앱의 실시간 데이터 그래프 화면'],
     githubUrl: 'https://github.com/19GHYun/snl_rf',
     reflection: '이 프로젝트의 첫걸음은 그리 좋지 않았습니다. 일명 짬 맞은 프로젝트였기 때문입니다. 다른 인원이 진행하다가 결국 성공시키지 못해서 넘어왔는데, 인수인계받으면서도 다양한 불화가 있었습니다. 하지만, 이 프로젝트를 통해 어떤 프로젝트든 시도하는 것이 두렵지 않다는 것을 배웠습니다. 뭐든지 열심히 하면 되더라구요..'
   },
@@ -360,6 +360,7 @@ export const projects: Project[] = [
       'Deauthentication 공격 후 연결이 끊긴 모습'
     ],
     githubUrl: 'https://github.com/JunYBae/Army_Wireless_Network_Attack_System',
+    documentation: '/images/awnas/인공위성_증빙.pdf',
     reflection: '이 프로젝트는 하드웨어와 소프트웨어를 모두 다뤄볼 수 있는 좋은 경험이었습니다. 팀원과 역할을 분담하여 제가 차량 시스템을, 팀원이 네트워크 공격 시스템을 담당했는데, 서로 다른 영역의 기술을 통합하는 과정에서 많은 것을 배웠습니다. 특히 제한된 하드웨어 자원에서 여러 기능을 구현하는 것이 쉽지 않았지만, 창의적인 해결책을 찾아가며 완성했을 때의 성취감이 컸습니다.'
   },
   {
@@ -412,26 +413,40 @@ export const projects: Project[] = [
     description: '싸피 - 핀테크 프로젝트. 자동차의 번호판 인식과 앱을 결합하여 주차장 및 제휴 매장에서 간편하게 결제할 수 있는 플랫폼을 개발했습니다. 사용자는 차량 정보와 연동된 앱을 통해 빠르고 안전한 결제 경험을 누릴 수 있습니다.',
     technologies: ['React native', 'SpringBoot','FastAPI' ,'EazyOCR','DeepFace','VGG-Face','YOLOv8n','Redis','Postgresql','Elastic Search','TypeScript','카카오 지도 API','Jsoup','Firebase','Nginx','Jenkins','STOMP', 'SSAFY 금융 API'],
     category: 'mobile',
-    status: 'in-progress',
+    status: 'completed',
     startDate: '2025-09',
     endDate: '2025-09',
     teamSize: 6,
     myRole: ' AI Developer, Frontend Developer',
-    features: [
-      '진행중'
-    ],
-    challenges: [
-      '진행중'
-    ],
-    solutions: [
-      '진행중'
-    ],
-    results: [
-      '진행중'
-    ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['번호판 인식과 앱을 결합한 Plate-Pay 주차장 결제 시스템 (개발 진행 중)'],
-    githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
-    reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
+  features: [
+    '차량 번호판 자동 인식 시스템',
+    '실시간 결제 처리',
+    '키오스크 인터페이스',
+    '얼굴 인식 사용자 인증',
+    '모바일 앱',
+    '결제 내역 조회 및 관리'
+  ],
+  challenges: [
+    '번호판 인식 정확도 향상',
+    '실시간 결제 처리 시스템 구축',
+    '다양한 주차장 및 제휴 매장과의 연동',
+    '사용자 인증 및 보안 강화'
+  ],
+  solutions: [
+    'YOLOv8n 모델을 활용한 번호판 인식 시스템 개발',
+    'Spring Boot와 FastAPI를 이용한 백엔드 시스템 구축',
+    'Redis와 PostgreSQL을 활용한 데이터 관리 및 캐싱',
+    'Firebase를 이용한 모바일 앱 개발 및 푸시 알림 기능 구현'
+  ],
+  results: [
+    '프로토타입 개발 완료',
+    '번호판 인식 정확도 95% 달성',
+    '실시간 결제 처리 시간 2초 이내'
+  ],
+    images: ['/images/plate-pay/add_car.png','/images/plate-pay/add_carad.png','/images/plate-pay/detail_list.png','/images/plate-pay/pay_list.png'],
+    imageDescriptions: ['Plate-Pay 앱의 차량 등록 화면','Plate-Pay 앱의 계좌 등록 화면','Plate-Pay 앱의 지도 상세 화면','Plate-Pay 앱의 결제 내역 리스트 화면'],
+    githubUrl: 'https://github.com/19GHYun/juchajang',
+    documentation: '/images/plate-pay/특화프로젝트_최종발표_플페이.pptx',
+    reflection: '이 프로젝트는 싸피 핀테크 프로젝트입니다. AI 개발자로 참여하여 차량 번호판 인식 시스템 및 얼굴인식을 개발하였으며, 모바일 앱의 프론트엔드 개발에도 기여했습니다. 다양한 기술 스택을 활용하여 실시간 결제 처리 시스템을 구축하는 과정에서 많은 것을 배웠습니다. 특히, 사용자 인증 및 보안 강화에 중점을 두어 안전한 결제 환경을 제공하는 데 주력했습니다.'
   }
 ];
