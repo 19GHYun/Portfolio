@@ -400,8 +400,14 @@ export const projects: Project[] = [
       'BNPL에 대한 이해 및 구현 경험',
       '대학생 신용 평가 모델 개발 경험'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['BNPL을 활용한 대학생 공동구매 플랫폼 메인 화면과 결제 시스템'],
+    images: ['/images/sinhan/gonggu1.png','/images/sinhan/gonggu2.png','/images/sinhan/gonggu3.png','/images/sinhan/gonggu4.png','/images/sinhan/gonggu5.png','/images/sinhan/gonggu6.png'],
+    imageDescriptions: ['공구 시작 컨테이너',
+      '공구 완료 컨테이너',
+      '결제 방법 선택 컨테이너',
+      'BNPL결제 컨테이너',
+      'AI를 이용한 한도 조회 컨테이너',
+      'AI 세부 정보를 이용한 한도 조회 컨테이너'
+    ],
     githubUrl: 'https://github.com/2025SinhanHackaton/GongGuYoung',
     documentation: '/images/sinhan/pt.pdf',
     reflection: '본선 진출 후 2주동안 온라인 개발 및 1박3일의 개발 일정으로 진행되었음. 금융 API를 활용하여 신용 평가 모델을 개발하는 것이 가장 큰 도전이었으며, 팀원들과의 협업을 통해 이를 성공적으로 구현할 수 있었습니다. 특히, BNPL 시스템을 도입함으로써 대학생들의 경제적 부담을 완화하는 데 기여할 수 있어 보람찼습니다. 해커톤이라는 짧은 시간 안에 아이디어를 구체화하고, 실제로 작동하는 프로토타입을 만드는 과정에서 많은 것을 배웠습니다.'
