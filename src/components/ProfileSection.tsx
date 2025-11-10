@@ -52,11 +52,11 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
               </div>
               <div className="profile-item">
                 <h4>전화번호</h4>
-                <p>010-2223-6196</p>
+                <p>010-xxxx-xxxx</p>
               </div>
               <div className="profile-item">
                 <h4>주소</h4>
-                <p>광주광역시 서구 천변좌하로532 1204호</p>
+                <p>xxxx xxxxxx xx xxx xxxxx xx</p>
               </div>
             </div>
 
