@@ -1,152 +1,153 @@
 import React, { useState } from 'react';
+import SectionHeader from './SectionHeader';
+import CertificateModal from './CertificateModal';
 import './Section.css';
 import './ProfileSection.css';
-import CertificateModal from './CertificateModal';
 
 interface ProfileSectionProps {}
 
+interface ModalState {
+  isOpen: boolean;
+  title: string;
+  pdfPath: string;
+}
+
 const ProfileSection: React.FC<ProfileSectionProps> = () => {
-  const [modalData, setModalData] = useState<{
-    isOpen: boolean;
-    title: string;
-    pdfPath: string;
-  }>({
+  const [modal, setModal] = useState<ModalState>({
     isOpen: false,
     title: '',
-    pdfPath: ''
+    pdfPath: '',
   });
 
-  const openCertificate = (title: string, pdfPath: string) => {
-    setModalData({
-      isOpen: true,
-      title,
-      pdfPath
-    });
-  };
+  const open = (title: string, pdfPath: string) =>
+    setModal({ isOpen: true, title, pdfPath });
 
-  const closeCertificate = () => {
-    setModalData({
-      isOpen: false,
-      title: '',
-      pdfPath: ''
-    });
-  };
+  const close = () => setModal({ isOpen: false, title: '', pdfPath: '' });
 
   return (
     <section id="profile" className="section">
       <div className="container">
-        <h2 className="section-title">프로필</h2>
-        <div className="section-content">
-          <div className="profile-grid">
-            <div className="profile-column">
-              <h3 className="profile-category">기본 정보</h3>
-              <div className="profile-item">
-                <h4>이름</h4>
-                <p>윤경호</p>
-                <p>Yun GyoungHo</p>
-                <p>尹景湖</p>
+        <SectionHeader index="SEC 02" title="프로필" meta="IDENTITY" />
+
+        <div className="profile-grid">
+          {/* 기본 정보 */}
+          <div className="profile-panel panel reveal">
+            <div className="profile-panel-bar">
+              <span className="mono-label">BASIC</span>
+              <h3 className="profile-panel-title">기본 정보</h3>
+            </div>
+            <div className="profile-panel-body">
+              <div className="readout-row">
+                <span className="readout-key">이름</span>
+                <span className="readout-value">윤경호 · Yun GyoungHo</span>
               </div>
-              <div className="profile-item">
-                <h4>이메일</h4>
-                <p>zxcvting1@gmail.com</p>
+              <div className="readout-row">
+                <span className="readout-key">이메일</span>
+                <span className="readout-value">
+                  <a href="mailto:zxcvting1@gmail.com">zxcvting1@gmail.com</a>
+                </span>
               </div>
-              <div className="profile-item">
-                <h4>전화번호</h4>
-                <p>010-xxxx-xxxx</p>
+              <div className="readout-row">
+                <span className="readout-key">전공</span>
+                <span className="readout-value">조선대학교 컴퓨터공학과</span>
               </div>
-              <div className="profile-item">
-                <h4>주소</h4>
-                <p>xxxx xxxxxx xx xxx xxxxx xx</p>
+              <div className="readout-row">
+                <span className="readout-key">졸업</span>
+                <span className="readout-value num">2024</span>
+              </div>
+              <div className="readout-row">
+                <span className="readout-key">GPA</span>
+                <span className="readout-value num">3.52</span>
               </div>
             </div>
+          </div>
 
-            <div className="profile-column">
-              <h3 className="profile-category">학력</h3>
-              <div className="profile-item">
-                <h4>최종 학력</h4>
-                <p>조선대학교 - 컴퓨터공학과</p>
-                <span className="profile-date">2024</span>
+          {/* 교육 및 훈련 */}
+          <div className="profile-panel panel reveal">
+            <div className="profile-panel-bar">
+              <span className="mono-label">TRAINING</span>
+              <h3 className="profile-panel-title">교육 &amp; 훈련</h3>
+            </div>
+            <div className="profile-panel-body">
+              <div className="readout-row">
+                <span className="readout-key">2023—2024</span>
+                <span className="readout-value">
+                  <button
+                    type="button"
+                    className="cert-link"
+                    onClick={() =>
+                      open(
+                        '학부연구생 참여연구원확인서',
+                        '/images/etc/참여연구원확인서_윤경호.pdf'
+                      )
+                    }
+                  >
+                    학부연구생
+                  </button>
+                  <span className="profile-sub">Intelligent Networking Lab</span>
+                </span>
               </div>
-              <div className="profile-item">
-                <h4>GPA</h4>
-                <p>3.52</p>
+              <div className="readout-row">
+                <span className="readout-key">2024</span>
+                <span className="readout-value">
+                  <button
+                    type="button"
+                    className="cert-link"
+                    onClick={() =>
+                      open(
+                        'LG Aimers 4기 수료증',
+                        '/images/etc/경호_LG AI 수료증.pdf'
+                      )
+                    }
+                  >
+                    LG Aimers 4기
+                  </button>
+                  <span className="profile-sub">LG</span>
+                </span>
+              </div>
+              <div className="readout-row">
+                <span className="readout-key">2025</span>
+                <span className="readout-value">
+                  SSAFY 13기
+                  <span className="profile-sub">Samsung · MultiCampus</span>
+                </span>
+              </div>
+              <div className="readout-row">
+                <span className="readout-key">2025-06</span>
+                <span className="readout-value">
+                  SQLD
+                  <span className="profile-sub">Kdata</span>
+                </span>
               </div>
             </div>
+          </div>
 
-            <div className="profile-column">
-              <h3 className="profile-category">교육 & 훈련</h3>
-              <div className="profile-item">
-                <h4>주요 교육과정</h4>
-                <ul className="profile-list">
-                  <li>
-                    [Intelligent Networking Lab] - [
-                    <span
-                      className="clickable-certificate"
-                      onClick={() => openCertificate('학부연구생 참여연구원확인서', '/images/etc/참여연구원확인서_윤경호.pdf')}
-                    >
-                      학부연구생
-                    </span>
-                    ] ([2023-2024])
-                  </li>
-                  <li>
-                    [<span
-                      className="clickable-certificate"
-                      onClick={() => openCertificate('LG Aimers 4기 수료증', '/images/etc/경호_LG AI 수료증.pdf')}
-                    >
-                      LG Aimers 4기
-                    </span>
-                    ] - [LG] ([2024])
-                  </li>
-                  <li>[SSAFY 13기] - [Samsung, MultCampus] ([2025])</li>
-                </ul>
-              </div>
+          {/* 논문 */}
+          <div className="profile-panel panel reveal profile-panel-wide">
+            <div className="profile-panel-bar">
+              <span className="mono-label">PUBLICATIONS</span>
+              <h3 className="profile-panel-title">논문 &amp; 연구</h3>
             </div>
-
-            <div className="profile-column">
-              <h3 className="profile-category">외국어</h3>
-              <div className="profile-item">
-                <h4>언어 능력</h4>
-                <div className="language-skills">
-                  <div className="language-item">
-                    <span className="language-name">영어</span>
-                    <span className="language-level">[X]</span>
-                  </div>
-                  <div className="language-item">
-                    <span className="language-name">일본어</span>
-                    <span className="language-level">[X]</span>
-                  </div>
-                </div>
+            <div className="profile-panel-body">
+              <div className="paper">
+                <span className="paper-venue readout">IPIU 2024</span>
+                <p className="paper-title">
+                  XR 기반 실시간 의학 실습 교육 플랫폼에서의 프로세스 지연
+                  최적화를 위한 서버 네트워크 설계 및 구현
+                </p>
               </div>
-            </div>
-
-            <div className="profile-column">
-              <h3 className="profile-category">자격증</h3>
-              <div className="profile-item">
-                <h4>취득 자격증</h4>
-                <ul className="profile-list">
-                  <li>[SQLD] - [Kdata] ([2025-06-27])</li>
-                </ul>
+              <div className="paper">
+                <span className="paper-venue readout">KICS 2024</span>
+                <p className="paper-title">
+                  클라우드 서비스 기반 저비용 위성 기지국 설계 및 데이터 수신
+                  시스템 개발
+                </p>
               </div>
-            </div>
-
-            <div className="profile-column">
-              <h3 className="profile-category">대외활동</h3>
-              <div className="profile-item">
-                <h4>주요 활동</h4>
-                <ul className="profile-list">
-                  <li>[신한 해커톤 with SSAFY 본선] ([2025-08])</li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="profile-column">
-              <h3 className="profile-category">논문 & 연구</h3>
-              <div className="profile-item">
-                <h4>발표 논문</h4>
-                <ul className="profile-list">
-                  <li>"[XR 기반 실시간 의학 실습 교육 플랫폼에서의 프로세스 지연 최적화를 위한 서버 네트워크 설계 및 구현]" - [IPIU2024] ([2024])</li>
-                  <li>"[클라우드 서비스 기반 저비용 위성 기지국 설계 및 데이터 수신 시스템 개발]" - [2024KICS] ([2024])</li>
-                </ul>
+              <div className="paper">
+                <span className="paper-venue readout">2025-08</span>
+                <p className="paper-title">
+                  신한 해커톤 with SSAFY · 본선 진출
+                </p>
               </div>
             </div>
           </div>
@@ -154,10 +155,10 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
       </div>
 
       <CertificateModal
-        isOpen={modalData.isOpen}
-        onClose={closeCertificate}
-        title={modalData.title}
-        pdfPath={modalData.pdfPath}
+        isOpen={modal.isOpen}
+        onClose={close}
+        title={modal.title}
+        pdfPath={modal.pdfPath}
       />
     </section>
   );

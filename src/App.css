@@ -1,15 +1,65 @@
+/* App.css - 디자인 토큰 및 기본 레이어
+ *
+ * 컨셉: 신호 계측기(오실로스코프 / 스펙트럼 분석기) UI.
+ * 검은 화면 위 인광(phosphor) 녹색, 얇은 격자선, 고정폭 계측값.
+ */
+
 :root {
-  /* 색상 변수 정의 */
-  --primary-color: #1a1a1a;       /* 검정색 */
-  --secondary-color: #4ade80;      /* 민트색 */
-  --accent-color: #22d3ee;         /* 밝은 민트색 */
-  --bg-dark: #0a0a0a;              /* 진한 검정 */
-  --bg-light: #f8fffe;             /* 연한 민트 톤 */
-  --text-light: #ffffff;           /* 흰색 텍스트 */
-  --text-dark: #1a1a1a;            /* 검정 텍스트 */
-  --text-muted: #6b7280;           /* 회색 텍스트 */
-  --gradient: linear-gradient(135deg, var(--primary-color) 0%, #2d2d2d 100%);
-  --mint-gradient: linear-gradient(135deg, var(--secondary-color) 0%, var(--accent-color) 100%);
+  /* 배경 계층 */
+  --bg: #07090a;
+  --bg-panel: #0b0f10;
+  --bg-elev: #101617;
+  --bg-inset: #050708;
+
+  /* 인광 녹색 계열 (기존 민트를 계측기 톤으로 정제) */
+  --phosphor: #4ade80;
+  --phosphor-bright: #86efac;
+  --phosphor-dim: #2f7d51;
+  --cyan: #22d3ee;
+  --amber: #fbbf24;
+
+  /* 선 */
+  --line: rgba(74, 222, 128, 0.13);
+  --line-soft: rgba(74, 222, 128, 0.07);
+  --line-strong: rgba(74, 222, 128, 0.32);
+
+  /* 텍스트 */
+  --text: #e6efe9;
+  --text-dim: #93a49b;
+  --text-faint: #5d6f66;
+
+  /* 폰트 */
+  --font-sans: 'Pretendard Variable', Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, 'Segoe UI', 'Apple SD Gothic Neo',
+    'Malgun Gothic', sans-serif;
+  --font-mono: 'JetBrains Mono', 'SFMono-Regular', Consolas, 'Liberation Mono',
+    Menlo, monospace;
+
+  /* 간격 스케일 */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-6: 1.5rem;
+  --sp-8: 2rem;
+  --sp-12: 3rem;
+  --sp-16: 4rem;
+  --sp-24: 6rem;
+
+  --radius: 3px;
+  --maxw: 1180px;
+
+  /* 기존 컴포넌트 CSS 호환용 별칭 */
+  --primary-color: var(--bg-panel);
+  --secondary-color: var(--phosphor);
+  --accent-color: var(--cyan);
+  --bg-dark: var(--bg);
+  --bg-light: #f8fffe;
+  --text-light: var(--text);
+  --text-dark: #07090a;
+  --text-muted: var(--text-dim);
+  --gradient: linear-gradient(135deg, var(--bg-panel) 0%, var(--bg-elev) 100%);
+  --mint-gradient: linear-gradient(135deg, var(--phosphor) 0%, var(--cyan) 100%);
 }
 
 * {
@@ -18,51 +68,243 @@
   box-sizing: border-box;
 }
 
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  line-height: 1.6;
-  color: var(--text-light);
-  background-color: var(--bg-dark);
-}
-
-.App {
-  padding-top: 80px; /* Header height offset */
-}
-
-main {
-  min-height: calc(100vh - 160px); /* Full height minus header and footer */
-}
-
-/* Smooth scrolling for navigation links */
 html {
   scroll-behavior: smooth;
 }
 
-/* 글로벌 스타일링 */
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  line-height: 1.65;
+  color: var(--text);
+  background-color: var(--bg);
+  font-feature-settings: 'tnum' 1;
+  /* 한글은 단어 중간에서 끊지 않는다. '애플리/케이션' 처럼 잘리는 것을 막는다 */
+  word-break: keep-all;
+  overflow-wrap: break-word;
 }
 
-/* 스크롤바 스타일링 */
+/* 화면 전체에 깔리는 계측기 격자 */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: linear-gradient(var(--line-soft) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line-soft) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 100%);
+}
+
+/* CRT 주사선. 아주 옅게 깔아서 화면에 질감만 준다 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+.App {
+  padding-top: 56px; /* 헤더 높이 */
+  position: relative;
+  z-index: 1;
+}
+
+main {
+  min-height: calc(100vh - 56px);
+}
+
+.container {
+  max-width: var(--maxw);
+  margin: 0 auto;
+  padding: 0 var(--sp-8);
+}
+
+/* ── 공용 프리미티브 ─────────────────────────────── */
+
+/* 고정폭 마이크로 라벨: DETECTION / STATUS 같은 계측기 라벨 */
+.mono-label {
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+}
+
+/* 계측값 */
+.readout {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  color: var(--phosphor);
+}
+
+/* 모서리 눈금이 있는 패널 */
+.panel {
+  position: relative;
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+/* 네 모서리의 눈금.
+ * 패널 안쪽 헤더 바가 배경을 덮기 때문에 z-index 로 위에 띄운다. */
+.panel::before,
+.panel::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  z-index: 2;
+  border: 0 solid var(--phosphor);
+  transition: border-color 0.3s ease;
+}
+
+.panel::before {
+  border-top-width: 1px;
+  border-left-width: 1px;
+  clip-path: polygon(
+    0 0,
+    9px 0,
+    9px 1px,
+    1px 1px,
+    1px 9px,
+    0 9px,
+    0 100%,
+    9px 100%,
+    9px calc(100% - 1px),
+    1px calc(100% - 1px),
+    1px calc(100% - 9px),
+    0 calc(100% - 9px)
+  );
+  border-bottom-width: 1px;
+}
+
+.panel::after {
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  clip-path: polygon(
+    100% 0,
+    calc(100% - 9px) 0,
+    calc(100% - 9px) 1px,
+    calc(100% - 1px) 1px,
+    calc(100% - 1px) 9px,
+    100% 9px,
+    100% 100%,
+    calc(100% - 9px) 100%,
+    calc(100% - 9px) calc(100% - 1px),
+    calc(100% - 1px) calc(100% - 1px),
+    calc(100% - 1px) calc(100% - 9px),
+    100% calc(100% - 9px)
+  );
+}
+
+/* 상태 LED */
+.led {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex: 0 0 auto;
+}
+
+.led.active {
+  background: var(--amber);
+  box-shadow: 0 0 6px var(--amber);
+  animation: led-blink 2s ease-in-out infinite;
+}
+
+.led.done {
+  background: var(--phosphor-dim);
+}
+
+@keyframes led-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* 스크롤 진입 시 떠오르는 효과.
+ * 기본은 보임이고, JS 가 js-reveal 을 붙였을 때만 숨긴다.
+ * 스크립트가 죽어도 내용이 사라지지 않게 하기 위한 것이다. */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.js-reveal .reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+::selection {
+  background: rgba(74, 222, 128, 0.28);
+  color: var(--text);
+}
+
 ::-webkit-scrollbar {
-  width: 8px;
+  width: 10px;
+  height: 10px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-dark);
+  background: var(--bg-inset);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--secondary-color);
-  border-radius: 4px;
+  background: var(--phosphor-dim);
+  border: 2px solid var(--bg-inset);
+  border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-color);
+  background: var(--phosphor);
+}
+
+:focus-visible {
+  outline: 1px solid var(--phosphor);
+  outline-offset: 3px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 var(--sp-4);
+  }
+
+  body::before {
+    background-size: 40px 40px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .js-reveal .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .led.active {
+    animation: none;
+  }
 }

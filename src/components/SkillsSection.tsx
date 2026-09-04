@@ -1,104 +1,113 @@
 import React from 'react';
+import SectionHeader from './SectionHeader';
 import './Section.css';
 import './SkillsSection.css';
 
-interface Skill {
-  name: string;
-}
-
-interface SkillCategory {
-  title: string;
-  skills: Skill[];
-}
-
 interface SkillsSectionProps {}
 
-const SkillsSection: React.FC<SkillsSectionProps> = () => {
-  const programmingLanguages: Skill[] = [
-    { name: 'Python' },
-    { name: 'Java' },
-    { name: 'JavaScript/TypeScript' },
-    { name: 'C#' },
-    { name: 'C++' },
-    { name: 'JASS' }
-  ];
+const CATEGORIES: { title: string; code: string; skills: string[] }[] = [
+  {
+    title: '언어',
+    code: 'LANG',
+    skills: ['Python', 'Java', 'C#', 'TypeScript', 'JavaScript', 'C++', 'JASS'],
+  },
+  {
+    title: '신호 · 임베디드',
+    code: 'RF / EMB',
+    skills: [
+      'ESP32',
+      'Arduino',
+      'Raspberry Pi',
+      'RTL-SDR',
+      'RF Communication',
+      'NFC / RFID',
+      'BLE',
+      'USB Serial',
+      'FlatBuffers',
+    ],
+  },
+  {
+    title: '프론트엔드',
+    code: 'FRONT',
+    skills: [
+      'React',
+      'Vue.js',
+      'React Native',
+      'Unity',
+      'Three.js',
+      'PySide6',
+      'Tailwind CSS',
+      'React Router',
+    ],
+  },
+  {
+    title: '백엔드 · 인프라',
+    code: 'BACK',
+    skills: [
+      'Spring Boot',
+      'FastAPI',
+      'Node.js',
+      'gRPC',
+      'JPA / QueryDSL',
+      'Spring Security',
+      'WebSocket / STOMP',
+      'Docker',
+      'Nginx',
+      'Jenkins',
+      'AWS',
+    ],
+  },
+  {
+    title: 'AI · 데이터',
+    code: 'AI / DATA',
+    skills: [
+      'TensorFlow',
+      'PyTorch',
+      'Computer Vision',
+      'YOLOv8n',
+      'NumPy / SciPy',
+      'MySQL',
+      'PostgreSQL',
+      'Redis',
+      'Elastic Search',
+      'Cloudflare R2',
+    ],
+  },
+];
 
-  const frontendSkills: Skill[] = [
-    { name: 'React' },
-    { name: 'Vue.js' },
-    { name: 'TypeScript' },
-    { name: 'CSS/Tailwind CSS' },
-    { name: 'Three.js' },
-    { name: 'React Router' }
-  ];
+const SkillsSection: React.FC<SkillsSectionProps> = () => (
+  <section id="skills" className="section">
+    <div className="container">
+      <SectionHeader
+        index="SEC 03"
+        title="스킬"
+        meta={`${CATEGORIES.length} GROUPS`}
+      />
 
-  const backendSkills: Skill[] = [
-    { name: 'Spring Boot' },
-    { name: 'Node.js' },
-    { name: 'gRPC' },
-    { name: 'JPA/QueryDSL' },
-    { name: 'Spring Security' },
-    { name: 'WebSocket/STOMP' }
-  ];
+      <div className="skills-grid">
+        {CATEGORIES.map((cat) => (
+          <div key={cat.code} className="skill-panel panel reveal">
+            <div className="skill-panel-bar">
+              <span className="mono-label">{cat.code}</span>
+              <h3 className="skill-panel-title">{cat.title}</h3>
+            </div>
 
-  const aiMlSkills: Skill[] = [
-    { name: 'TensorFlow' },
-    { name: 'Computer Vision' },
-    { name: 'Audio Processing' },
-    { name: 'Model Optimization' },
-    { name: 'Image Processing' }
-  ];
-
-  const databaseCloudSkills: Skill[] = [
-    { name: 'MySQL' },
-    { name: 'PostgreSQL' },
-    { name: 'Redis' },
-    { name: 'AWS' },
-    { name: 'Cloudflare R2' }
-  ];
-
-  const hardwareIotSkills: Skill[] = [
-    { name: 'Arduino' },
-    { name: 'Raspberry Pi' },
-    { name: 'RTL-SDR' },
-    { name: 'NFC/RFID' },
-    { name: 'RF Communication' }
-  ];
-
-  const skillCategories: SkillCategory[] = [
-    { title: 'Programming Languages', skills: programmingLanguages },
-    { title: 'Frontend Development', skills: frontendSkills },
-    { title: 'Backend Development', skills: backendSkills },
-    { title: 'AI/Machine Learning', skills: aiMlSkills },
-    { title: 'Database & Cloud', skills: databaseCloudSkills },
-    { title: 'Hardware & IoT', skills: hardwareIotSkills }
-  ];
-
-  const renderSkillItem = (skill: Skill) => (
-    <div key={skill.name} className="skill-item">
-      <span className="skill-name">{skill.name}</span>
-    </div>
-  );
-
-  return (
-    <section id="skills" className="section">
-      <div className="container">
-        <h2 className="section-title">스킬</h2>
-        <div className="section-content">
-          <div className="skills-categories">
-            {skillCategories.map((category, index) => (
-              <div key={index} className="skill-category">
-                <h3 className="skill-category-title">{category.title}</h3>
-                <div className="skills-grid">
-                  {category.skills.map(renderSkillItem)}
-                </div>
-              </div>
-            ))}
+            <ul className="skill-chips">
+              {cat.skills.map((name, i) => (
+                <li
+                  key={name}
+                  className="skill-chip"
+                  style={{ ['--i' as string]: i }}
+                >
+                  {name}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
+        ))}
       </div>
-    </section>
-  );
-};
+    </div>
+  </section>
+);
 
 export default SkillsSection;

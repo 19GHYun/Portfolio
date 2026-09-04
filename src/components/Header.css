@@ -1,119 +1,122 @@
+/* Header.css - 계측기 상단 바 */
+
 .header {
-  background: var(--gradient);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-  border-bottom: 2px solid var(--secondary-color);
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  transition: all 0.3s ease;
+  height: 56px;
+  background: rgba(7, 9, 10, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
 }
 
 .header .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 1.2rem 2rem;
+  height: 100%;
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
+  gap: var(--sp-6);
 }
 
-.logo h2 {
-  margin: 0;
-  color: var(--text-light);
-  font-weight: 700;
-  font-size: 1.8rem;
-  background: var(--mint-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.nav {
+/* 좌측 로고: 상태 LED + 고정폭 이름 */
+.logo {
   display: flex;
   align-items: center;
-}
-
-.nav-list {
-  list-style: none;
-  display: flex;
-  gap: 2rem;
-  margin: 0;
+  gap: var(--sp-2);
+  cursor: pointer;
+  border: none;
+  background: none;
   padding: 0;
 }
 
-.nav-list a,
+.logo-led {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--phosphor);
+  box-shadow: 0 0 8px var(--phosphor);
+  flex: 0 0 auto;
+}
+
+.logo-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--text);
+  white-space: nowrap;
+}
+
+/* 네비게이션 */
+.nav-list {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-1);
+  list-style: none;
+}
+
 .nav-list button {
-  text-decoration: none;
-  color: var(--text-light);
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--text-faint);
   background: none;
   border: none;
+  padding: 0.45rem 0.7rem;
   cursor: pointer;
-  font-size: inherit;
-  font-family: inherit;
+  position: relative;
+  transition: color 0.2s ease;
 }
 
-.nav-list a:hover,
-.nav-list button:hover {
-  color: var(--secondary-color);
-  background-color: rgba(74, 222, 128, 0.1);
-  transform: translateY(-2px);
-}
-
-.nav-list a::after,
 .nav-list button::after {
   content: '';
   position: absolute;
-  bottom: -2px;
-  left: 50%;
-  width: 0;
-  height: 2px;
-  background: var(--mint-gradient);
-  transition: all 0.3s ease;
-  transform: translateX(-50%);
+  left: 0.7rem;
+  right: 0.7rem;
+  bottom: 0.15rem;
+  height: 1px;
+  background: var(--phosphor);
+  transform: scaleX(0);
+  transition: transform 0.22s ease;
 }
 
-.nav-list a:hover::after,
+.nav-list button:hover {
+  color: var(--phosphor);
+}
+
 .nav-list button:hover::after {
-  width: 80%;
+  transform: scaleX(1);
 }
 
-/* Mobile Menu Toggle Button */
+/* 모바일 토글 */
 .menu-toggle {
   display: none;
   flex-direction: column;
+  justify-content: center;
+  gap: 4px;
+  width: 34px;
+  height: 34px;
+  padding: 0 6px;
   background: none;
-  border: none;
+  border: 1px solid var(--line);
+  border-radius: 2px;
   cursor: pointer;
-  padding: 0;
-  width: 24px;
-  height: 24px;
-  position: relative;
 }
 
 .menu-toggle span {
+  display: block;
+  height: 1px;
   width: 100%;
-  height: 3px;
-  background-color: var(--text-light);
-  margin-bottom: 3px;
-  transition: all 0.3s ease;
-  border-radius: 1px;
+  background: var(--phosphor);
+  transition: transform 0.25s ease, opacity 0.25s ease;
 }
 
-.menu-toggle span:last-child {
-  margin-bottom: 0;
-}
-
-/* Menu Toggle Animation */
 .menu-toggle.active span:nth-child(1) {
-  transform: rotate(45deg) translate(6px, 6px);
+  transform: translateY(5px) rotate(45deg);
 }
 
 .menu-toggle.active span:nth-child(2) {
@@ -121,66 +124,58 @@
 }
 
 .menu-toggle.active span:nth-child(3) {
-  transform: rotate(-45deg) translate(6px, -6px);
+  transform: translateY(-5px) rotate(-45deg);
 }
 
 @media (max-width: 768px) {
   .menu-toggle {
     display: flex;
   }
-  
+
+  .nav {
+    display: flex;
+    align-items: center;
+  }
+
   .nav-list {
-    position: absolute;
-    top: 100%;
+    position: fixed;
+    top: 56px;
     left: 0;
     right: 0;
-    background: var(--gradient);
-    backdrop-filter: blur(10px);
-    border-top: 1px solid var(--secondary-color);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
     flex-direction: column;
+    align-items: stretch;
     gap: 0;
-    padding: 1rem 0;
+    background: var(--bg-panel);
+    border-bottom: 1px solid var(--line);
+    padding: var(--sp-2) 0;
+    transform: translateY(-8px);
     opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
-  
+
   .nav-list.active {
     opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+    transform: none;
+    pointer-events: auto;
   }
-  
-  .nav-list li {
-    border-bottom: 1px solid rgba(74, 222, 128, 0.2);
-  }
-  
-  .nav-list li:last-child {
-    border-bottom: none;
-  }
-  
-  .nav-list a,
+
   .nav-list button {
-    display: block;
-    padding: 1rem 2rem;
-    color: var(--text-light);
-    transition: all 0.3s ease;
-    border-radius: 0;
     width: 100%;
     text-align: left;
+    padding: 0.8rem var(--sp-4);
+    font-size: 0.75rem;
   }
-  
-  .nav-list a:hover,
-  .nav-list button:hover {
-    background-color: rgba(74, 222, 128, 0.1);
-    color: var(--secondary-color);
-    transform: translateX(10px);
-  }
-  
-  .nav-list a::after,
+
   .nav-list button::after {
     display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-list button::after,
+  .menu-toggle span,
+  .nav-list {
+    transition: none;
   }
 }

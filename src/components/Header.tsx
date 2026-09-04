@@ -58,9 +58,10 @@ const Header: React.FC<HeaderProps> = () => {
   return (
     <header className="header">
       <div className="container">
-        <div className="logo">
-          <h2 onClick={handleLogoClick} style={{ cursor: 'pointer' }}>Portfolio</h2>
-        </div>
+        <button type="button" className="logo" onClick={handleLogoClick}>
+          <span className="logo-led" aria-hidden="true" />
+          <span className="logo-text">YGH / PORTFOLIO</span>
+        </button>
         <nav className="nav">
           <button 
             className={`menu-toggle ${isMenuOpen ? 'active' : ''}`}
@@ -72,11 +73,11 @@ const Header: React.FC<HeaderProps> = () => {
             <span></span>
           </button>
           <ul className={`nav-list ${isMenuOpen ? 'active' : ''}`}>
-            <li><button onClick={() => handleNavClick('about')}>소개</button></li>
-            <li><button onClick={() => handleNavClick('profile')}>프로필</button></li>
-            <li><button onClick={() => handleNavClick('skills')}>스킬</button></li>
-            <li><button onClick={() => handleNavClick('workmap')}>워크맵</button></li>
-            <li><button onClick={() => handleNavClick('projects')}>프로젝트</button></li>
+            <li><button onClick={() => handleNavClick('about')}>01 소개</button></li>
+            <li><button onClick={() => handleNavClick('profile')}>02 프로필</button></li>
+            <li><button onClick={() => handleNavClick('skills')}>03 스킬</button></li>
+            <li><button onClick={() => handleNavClick('workmap')}>04 워크맵</button></li>
+            <li><button onClick={() => handleNavClick('projects')}>05 프로젝트</button></li>
           </ul>
         </nav>
       </div>

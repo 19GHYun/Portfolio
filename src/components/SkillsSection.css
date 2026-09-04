@@ -1,207 +1,133 @@
-/* SkillsSection.css */
-
-.skills-categories {
-  display: flex;
-  flex-direction: column;
-  gap: 2.5rem;
-  margin-top: 2rem;
-}
-
-.skill-category {
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 12px;
-  padding: 2rem;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.skill-category:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-}
-
-.skill-category-title {
-  color: #4ade80;
-  font-size: 1.4rem;
-  font-weight: 600;
-  margin-bottom: 1.5rem;
-  padding-bottom: 0.75rem;
-  border-bottom: 2px solid rgba(74, 222, 128, 0.3);
-  text-align: center;
-}
+/* SkillsSection.css - 기술 칩 패널 */
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+  gap: var(--sp-6);
 }
 
-.skill-item {
-  background: rgba(255, 255, 255, 0.03);
-  border-radius: 8px;
-  padding: 1.2rem;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  transition: all 0.3s ease;
-}
-
-.skill-item:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(74, 222, 128, 0.2);
-  transform: translateY(-2px);
-}
-
-.skill-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.8rem;
-}
-
-.skill-name {
-  color: #e5e7eb;
-  font-weight: 600;
-  font-size: 0.95rem;
-}
-
-.skill-percentage {
-  color: #9ca3af;
-  font-size: 0.85rem;
-  font-style: italic;
-}
-
-.skill-bar {
-  background: rgba(255, 255, 255, 0.1);
-  height: 8px;
-  border-radius: 4px;
+.skill-panel {
   overflow: hidden;
-  position: relative;
 }
 
-.skill-progress {
-  height: 100%;
-  background: linear-gradient(90deg, #4ade80, #22d3ee);
-  border-radius: 4px;
-  transition: width 0.8s ease-in-out;
-  position: relative;
+/* 마우스를 올리면 위쪽 테두리에 인광이 들어온다 */
+.skill-panel {
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.skill-progress::after {
+.skill-panel:hover {
+  border-color: var(--line-strong);
+  box-shadow: inset 0 1px 0 var(--phosphor), 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+.skill-panel-bar {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-3);
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-inset);
+}
+
+.skill-panel-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--text);
+}
+
+/* ── 칩 ─────────────────────────────────── */
+.skill-chips {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+}
+
+.skill-chip {
+  position: relative;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.02em;
+  color: var(--text-dim);
+  background: var(--bg-inset);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.36rem 0.7rem;
+  overflow: hidden;
+  cursor: default;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* 마우스를 올리면 빛이 한 번 훑고 지나간다 */
+.skill-chip::before {
   content: '';
   position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  width: 20px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3));
-  animation: shimmer 2s infinite;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(74, 222, 128, 0.22) 50%,
+    transparent 80%
+  );
+  transform: translateX(-120%);
+  transition: transform 0.55s ease;
 }
 
-@keyframes shimmer {
-  0% {
+.skill-chip:hover {
+  color: var(--phosphor-bright);
+  border-color: var(--line-strong);
+  transform: translateY(-2px);
+  box-shadow: 0 0 14px rgba(74, 222, 128, 0.18);
+}
+
+.skill-chip:hover::before {
+  transform: translateX(120%);
+}
+
+/* 패널이 화면에 들어오면 칩이 차례로 떠오른다 */
+.js-reveal .skill-panel.is-visible .skill-chip {
+  animation: chip-in 0.42s ease-out backwards;
+  animation-delay: calc(var(--i) * 45ms);
+}
+
+@keyframes chip-in {
+  from {
     opacity: 0;
+    transform: translateY(8px);
   }
-  50% {
+  to {
     opacity: 1;
-  }
-  100% {
-    opacity: 0;
+    transform: none;
   }
 }
 
-/* 카테고리별 색상 구분 */
-.skill-category:nth-child(1) .skill-category-title {
-  color: #4ade80; /* Hard Skills - Green */
-  border-bottom-color: rgba(74, 222, 128, 0.3);
-}
-
-.skill-category:nth-child(1) .skill-progress {
-  background: linear-gradient(90deg, #4ade80, #16a34a);
-}
-
-.skill-category:nth-child(2) .skill-category-title {
-  color: #f59e0b; /* Soft Skills - Orange */
-  border-bottom-color: rgba(245, 158, 11, 0.3);
-}
-
-.skill-category:nth-child(2) .skill-progress {
-  background: linear-gradient(90deg, #f59e0b, #d97706);
-}
-
-.skill-category:nth-child(3) .skill-category-title {
-  color: #3b82f6; /* Frameworks - Blue */
-  border-bottom-color: rgba(59, 130, 246, 0.3);
-}
-
-.skill-category:nth-child(3) .skill-progress {
-  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
-}
-
-/* 반응형 디자인 */
 @media (max-width: 768px) {
-  .skills-categories {
-    gap: 2rem;
-  }
-  
-  .skill-category {
-    padding: 1.5rem;
-  }
-  
-  .skill-category-title {
-    font-size: 1.2rem;
-    margin-bottom: 1.2rem;
-  }
-  
   .skills-grid {
     grid-template-columns: 1fr;
-    gap: 1.2rem;
+    gap: var(--sp-4);
   }
-  
-  .skill-item {
-    padding: 1rem;
+
+  .skill-chip {
+    font-size: 0.7rem;
+    padding: 0.32rem 0.6rem;
   }
 }
 
-@media (max-width: 480px) {
-  .skill-category {
-    padding: 1.2rem;
+@media (prefers-reduced-motion: reduce) {
+  .skill-chip,
+  .skill-chip::before,
+  .skill-panel {
+    transition: none;
   }
-  
-  .skill-category-title {
-    font-size: 1.1rem;
-  }
-  
-  .skill-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.3rem;
-    margin-bottom: 0.6rem;
-  }
-  
-  .skill-percentage {
-    align-self: flex-end;
-  }
-}
 
-/* 다크 모드 강화 */
-@media (prefers-color-scheme: dark) {
-  .skill-category {
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
+  .skill-chip:hover {
+    transform: none;
   }
-  
-  .skill-item {
-    background: rgba(255, 255, 255, 0.02);
-  }
-  
-  .skill-item:hover {
-    background: rgba(255, 255, 255, 0.05);
-  }
-  
-  .skill-name {
-    color: #f3f4f6;
-  }
-  
-  .skill-percentage {
-    color: #9ca3af;
+
+  .js-reveal .skill-panel.is-visible .skill-chip {
+    animation: none;
   }
 }

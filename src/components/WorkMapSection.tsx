@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { Project } from '../types/Project';
+import SectionHeader from './SectionHeader';
 import './Section.css';
 import './WorkMapSection.css';
 
@@ -112,12 +113,12 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
   return (
     <section id="workmap" className="section workmap-section">
       <div className="container">
-        <h2 className="section-title">워크 맵</h2>
-
-        <p className="workmap-intro">
-          지금까지 진행한 프로젝트를 분야별 · 시간순으로 정리한 지도입니다.
-          막대를 누르면 해당 프로젝트의 상세 페이지로 이동합니다.
-        </p>
+        <SectionHeader
+          index="SEC 04"
+          title="워크 맵"
+          meta={`${map.years[0]}—${map.years[map.years.length - 1]}`}
+          lead="지금까지 진행한 프로젝트를 분야별 레인에 시간순으로 배치했습니다. 막대를 누르면 해당 프로젝트의 상세로 이동합니다."
+        />
 
         <div className="workmap-legend">
           <span className="workmap-legend-item">
@@ -134,7 +135,7 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
           </span>
         </div>
 
-        <div className="workmap-scroll">
+        <div className="workmap-scroll reveal">
           <div
             className="workmap-chart"
             style={{ ['--workmap-years' as string]: map.years.length }}

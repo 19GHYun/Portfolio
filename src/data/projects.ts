@@ -15,6 +15,7 @@ export const projects: Project[] = [
     endDate: '2024-08',
     teamSize: 1,
     myRole: '서버 네트워크 개발 및 최적화',
+    metrics: [{ label: '동시 접속', value: '10인' }, { label: '검증', value: 'TTA 통과' }, { label: '학회', value: 'IPIU 2024' }],
     features: [
       '실시간 XR 렌더링 최적화',
       '저지연 네트워크 통신 구현',
@@ -38,9 +39,7 @@ export const projects: Project[] = [
       'IPIU 2024 학회 논문 발표',
       '동시 접속자 수 10인에서 TTA시험 통과',
     ],
-    images: ['/images/vrar/vrar1.png','/images/vrar/vrar2.png'],
-    imageDescriptions: ['본 프로젝트의 실습자 관찰자 구조','Unity로 구현된 XR 의학 교육 플랫폼의  실제 화면에서의 실습자와 관찰자'],
-    documentation: '/images/vrar/XR_논문.hwp',
+    images: [],
     reflection: '제가 처음 연구실에 오고 진행 한 프로젝트입니다. 이미 진행 된 의학 실습 교육 플랫폼을 먼저 구조와 의도를 이해 한 다음 Photon서버를 연동했습니다. 당시에 AI를 활용하는 생각이 없던지라, 책으로 서버를 공부하면서 진행하였다. 지금 생각하면 시간에 비해 결과가 좀 아쉬웠지만, 그래도 연구실에서 첫 발자국을 성공적으로 내딛었다고 생각한다.'
   },
   {
@@ -55,6 +54,7 @@ export const projects: Project[] = [
     endDate: '2024-06',
     teamSize: 3,
     myRole: '시스템 설계 및 AI 후처리 개발',
+    metrics: [{ label: '수신 데이터', value: '10GB+' }, { label: '학회', value: 'KICS 2024' }],
     features: [
       '라즈베리파이 기반 위성 기지국 구축',
       'RTL-SDR 안테나를 이용한 위성 신호 수신',
@@ -78,8 +78,7 @@ export const projects: Project[] = [
       'KakaoTalk BOT을 통한 날씨 알람 서비스 성공적 운영',
       'AI 모델을 통한 위성 사진 후처리 성공',
     ],
-    images: ['/images/satellite-system.jpg'],
-    imageDescriptions: ['라즈베리파이와 RTL-SDR 안테나로 구성된 저비용 위성 기지국 시스템'],
+    images: [],
     reflection: '이 프로젝트는 단순히 같이 있던 연구실 동료와 진행했던 프로젝트입니다. 연구실에 라즈베리파이가 남아 돌았고 + 막연하게 위성 통신을 해보고 싶다! 라는 생각으로 도전했습니다. 처음부터 라즈베리파이에 윈도우를 깔지, 라즈베리파이 OS를 깔지부터 많은 시행착오가 있었으며, 직접 안테나를 설치하고 위성 수신을 받았을때 쾌감을 느꼈습니다. 그 후 캡스톤 프로젝트까지 연결되어, 이 위성사진을 가지고 AI를 통한 후처리 및 서비스 제공까지 성공적으로 끝마치게 되어 보람을 느꼈습니다. 이 프로젝트를 통해 저비용으로도 위성 통신을 구현할 수 있다는 가능성을 확인할 수 있었습니다.'
   },
   {
@@ -115,8 +114,7 @@ export const projects: Project[] = [
       '모바일 호환성 100% 달성을 목표',
       '사용자 친화적 UI/UX 구현을 목표'
     ],
-    images: ['/images/portfolio.jpg'],
-    imageDescriptions: ['React와 TypeScript로 구현된 반응형 포트폴리오 웹사이트 메인 페이지'],
+    images: [],
     githubUrl: 'https://github.com/19GHYun/Portfolio',
     reflection: '포트폴리오를 만들면서 CI/CD까지 목표로 삼고 진행해보고 있습니다.'
   },
@@ -132,6 +130,7 @@ export const projects: Project[] = [
     endDate: '2023-03',
     teamSize: 2,
     myRole: 'Full Stack Developer',
+    metrics: [{ label: '협동 플레이', value: '최대 7인' }],
     features: [
       '최대 7인 협동 게임',
       '다양한 맵과 기믹',
@@ -157,8 +156,7 @@ export const projects: Project[] = [
       '다양한 맵과 기믹으로 플레이어의 흥미 유도',
       '클리어 시 재화 지급으로 반복 플레이 유도'
     ],
-    images: ['/images/orangemushroom/jubut1.gif','/images/orangemushroom/jubut2.gif','/images/orangemushroom/jubut3.gif'],
-    imageDescriptions: ['주황버섯 소개팅 1스테이지','주황버섯 소개팅 2스테이지', '주황버섯 소개팅 3스테이지'],
+    images: [],
     githubUrl: 'https://github.com/jsm150/OrangeMushroomStory',
     youtubeUrl: 'https://www.youtube.com/watch?v=ccmLCGhR81Q',
     namuWikiUrl: 'https://namu.wiki/w/%EC%A3%BC%ED%99%A9%EB%B2%84%EC%84%AF%EC%9D%98%20%EC%86%8C%EA%B0%9C%ED%8C%85',
@@ -176,6 +174,7 @@ export const projects: Project[] = [
     endDate: '2024-06',
     teamSize: 2,
     myRole: 'Main Developer',
+    metrics: [{ label: '협업', value: 'KAIST' }],
     features: [
       'ISO 15693 NFC 통신 구현',
       '실시간 데이터 그래프 시각화',
@@ -197,8 +196,7 @@ export const projects: Project[] = [
       '로컬스토리지에 데이터 저장 및 확인 기능 구현',
       '카이스트와의 협업을 통한 프로젝트 성공적 완료 및 논문 저자 참여 예정'
     ],
-    images: ['/images/nfc/nfc1.png','/images/nfc/nfc2.jpg'],
-    imageDescriptions: ['NFC통신하면서 읽는 블록 번호','Android Studio로 개발된 NFC 생체센서 통신 앱의 실시간 데이터 그래프 화면'],
+    images: [],
     githubUrl: 'https://github.com/19GHYun/snl_rf',
     reflection: '이 프로젝트의 첫걸음은 그리 좋지 않았습니다. 일명 짬 맞은 프로젝트였기 때문입니다. 다른 인원이 진행하다가 결국 성공시키지 못해서 넘어왔는데, 인수인계받으면서도 다양한 불화가 있었습니다. 하지만, 이 프로젝트를 통해 어떤 프로젝트든 시도하는 것이 두렵지 않다는 것을 배웠습니다. 뭐든지 열심히 하면 되더라구요..'
   },
@@ -266,6 +264,7 @@ export const projects: Project[] = [
     endDate: '2025-08',
     teamSize: 6,
     myRole: 'AI Developer',
+    metrics: [{ label: '통신 지연', value: '400ms → 100ms' }, { label: '인식 객체', value: '80 → 1200' }, { label: '추론 속도', value: '최대 10×' }],
     features: [
       '실시간 게임 플레이',
       'AI 기반 사용자 경험 향상',
@@ -360,7 +359,6 @@ export const projects: Project[] = [
       'Deauthentication 공격 후 연결이 끊긴 모습'
     ],
     githubUrl: 'https://github.com/JunYBae/Army_Wireless_Network_Attack_System',
-    documentation: '/images/awnas/인공위성_증빙.pdf',
     reflection: '이 프로젝트는 하드웨어와 소프트웨어를 모두 다뤄볼 수 있는 좋은 경험이었습니다. 팀원과 역할을 분담하여 제가 차량 시스템을, 팀원이 네트워크 공격 시스템을 담당했는데, 서로 다른 영역의 기술을 통합하는 과정에서 많은 것을 배웠습니다. 특히 제한된 하드웨어 자원에서 여러 기능을 구현하는 것이 쉽지 않았지만, 창의적인 해결책을 찾아가며 완성했을 때의 성취감이 컸습니다.'
   },
   {
@@ -375,6 +373,7 @@ export const projects: Project[] = [
     endDate: '2025-08',
     teamSize: 4,
     myRole: ' AI Developer, Frontend Developer',
+    metrics: [{ label: '신한 해커톤', value: '본선 진출' }],
     features: [
       'BNPL(선구매 후결제) 시스템 도입',
       '대학생 신용 평가 시스템 구축',
@@ -424,6 +423,7 @@ export const projects: Project[] = [
     endDate: '2025-09',
     teamSize: 6,
     myRole: ' AI Developer, Frontend Developer',
+    metrics: [{ label: '번호판 인식', value: '95%' }, { label: '결제 처리', value: '2초 이내' }],
   features: [
     '차량 번호판 자동 인식 시스템',
     '실시간 결제 처리',
@@ -449,10 +449,8 @@ export const projects: Project[] = [
     '번호판 인식 정확도 95% 달성',
     '실시간 결제 처리 시간 2초 이내'
   ],
-    images: ['/images/plate-pay/add_car.png','/images/plate-pay/add_carad.png','/images/plate-pay/detail_list.png','/images/plate-pay/pay_list.png'],
-    imageDescriptions: ['Plate-Pay 앱의 차량 등록 화면','Plate-Pay 앱의 계좌 등록 화면','Plate-Pay 앱의 지도 상세 화면','Plate-Pay 앱의 결제 내역 리스트 화면'],
+    images: [],
     githubUrl: 'https://github.com/19GHYun/juchajang',
-    documentation: '/images/plate-pay/특화프로젝트_최종발표_플페이.pptx',
     reflection: '이 프로젝트는 싸피 핀테크 프로젝트입니다. AI 개발자로 참여하여 차량 번호판 인식 시스템 및 얼굴인식을 개발하였으며, 모바일 앱의 프론트엔드 개발에도 기여했습니다. 다양한 기술 스택을 활용하여 실시간 결제 처리 시스템을 구축하는 과정에서 많은 것을 배웠습니다. 특히, 사용자 인증 및 보안 강화에 중점을 두어 안전한 결제 환경을 제공하는 데 주력했습니다.'
   },
   {
@@ -467,6 +465,7 @@ export const projects: Project[] = [
     endDate: '2026-02',
     teamSize: 1,
     myRole: '앱 플러그인 및 센서 펌웨어 개발',
+    metrics: [{ label: '통신 경로', value: '3종' }, { label: '스프린트 이슈', value: '9+' }],
     features: [
       '임베디드 센서와 안드로이드 단말 간 3종 통신 경로 구현 (USB 시리얼 / BLE / Wi-Fi)',
       'NMEA 형식을 참고한 경량 텍스트 프로토콜 설계 및 파서 구현',
@@ -510,6 +509,7 @@ export const projects: Project[] = [
     startDate: '2026-06',
     teamSize: 1,
     myRole: '신호처리 알고리즘 설계, 분석 도구 및 장비 연동 개발, 배포',
+    metrics: [{ label: '펄스 분석', value: '24.6s → 4.3s' }, { label: '수신 대역폭', value: '76×' }, { label: 'PW 측정 오차', value: '0.07%' }],
     features: [
       '[OFDM] STFT 기반 방출 구간 검출 및 OFDM 여부 판정',
       '[OFDM] 부반송파 단위 변조 분류(BPSK / QPSK / 8PSK / QAM)와 스펙트로그램 위 2계층 시각화',
@@ -564,6 +564,7 @@ export const projects: Project[] = [
     startDate: '2026-08',
     teamSize: 1,
     myRole: '기획, 프로그래밍, 리소스 제작 (1인 개발)',
+    metrics: [{ label: '멀티플레이', value: '4인' }, { label: '커스텀 텍스처', value: '34종' }],
     features: [
       '4인 온라인 및 LAN 멀티플레이 리치 마작 (작혼 스타일 규칙)',
       '동방 Project 캐릭터 5인 선택 (하쿠레이 레이무 / 키리사메 마리사 / 이자요이 사쿠야 / 레밀리아 스칼렛 / 플랑드르 스칼렛)',

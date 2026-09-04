@@ -1,140 +1,196 @@
-import React, { useState, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { Project } from '../types/Project';
+import { getProjectImages } from '../utils/projectImages';
+import ProjectCover from './ProjectCover';
+import SectionHeader from './SectionHeader';
 import './Section.css';
 import './ProjectsSection.css';
 
 interface ProjectsSectionProps {}
 
+const STATUS_TEXT: Record<Project['status'], string> = {
+  completed: '완료',
+  'in-progress': '진행중',
+  planned: '계획',
+};
+
+const CATEGORY_TEXT: Record<Project['category'], string> = {
+  web: 'WEB',
+  mobile: 'MOBILE',
+  desktop: 'DESKTOP',
+  ai: 'AI/ML',
+  research: 'RESEARCH',
+  etc: 'ETC',
+  hardware: 'HARDWARE',
+};
+
+type SortKey = 'date-desc' | 'date-asc';
+type FilterKey = 'all' | Project['category'];
+
 const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
   const navigate = useNavigate();
-  const [sortBy, setSortBy] = useState<'date-desc' | 'date-asc'>('date-desc');
-  const [filterStatus, setFilterStatus] = useState<'all' | 'completed' | 'in-progress' | 'planned'>('all');
+  const [sortBy, setSortBy] = useState<SortKey>('date-desc');
+  const [filter, setFilter] = useState<FilterKey>('all');
 
-  const handleProjectClick = (projectId: string) => {
-    navigate(`/project/${projectId}`);
-  };
+  // 실제로 존재하는 카테고리만 필터 버튼으로 노출한다
+  const categories = useMemo(() => {
+    const present = new Set(projects.map((p) => p.category));
+    return (Object.keys(CATEGORY_TEXT) as Project['category'][]).filter((c) =>
+      present.has(c)
+    );
+  }, []);
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'completed': return '완료';
-      case 'in-progress': return '진행중';
-      case 'planned': return '계획중';
-      default: return status;
-    }
-  };
+  const visible = useMemo(() => {
+    const filtered =
+      filter === 'all'
+        ? projects
+        : projects.filter((p) => p.category === filter);
 
-  const getCategoryText = (category: string) => {
-    switch (category) {
-      case 'web': return '웹 개발';
-      case 'mobile': return '모바일';
-      case 'desktop': return '데스크톱';
-      case 'ai': return 'AI/ML';
-      case 'research': return '연구';
-      case 'etc': return '기타';
-      case 'hardware': return '하드웨어';
-      default: return category;
-    }
-  };
-
-  const filteredAndSortedProjects = useMemo(() => {
-    let filtered = projects;
-
-    // 상태별 필터링
-    if (filterStatus !== 'all') {
-      filtered = filtered.filter(project => project.status === filterStatus);
-    }
-
-    // 날짜순 정렬
-    const sorted = [...filtered].sort((a, b) => {
-      const dateA = new Date(a.startDate + '-01').getTime();
-      const dateB = new Date(b.startDate + '-01').getTime();
-
-      return sortBy === 'date-desc' ? dateB - dateA : dateA - dateB;
+    return [...filtered].sort((a, b) => {
+      const da = new Date(`${a.startDate}-01`).getTime();
+      const db = new Date(`${b.startDate}-01`).getTime();
+      return sortBy === 'date-desc' ? db - da : da - db;
     });
+  }, [filter, sortBy]);
 
-    return sorted;
-  }, [filterStatus, sortBy]);
+  // 대표 이미지가 있으면 쓰고, 없으면 파형 커버로 대신한다
+  const thumbOf = (project: Project): string | null => {
+    if (project.images && project.images.length > 0) return project.images[0];
+    const auto = getProjectImages(project.id);
+    return auto.length > 0 ? auto[0].src : null;
+  };
 
   return (
     <section id="projects" className="section">
       <div className="container">
-        <h2 className="section-title">프로젝트</h2>
+        <SectionHeader
+          index="SEC 05"
+          title="프로젝트"
+          meta={`${visible.length} / ${projects.length} ENTRIES`}
+          lead="연구실에서 시작해 실무까지 이어진 작업들입니다. 카드를 누르면 문제와 해결 과정, 실측 결과까지 볼 수 있습니다."
+        />
 
-        {/* 정렬 및 필터링 컨트롤 */}
-        <div className="projects-controls">
-          <div className="sort-controls">
-            <label htmlFor="sort-select">정렬:</label>
-            <select
-              id="sort-select"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value as 'date-desc' | 'date-asc')}
-              className="sort-select"
+        {/* 필터 바 */}
+        <div className="proj-controls">
+          <div className="proj-filters" role="group" aria-label="분야 필터">
+            <button
+              type="button"
+              className={`proj-filter ${filter === 'all' ? 'is-on' : ''}`}
+              onClick={() => setFilter('all')}
             >
-              <option value="date-desc">최신순</option>
-              <option value="date-asc">오래된순</option>
-            </select>
-          </div>
-
-          <div className="filter-controls">
-            <label htmlFor="status-filter">상태:</label>
-            <select
-              id="status-filter"
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value as 'all' | 'completed' | 'in-progress' | 'planned')}
-              className="status-filter"
-            >
-              <option value="all">전체</option>
-              <option value="completed">완료</option>
-              <option value="in-progress">진행중</option>
-              <option value="planned">계획중</option>
-            </select>
-          </div>
-        </div>
-
-        <div className="section-content">
-          <div className="projects-grid">
-            {filteredAndSortedProjects.map((project) => (
-              <div 
-                key={project.id} 
-                className="project-card"
-                onClick={() => handleProjectClick(project.id)}
+              ALL
+            </button>
+            {categories.map((c) => (
+              <button
+                key={c}
+                type="button"
+                className={`proj-filter ${filter === c ? 'is-on' : ''}`}
+                onClick={() => setFilter(c)}
               >
-                <div className="project-card-header">
-                  <div className="project-badges">
-                    <span className={`status-badge ${project.status}`}>
-                      {getStatusText(project.status)}
-                    </span>
-                    <span className="category-badge">
-                      {getCategoryText(project.category)}
-                    </span>
-                  </div>
-                </div>
-                
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-summary">{project.summary}</p>
-                
-                <div className="project-technologies">
-                  {project.technologies.slice(0, 3).map((tech, index) => (
-                    <span key={index} className="tech-tag">{tech}</span>
-                  ))}
-                  {project.technologies.length > 3 && (
-                    <span className="tech-more">+{project.technologies.length - 3}</span>
-                  )}
-                </div>
-                
-                <div className="project-footer">
-                  <div className="project-meta">
-                    <span className="team-size">👥 {project.teamSize}명</span>
-                    <span className="period">{project.startDate} ~ {project.endDate || '현재'}</span>
-                  </div>
-                  <div className="project-arrow">
-                    <span>자세히 보기 →</span>
-                  </div>
-                </div>
-              </div>
+                {CATEGORY_TEXT[c]}
+              </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            className="proj-sort"
+            onClick={() =>
+              setSortBy((s) => (s === 'date-desc' ? 'date-asc' : 'date-desc'))
+            }
+          >
+            {sortBy === 'date-desc' ? '최신순 ↓' : '오래된순 ↑'}
+          </button>
+        </div>
+
+        <div className="proj-grid">
+          {visible.map((project) => {
+            const thumb = thumbOf(project);
+            const isActive = project.status === 'in-progress';
+
+            return (
+              <article
+                key={project.id}
+                className="proj-card panel reveal"
+                onClick={() => navigate(`/project/${project.id}`)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    navigate(`/project/${project.id}`);
+                  }
+                }}
+                role="link"
+                tabIndex={0}
+              >
+                {/* 상단 바: 번호 / 분야 / 상태 */}
+                <div className="proj-card-bar">
+                  <span className="proj-id">
+                    {project.id.padStart(2, '0')}
+                  </span>
+                  <span className="mono-label">
+                    {CATEGORY_TEXT[project.category]}
+                  </span>
+                  <span className={`proj-status ${project.status}`}>
+                    <span
+                      className={`led ${isActive ? 'active' : 'done'}`}
+                      aria-hidden="true"
+                    />
+                    {STATUS_TEXT[project.status]}
+                  </span>
+                </div>
+
+                {/* 대표 이미지 또는 생성된 파형 */}
+                <div className="proj-visual">
+                  {thumb ? (
+                    <img src={thumb} alt="" loading="lazy" />
+                  ) : (
+                    <ProjectCover project={project} height={96} />
+                  )}
+                </div>
+
+                <div className="proj-body">
+                  <h3 className="proj-title">{project.title}</h3>
+                  <p className="proj-summary">{project.summary}</p>
+
+                  {project.metrics && project.metrics.length > 0 && (
+                    <dl className="proj-metrics">
+                      {project.metrics.slice(0, 3).map((m) => (
+                        <div key={m.label} className="proj-metric">
+                          <dt className="mono-label">{m.label}</dt>
+                          <dd className="readout">{m.value}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  )}
+
+                  <div className="proj-tech">
+                    {project.technologies.slice(0, 4).map((tech) => (
+                      <span key={tech} className="tech-tag">
+                        {tech}
+                      </span>
+                    ))}
+                    {project.technologies.length > 4 && (
+                      <span className="tech-more">
+                        +{project.technologies.length - 4}
+                      </span>
+                    )}
+                  </div>
+                </div>
+
+                <div className="proj-card-foot">
+                  <span className="readout-sm">
+                    {project.startDate} — {project.endDate || '현재'}
+                  </span>
+                  <span className="readout-sm">
+                    {project.teamSize === 1 ? '단독' : `${project.teamSize}인`}
+                  </span>
+                  <span className="proj-go">자세히 →</span>
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
     </section>

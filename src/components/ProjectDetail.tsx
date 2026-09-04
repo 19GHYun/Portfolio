@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { getProjectImages } from '../utils/projectImages';
 import ImageLightbox from './ImageLightbox';
+import ProjectCover from './ProjectCover';
 import './ProjectDetail.css';
 
 const ProjectDetail: React.FC = () => {
@@ -65,6 +66,7 @@ const ProjectDetail: React.FC = () => {
       case 'ai': return '인공지능';
       case 'research': return '연구';
       case 'etc': return '기타';
+      case 'hardware': return '하드웨어';
       default: return category;
     }
   };
@@ -83,20 +85,50 @@ const ProjectDetail: React.FC = () => {
             ← 프로젝트 목록으로
           </button>
           <div className="project-title-section">
+            <div className="project-eyebrow mono-label">
+              PROJECT {project.id.padStart(2, '0')} /{' '}
+              {getCategoryText(project.category)}
+            </div>
             <h1 className="project-title">{project.title}</h1>
+            <p className="project-summary-lead">{project.summary}</p>
             <div className="project-meta">
               <span className={`status-badge ${project.status}`}>
+                <span
+                  className={`led ${
+                    project.status === 'in-progress' ? 'active' : 'done'
+                  }`}
+                  aria-hidden="true"
+                />
                 {getStatusText(project.status)}
-              </span>
-              <span className="category-badge">
-                {getCategoryText(project.category)}
               </span>
               <span className="period-badge">
                 {project.startDate} ~ {project.endDate || '현재'}
               </span>
+              <span className="period-badge">
+                {project.teamSize === 1 ? '단독 개발' : `${project.teamSize}인`}
+              </span>
             </div>
           </div>
         </div>
+
+        {/* 대표 수치 */}
+        {project.metrics && project.metrics.length > 0 && (
+          <dl className="detail-metrics">
+            {project.metrics.map((m) => (
+              <div key={m.label} className="detail-metric">
+                <dt className="mono-label">{m.label}</dt>
+                <dd className="readout">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+
+        {/* 이미지가 없는 프로젝트는 생성된 파형으로 머리그림을 대신한다 */}
+        {galleryImages.length === 0 && (
+          <div className="detail-cover panel">
+            <ProjectCover project={project} height={150} />
+          </div>
+        )}
 
         {/* 프로젝트 개요 */}
         <div className="project-overview">
