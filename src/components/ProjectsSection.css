@@ -74,6 +74,47 @@
     0 0 0 1px rgba(74, 222, 128, 0.08);
 }
 
+/* 카드 위를 한 번 훑고 지나가는 스캔 라인 */
+.proj-visual::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--phosphor),
+    var(--cyan),
+    transparent
+  );
+  opacity: 0;
+  transform: translateY(0);
+  pointer-events: none;
+}
+
+.proj-card:hover .proj-visual::after {
+  animation: card-scan 1.1s ease-in-out;
+}
+
+@keyframes card-scan {
+  0% {
+    opacity: 0;
+    transform: translateY(0);
+  }
+  15% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.85;
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(150px);
+  }
+}
+
 /* 상단 바 */
 .proj-card-bar {
   display: flex;
@@ -256,6 +297,10 @@
   .proj-visual img,
   .proj-go {
     transition: none;
+  }
+
+  .proj-card:hover .proj-visual::after {
+    animation: none;
   }
 
   .proj-card:hover {

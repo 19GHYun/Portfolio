@@ -99,6 +99,22 @@ body::before {
   -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 30%, #000 30%, transparent 100%);
 }
 
+/* CRT 주사선. 아주 옅게 깔아서 화면에 질감만 준다 */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.014) 0px,
+    rgba(255, 255, 255, 0.014) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
 .App {
   padding-top: 56px; /* 헤더 높이 */
   position: relative;
@@ -142,27 +158,57 @@ main {
   border-radius: var(--radius);
 }
 
+/* 네 모서리의 눈금.
+ * 패널 안쪽 헤더 바가 배경을 덮기 때문에 z-index 로 위에 띄운다. */
 .panel::before,
 .panel::after {
   content: '';
   position: absolute;
-  width: 7px;
-  height: 7px;
-  border-color: var(--line-strong);
-  border-style: solid;
+  inset: -1px;
   pointer-events: none;
+  z-index: 2;
+  border: 0 solid var(--phosphor);
+  transition: border-color 0.3s ease;
 }
 
 .panel::before {
-  top: -1px;
-  left: -1px;
-  border-width: 1px 0 0 1px;
+  border-top-width: 1px;
+  border-left-width: 1px;
+  clip-path: polygon(
+    0 0,
+    9px 0,
+    9px 1px,
+    1px 1px,
+    1px 9px,
+    0 9px,
+    0 100%,
+    9px 100%,
+    9px calc(100% - 1px),
+    1px calc(100% - 1px),
+    1px calc(100% - 9px),
+    0 calc(100% - 9px)
+  );
+  border-bottom-width: 1px;
 }
 
 .panel::after {
-  bottom: -1px;
-  right: -1px;
-  border-width: 0 1px 1px 0;
+  border-top-width: 1px;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  clip-path: polygon(
+    100% 0,
+    calc(100% - 9px) 0,
+    calc(100% - 9px) 1px,
+    calc(100% - 1px) 1px,
+    calc(100% - 1px) 9px,
+    100% 9px,
+    100% 100%,
+    calc(100% - 9px) 100%,
+    calc(100% - 9px) calc(100% - 1px),
+    calc(100% - 1px) calc(100% - 1px),
+    calc(100% - 1px) calc(100% - 9px),
+    100% calc(100% - 9px)
+  );
 }
 
 /* 상태 LED */
