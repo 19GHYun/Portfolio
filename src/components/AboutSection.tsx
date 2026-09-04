@@ -11,10 +11,11 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
         <div className="hero-content">
           <div className="profile-image-container">
             <div className="profile-image">
-              <img 
-                src="/images/profile.jpg" 
-                alt="Profile" 
-              />
+              {/* 프로필 사진 비공개 처리 (83db034). 다시 넣으려면 public/images/profile.jpg 를
+                  복구하고 이 span 을 <img src="/images/profile.jpg" alt="Profile" /> 로 되돌린다 */}
+              <span className="profile-initials" aria-label="윤경호">
+                YGH
+              </span>
               <div className="profile-ring"></div>
             </div>
           </div>
