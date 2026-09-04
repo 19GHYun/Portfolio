@@ -75,6 +75,7 @@ const Header: React.FC<HeaderProps> = () => {
             <li><button onClick={() => handleNavClick('about')}>소개</button></li>
             <li><button onClick={() => handleNavClick('profile')}>프로필</button></li>
             <li><button onClick={() => handleNavClick('skills')}>스킬</button></li>
+            <li><button onClick={() => handleNavClick('workmap')}>워크맵</button></li>
             <li><button onClick={() => handleNavClick('projects')}>프로젝트</button></li>
           </ul>
         </nav>

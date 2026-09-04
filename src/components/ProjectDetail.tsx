@@ -1,13 +1,28 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { getProjectImages } from '../utils/projectImages';
+import ImageLightbox from './ImageLightbox';
 import './ProjectDetail.css';
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   const project = projects.find(p => p.id === id);
+
+  // projects.ts에 직접 적은 이미지 + src/assets/projects/<id>/ 에서 자동 수집한 이미지
+  const galleryImages = useMemo(() => {
+    if (!project) return [];
+
+    const declared = (project.images || []).map((src, index) => ({
+      src,
+      description: project.imageDescriptions?.[index] || '',
+    }));
+
+    return [...declared, ...getProjectImages(project.id)];
+  }, [project]);
 
   const handleBackToProjects = () => {
     navigate('/', { replace: true });
@@ -112,24 +127,40 @@ const ProjectDetail: React.FC = () => {
         </div>
 
         {/* 프로젝트 이미지 */}
-        {project.images && project.images.length > 0 && (
+        {galleryImages.length > 0 && (
           <div className="project-section">
             <h2>프로젝트 이미지</h2>
             <div className="project-images">
-              {project.images.map((image, index) => (
+              {galleryImages.map((image, index) => (
                 <div key={index} className="image-container">
-                  <img
-                    src={image}
-                    alt={project.imageDescriptions?.[index] || `${project.title} 이미지 ${index + 1}`}
-                    className="project-image"
-                  />
-                  {project.imageDescriptions?.[index] && (
-                    <p className="image-description">{project.imageDescriptions[index]}</p>
+                  <button
+                    type="button"
+                    className="image-zoom-button"
+                    onClick={() => setLightboxIndex(index)}
+                    aria-label={`${image.description || `${project.title} 이미지 ${index + 1}`} 크게 보기`}
+                  >
+                    <img
+                      src={image.src}
+                      alt={image.description || `${project.title} 이미지 ${index + 1}`}
+                      className="project-image"
+                    />
+                  </button>
+                  {image.description && (
+                    <p className="image-description">{image.description}</p>
                   )}
                 </div>
               ))}
             </div>
           </div>
+        )}
+
+        {lightboxIndex !== null && (
+          <ImageLightbox
+            images={galleryImages}
+            index={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+            onNavigate={setLightboxIndex}
+          />
         )}
 
         {/* 주요 기능 */}
