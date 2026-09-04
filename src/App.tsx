@@ -4,6 +4,7 @@ import Header from './components/Header';
 import AboutSection from './components/AboutSection';
 import ProfileSection from './components/ProfileSection';
 import SkillsSection from './components/SkillsSection';
+import WorkMapSection from './components/WorkMapSection';
 import ProjectsSection from './components/ProjectsSection';
 import Footer from './components/Footer';
 import ScrollToTop from './components/ScrollToTop';
@@ -18,6 +19,7 @@ const MainPage: React.FC = () => (
       <AboutSection />
       <ProfileSection />
       <SkillsSection />
+      <WorkMapSection />
       <ProjectsSection />
     </main>
     <Footer />
