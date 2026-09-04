@@ -1,69 +1,94 @@
+/* Footer.css - 하단 상태 표시줄 */
+
 .footer {
-  background: var(--gradient);
-  border-top: 2px solid var(--secondary-color);
-  color: var(--text-light);
-  padding: 3rem 0;
+  border-top: 1px solid var(--line);
+  background: var(--bg-inset);
+  padding: var(--sp-12) 0 var(--sp-8);
   position: relative;
-}
-
-.footer::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: var(--mint-gradient);
-}
-
-.footer .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 2rem;
-}
-
-.footer-content {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.5rem;
-}
-
-.footer-content p {
-  margin: 0;
-  color: var(--text-muted);
-  font-size: 0.95rem;
+  z-index: 1;
 }
 
 .footer-links {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  gap: var(--sp-6);
+  padding-bottom: var(--sp-8);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .footer-links a {
-  color: var(--text-light);
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
   text-decoration: none;
-  font-weight: 500;
-  padding: 0.5rem 1rem;
-  border-radius: 8px;
-  transition: all 0.3s ease;
   position: relative;
+  padding-bottom: 2px;
+  transition: color 0.2s ease;
+}
+
+.footer-links a::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1px;
+  background: var(--phosphor);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.25s ease;
 }
 
 .footer-links a:hover {
-  color: var(--secondary-color);
-  background-color: rgba(74, 222, 128, 0.1);
-  transform: translateY(-2px);
+  color: var(--phosphor);
+}
+
+.footer-links a:hover::after {
+  transform: scaleX(1);
+}
+
+.footer-status {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-6);
+  padding-top: var(--sp-4);
+}
+
+.footer-status .mono-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--sp-2);
+}
+
+.footer-status .mono-label:last-child {
+  margin-left: auto;
 }
 
 @media (max-width: 768px) {
-  .footer-content {
-    flex-direction: column;
-    text-align: center;
+  .footer {
+    padding: var(--sp-8) 0 var(--sp-6);
   }
-  
-  .footer .container {
-    padding: 0 1rem;
+
+  .footer-links {
+    gap: var(--sp-4);
+    padding-bottom: var(--sp-6);
+  }
+
+  .footer-status {
+    gap: var(--sp-3);
+  }
+
+  .footer-status .mono-label:last-child {
+    margin-left: 0;
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer-links a,
+  .footer-links a::after {
+    transition: none;
   }
 }

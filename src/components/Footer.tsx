@@ -1,23 +1,44 @@
 import React from 'react';
+import { stats } from '../utils/projectStats';
 import './Footer.css';
 
 interface FooterProps {}
 
-const Footer: React.FC<FooterProps> = () => {
-  return (
-    <footer className="footer">
-      <div className="container">
-        <div className="footer-content">
-          <p>&copy; 2025 19YGH_Portfolio. All rights reserved.</p>
-          <div className="footer-links">
-            <a href="mailto:zxcvting1@gmail.com">Email</a>
-            <a href="https://github.com/19GHYun" target="_blank" rel="noopener noreferrer">GitHub</a>
-            <a href="https://solved.ac/profile/zxcvting1" target="_blank" rel="noopener noreferrer">Solved</a>
-          </div>
-        </div>
+const LINKS = [
+  { label: 'EMAIL', href: 'mailto:zxcvting1@gmail.com' },
+  { label: 'GITHUB', href: 'https://github.com/19GHYun' },
+  { label: 'SOLVED.AC', href: 'https://solved.ac/profile/zxcvting1' },
+];
+
+const Footer: React.FC<FooterProps> = () => (
+  <footer className="footer">
+    <div className="container">
+      <div className="footer-links">
+        {LINKS.map((link) => (
+          <a
+            key={link.label}
+            href={link.href}
+            target={link.href.startsWith('http') ? '_blank' : undefined}
+            rel={link.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+          >
+            {link.label}
+          </a>
+        ))}
       </div>
-    </footer>
-  );
-};
+
+      {/* 계측기 하단 상태 표시줄 */}
+      <div className="footer-status">
+        <span className="mono-label">
+          <span className="led active" aria-hidden="true" />
+          {stats.total} PROJECTS
+        </span>
+        <span className="mono-label">
+          {stats.firstYear}—{stats.lastYear}
+        </span>
+        <span className="mono-label">© 2026 YOON GYEONGHO</span>
+      </div>
+    </div>
+  </footer>
+);
 
 export default Footer;

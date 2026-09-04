@@ -15,6 +15,7 @@ export const projects: Project[] = [
     endDate: '2024-08',
     teamSize: 1,
     myRole: '서버 네트워크 개발 및 최적화',
+    metrics: [{ label: '동시 접속', value: '10인' }, { label: '검증', value: 'TTA 통과' }, { label: '학회', value: 'IPIU 2024' }],
     features: [
       '실시간 XR 렌더링 최적화',
       '저지연 네트워크 통신 구현',
@@ -53,6 +54,7 @@ export const projects: Project[] = [
     endDate: '2024-06',
     teamSize: 3,
     myRole: '시스템 설계 및 AI 후처리 개발',
+    metrics: [{ label: '수신 데이터', value: '10GB+' }, { label: '학회', value: 'KICS 2024' }],
     features: [
       '라즈베리파이 기반 위성 기지국 구축',
       'RTL-SDR 안테나를 이용한 위성 신호 수신',
@@ -128,6 +130,7 @@ export const projects: Project[] = [
     endDate: '2023-03',
     teamSize: 2,
     myRole: 'Full Stack Developer',
+    metrics: [{ label: '협동 플레이', value: '최대 7인' }],
     features: [
       '최대 7인 협동 게임',
       '다양한 맵과 기믹',
@@ -171,6 +174,7 @@ export const projects: Project[] = [
     endDate: '2024-06',
     teamSize: 2,
     myRole: 'Main Developer',
+    metrics: [{ label: '협업', value: 'KAIST' }],
     features: [
       'ISO 15693 NFC 통신 구현',
       '실시간 데이터 그래프 시각화',
@@ -260,6 +264,7 @@ export const projects: Project[] = [
     endDate: '2025-08',
     teamSize: 6,
     myRole: 'AI Developer',
+    metrics: [{ label: '통신 지연', value: '400ms → 100ms' }, { label: '인식 객체', value: '80 → 1200' }, { label: '추론 속도', value: '최대 10×' }],
     features: [
       '실시간 게임 플레이',
       'AI 기반 사용자 경험 향상',
@@ -368,6 +373,7 @@ export const projects: Project[] = [
     endDate: '2025-08',
     teamSize: 4,
     myRole: ' AI Developer, Frontend Developer',
+    metrics: [{ label: '신한 해커톤', value: '본선 진출' }],
     features: [
       'BNPL(선구매 후결제) 시스템 도입',
       '대학생 신용 평가 시스템 구축',
@@ -417,6 +423,7 @@ export const projects: Project[] = [
     endDate: '2025-09',
     teamSize: 6,
     myRole: ' AI Developer, Frontend Developer',
+    metrics: [{ label: '번호판 인식', value: '95%' }, { label: '결제 처리', value: '2초 이내' }],
   features: [
     '차량 번호판 자동 인식 시스템',
     '실시간 결제 처리',
@@ -458,6 +465,7 @@ export const projects: Project[] = [
     endDate: '2026-02',
     teamSize: 1,
     myRole: '앱 플러그인 및 센서 펌웨어 개발',
+    metrics: [{ label: '통신 경로', value: '3종' }, { label: '스프린트 이슈', value: '9+' }],
     features: [
       '임베디드 센서와 안드로이드 단말 간 3종 통신 경로 구현 (USB 시리얼 / BLE / Wi-Fi)',
       'NMEA 형식을 참고한 경량 텍스트 프로토콜 설계 및 파서 구현',
@@ -501,6 +509,7 @@ export const projects: Project[] = [
     startDate: '2026-06',
     teamSize: 1,
     myRole: '신호처리 알고리즘 설계, 분석 도구 및 장비 연동 개발, 배포',
+    metrics: [{ label: '펄스 분석', value: '24.6s → 4.3s' }, { label: '수신 대역폭', value: '76×' }, { label: 'PW 측정 오차', value: '0.07%' }],
     features: [
       '[OFDM] STFT 기반 방출 구간 검출 및 OFDM 여부 판정',
       '[OFDM] 부반송파 단위 변조 분류(BPSK / QPSK / 8PSK / QAM)와 스펙트로그램 위 2계층 시각화',
@@ -555,6 +564,7 @@ export const projects: Project[] = [
     startDate: '2026-08',
     teamSize: 1,
     myRole: '기획, 프로그래밍, 리소스 제작 (1인 개발)',
+    metrics: [{ label: '멀티플레이', value: '4인' }, { label: '커스텀 텍스처', value: '34종' }],
     features: [
       '4인 온라인 및 LAN 멀티플레이 리치 마작 (작혼 스타일 규칙)',
       '동방 Project 캐릭터 5인 선택 (하쿠레이 레이무 / 키리사메 마리사 / 이자요이 사쿠야 / 레밀리아 스칼렛 / 플랑드르 스칼렛)',

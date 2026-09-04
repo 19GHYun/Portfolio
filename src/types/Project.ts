@@ -12,6 +12,8 @@ export interface Project {
   endDate?: string;
   teamSize: number;
   myRole: string;
+  /** 카드와 상세 상단에 크게 띄울 대표 수치. 2~3개가 적당하다 */
+  metrics?: { label: string; value: string }[];
   features: string[];
   challenges: string[];
   solutions: string[];
