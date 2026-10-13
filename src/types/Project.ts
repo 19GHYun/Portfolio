@@ -12,6 +12,8 @@ export interface Project {
   endDate?: string;
   teamSize: number;
   myRole: string;
+  /** 대표 프로젝트. 기본 정렬에서 맨 앞에 고정되고 카드에 '대표' 표시가 붙는다 */
+  featured?: boolean;
   /** 카드와 상세 상단에 크게 띄울 대표 수치. 2~3개가 적당하다 */
   metrics?: { label: string; value: string }[];
   features: string[];

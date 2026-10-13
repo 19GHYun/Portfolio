@@ -54,6 +54,7 @@ export const projects: Project[] = [
     endDate: '2024-06',
     teamSize: 3,
     myRole: '시스템 설계 및 AI 후처리 개발',
+    featured: true,
     metrics: [{ label: '수신 데이터', value: '10GB+' }, { label: '학회', value: 'KICS 2024' }],
     features: [
       '라즈베리파이 기반 위성 기지국 구축',
@@ -465,6 +466,7 @@ export const projects: Project[] = [
     endDate: '2026-02',
     teamSize: 1,
     myRole: '앱 플러그인 및 센서 펌웨어 개발',
+    featured: true,
     metrics: [{ label: '통신 경로', value: '3종' }, { label: '스프린트 이슈', value: '9+' }],
     features: [
       '임베디드 센서와 안드로이드 단말 간 3종 통신 경로 구현 (USB 시리얼 / BLE / Wi-Fi)',
@@ -509,6 +511,7 @@ export const projects: Project[] = [
     startDate: '2026-06',
     teamSize: 1,
     myRole: '신호처리 알고리즘 설계, 분석 도구 및 장비 연동 개발, 배포',
+    featured: true,
     metrics: [{ label: '펄스 분석', value: '24.6s → 4.3s' }, { label: '수신 대역폭', value: '76×' }, { label: 'PW 측정 오차', value: '0.07%' }],
     features: [
       '[OFDM] STFT 기반 방출 구간 검출 및 OFDM 여부 판정',

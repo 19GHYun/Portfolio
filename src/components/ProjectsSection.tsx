@@ -28,12 +28,27 @@ const CATEGORY_TEXT: Record<Project['category'], string> = {
   game: 'GAME',
 };
 
-type SortKey = 'date-desc' | 'date-asc';
+type SortKey = 'featured' | 'date-desc' | 'date-asc';
 type FilterKey = 'all' | Project['category'];
+
+// 정렬 버튼을 누를 때마다 다음 방식으로 넘어간다
+const SORT_NEXT: Record<SortKey, SortKey> = {
+  featured: 'date-desc',
+  'date-desc': 'date-asc',
+  'date-asc': 'featured',
+};
+
+const SORT_LABEL: Record<SortKey, string> = {
+  featured: '대표 먼저 ★',
+  'date-desc': '최신순 ↓',
+  'date-asc': '오래된순 ↑',
+};
+
+const startOf = (p: Project) => new Date(`${p.startDate}-01`).getTime();
 
 const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
   const navigate = useNavigate();
-  const [sortBy, setSortBy] = useState<SortKey>('date-desc');
+  const [sortBy, setSortBy] = useState<SortKey>('featured');
   const [filter, setFilter] = useState<FilterKey>('all');
 
   // 실제로 존재하는 카테고리만 필터 버튼으로 노출한다
@@ -51,9 +66,12 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
         : projects.filter((p) => p.category === filter);
 
     return [...filtered].sort((a, b) => {
-      const da = new Date(`${a.startDate}-01`).getTime();
-      const db = new Date(`${b.startDate}-01`).getTime();
-      return sortBy === 'date-desc' ? db - da : da - db;
+      if (sortBy === 'date-asc') return startOf(a) - startOf(b);
+      // 기본(대표 먼저): 대표 프로젝트를 앞에 두고, 그 안에서는 최신순
+      if (sortBy === 'featured' && Boolean(a.featured) !== Boolean(b.featured)) {
+        return a.featured ? -1 : 1;
+      }
+      return startOf(b) - startOf(a);
     });
   }, [filter, sortBy]);
 
@@ -105,11 +123,9 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
           <button
             type="button"
             className="proj-sort"
-            onClick={() =>
-              setSortBy((s) => (s === 'date-desc' ? 'date-asc' : 'date-desc'))
-            }
+            onClick={() => setSortBy((s) => SORT_NEXT[s])}
           >
-            {sortBy === 'date-desc' ? '최신순 ↓' : '오래된순 ↑'}
+            {SORT_LABEL[sortBy]}
           </button>
         </div>
 
@@ -121,7 +137,9 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
             return (
               <article
                 key={project.id}
-                className="proj-card panel reveal"
+                className={`proj-card panel reveal ${
+                  project.featured ? 'is-featured' : ''
+                }`}
                 onClick={() => openProject(project.id)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
@@ -132,8 +150,11 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
                 role="link"
                 tabIndex={0}
               >
-                {/* 상단 바: 분야 / 상태 */}
+                {/* 상단 바: 대표 / 분야 / 상태 */}
                 <div className="proj-card-bar">
+                  {project.featured && (
+                    <span className="proj-featured">★ 대표</span>
+                  )}
                   <span className="mono-label">
                     {CATEGORY_TEXT[project.category]}
                   </span>
