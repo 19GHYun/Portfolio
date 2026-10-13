@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { Project } from '../types/Project';
 import { getProjectImages } from '../utils/projectImages';
+import { rememberScroll } from '../utils/scrollMemory';
 import ProjectCover from './ProjectCover';
 import SectionHeader from './SectionHeader';
 import './Section.css';
@@ -55,6 +56,12 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
       return sortBy === 'date-desc' ? db - da : da - db;
     });
   }, [filter, sortBy]);
+
+  // 돌아왔을 때 이 자리로 오도록 위치를 적어 두고 상세로 간다
+  const openProject = (id: string) => {
+    rememberScroll('/');
+    navigate(`/project/${id}`);
+  };
 
   // 대표 이미지가 있으면 쓰고, 없으면 파형 커버로 대신한다
   const thumbOf = (project: Project): string | null => {
@@ -115,21 +122,18 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
               <article
                 key={project.id}
                 className="proj-card panel reveal"
-                onClick={() => navigate(`/project/${project.id}`)}
+                onClick={() => openProject(project.id)}
                 onKeyDown={(e) => {
                   if (e.key === 'Enter' || e.key === ' ') {
                     e.preventDefault();
-                    navigate(`/project/${project.id}`);
+                    openProject(project.id);
                   }
                 }}
                 role="link"
                 tabIndex={0}
               >
-                {/* 상단 바: 번호 / 분야 / 상태 */}
+                {/* 상단 바: 분야 / 상태 */}
                 <div className="proj-card-bar">
-                  <span className="proj-id">
-                    {project.id.padStart(2, '0')}
-                  </span>
                   <span className="mono-label">
                     {CATEGORY_TEXT[project.category]}
                   </span>

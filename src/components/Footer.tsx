@@ -35,7 +35,7 @@ const Footer: React.FC<FooterProps> = () => (
         <span className="mono-label">
           {stats.firstYear}—{stats.lastYear}
         </span>
-        <span className="mono-label">© 2026 YOON GYEONGHO</span>
+        <span className="mono-label">© 2026 YUN GYOUNGHO</span>
       </div>
     </div>
   </footer>

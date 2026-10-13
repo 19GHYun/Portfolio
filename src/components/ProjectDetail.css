@@ -27,6 +27,32 @@
   transform: translateX(-3px);
 }
 
+/* 상세 맨 아래의 목록으로 돌아가기 */
+.bottom-navigation {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--sp-12);
+}
+
+.back-button-bottom {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  color: var(--text-dim);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 0.75rem 1.4rem;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+}
+
+.back-button-bottom:hover {
+  color: var(--phosphor);
+  border-color: var(--line-strong);
+  transform: translateX(-3px);
+}
+
 .project-header {
   margin-bottom: var(--sp-8);
 }

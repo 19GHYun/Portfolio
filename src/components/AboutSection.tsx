@@ -1,15 +1,17 @@
 import React from 'react';
 import { stats } from '../utils/projectStats';
+import { SKILL_COUNT } from '../data/skills';
 import './AboutSection.css';
 
 interface AboutSectionProps {}
 
-// 히어로 하단에 깔리는 계측값
+// 히어로 하단에 깔리는 계측값.
+// SKILLS 는 아래 스킬 섹션에 실제로 보이는 항목 수와 같은 값이다.
 const readouts = [
   { key: 'PROJECTS', value: String(stats.total) },
   { key: 'ACTIVE', value: String(stats.active) },
   { key: 'SPAN', value: `${stats.firstYear}—${stats.lastYear}` },
-  { key: 'STACK', value: String(stats.technologies) },
+  { key: 'SKILLS', value: String(SKILL_COUNT) },
 ];
 
 const AboutSection: React.FC<AboutSectionProps> = () => {
@@ -25,7 +27,7 @@ const AboutSection: React.FC<AboutSectionProps> = () => {
 
             <h1 className="hero-name">
               윤경호
-              <span className="hero-name-latin">YOON GYEONGHO</span>
+              <span className="hero-name-latin">YUN GYOUNGHO</span>
             </h1>
 
             <p className="hero-role">

@@ -47,7 +47,7 @@ export const projects: Project[] = [
     title: '저비용 위성 기지국 시스템 개발 및 이를 활용한 위성 데이터 처리',
     summary: '라즈베리파이를 활용한 위성 데이터 수신 및 처리 시스템',
     description: '라즈베리파이와 RTL-SDR 안테나를 이용하여 저비용 위성 기지국을 설계하고 위성 데이터를 실시간으로 수신, 처리하는 시스템을 개발했습니다. 스케줄링을 통해 위성사진을 받고, 이를 AI로 후처리 하여 서비스에 이용해보았다.',
-    technologies: ['Python', 'AWS', 'TensorFlow', 'Python', 'Raspberry Pi', 'RTL-SDR', 'KakaoTalk BOT', 'RF'],
+    technologies: ['Python', 'AWS', 'TensorFlow', 'Raspberry Pi', 'RTL-SDR', 'KakaoTalk BOT', 'RF'],
     category: 'research',
     status: 'completed',
     startDate: '2024-01',

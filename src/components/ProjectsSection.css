@@ -125,14 +125,6 @@
   background: var(--bg-inset);
 }
 
-.proj-id {
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: var(--phosphor);
-  letter-spacing: 0.06em;
-}
-
 .proj-card-bar .mono-label {
   flex: 1 1 auto;
 }

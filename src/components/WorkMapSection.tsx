@@ -1,8 +1,9 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { Project } from '../types/Project';
 import SectionHeader from './SectionHeader';
+import { rememberScroll } from '../utils/scrollMemory';
 import './Section.css';
 import './WorkMapSection.css';
 
@@ -109,8 +110,31 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
   }, []);
 
   const handleSelect = (projectId: string) => {
+    rememberScroll('/');
     navigate(`/project/${projectId}`);
   };
+
+  // 좁은 화면에서는 차트가 가로로 넘친다. 이때 왼쪽(2021년)부터 보이면
+  // 최근 프로젝트가 다 오른쪽에 몰려 있어 첫 화면이 비어 보이므로,
+  // 처음엔 오른쪽 끝(현재 시점)을 보여 주고 넘길 수 있다는 안내를 띄운다.
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const sync = () => {
+      const over = el.scrollWidth > el.clientWidth + 1;
+      setOverflowing(over);
+      return over;
+    };
+
+    if (sync()) el.scrollLeft = el.scrollWidth;
+
+    window.addEventListener('resize', sync);
+    return () => window.removeEventListener('resize', sync);
+  }, []);
 
   return (
     <section id="workmap" className="section workmap-section">
@@ -137,7 +161,11 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
           </span>
         </div>
 
-        <div className="workmap-scroll reveal">
+        {overflowing && (
+          <p className="workmap-hint mono-label">← 옆으로 넘기면 이전 프로젝트</p>
+        )}
+
+        <div className="workmap-scroll reveal" ref={scrollRef}>
           <div
             className="workmap-chart"
             style={{ ['--workmap-years' as string]: map.years.length }}
