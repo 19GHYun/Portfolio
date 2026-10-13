@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
-import { Project } from '../types/Project';
+import { CONTEXT_LABEL, Project } from '../types/Project';
 import { getProjectImages } from '../utils/projectImages';
 import { rememberScroll } from '../utils/scrollMemory';
 import ProjectCover from './ProjectCover';
@@ -155,6 +155,9 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
                   {project.featured && (
                     <span className="proj-featured">★ 대표</span>
                   )}
+                  <span className={`proj-context ${project.context}`}>
+                    {CONTEXT_LABEL[project.context]}
+                  </span>
                   <span className="mono-label">
                     {CATEGORY_TEXT[project.category]}
                   </span>

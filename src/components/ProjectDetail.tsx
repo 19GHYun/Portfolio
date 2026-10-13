@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { CONTEXT_LABEL } from '../types/Project';
 import { getProjectImages } from '../utils/projectImages';
 import { recallScroll } from '../utils/scrollMemory';
 import ImageLightbox from './ImageLightbox';
@@ -95,11 +96,15 @@ const ProjectDetail: React.FC = () => {
           <div className="project-title-section">
             <div className="project-eyebrow mono-label">
               PROJECT {project.id.padStart(2, '0')} /{' '}
-              {getCategoryText(project.category)}
+              {getCategoryText(project.category)} /{' '}
+              {CONTEXT_LABEL[project.context]}
             </div>
             <h1 className="project-title">{project.title}</h1>
             <p className="project-summary-lead">{project.summary}</p>
             <div className="project-meta">
+              <span className={`context-badge ${project.context}`}>
+                {CONTEXT_LABEL[project.context]}
+              </span>
               <span className={`status-badge ${project.status}`}>
                 <span
                   className={`led ${

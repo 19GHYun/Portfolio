@@ -1,5 +1,22 @@
 // Project.ts - 프로젝트 데이터 타입 정의
 
+export type ProjectContext =
+  | 'company'
+  | 'personal'
+  | 'ssafy'
+  | 'lab'
+  | 'undergrad'
+  | 'undergrad-lab';
+
+export const CONTEXT_LABEL: Record<ProjectContext, string> = {
+  company: '회사',
+  personal: '개인',
+  ssafy: 'SSAFY',
+  lab: '연구실',
+  undergrad: '학부',
+  'undergrad-lab': '학부 · 연구실',
+};
+
 export interface Project {
   id: string;
   title: string;
@@ -7,6 +24,8 @@ export interface Project {
   description: string;
   technologies: string[];
   category: 'web' | 'mobile' | 'desktop' | 'ai' | 'research' | 'etc' | 'hardware' | 'game';
+  /** 어디서 한 작업인지. 회사 업무인지 개인 작업인지 구분되도록 카드와 상세에 표시한다 */
+  context: ProjectContext;
   status: 'completed' | 'in-progress' | 'planned';
   startDate: string;
   endDate?: string;

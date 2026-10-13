@@ -147,6 +147,23 @@
   white-space: nowrap;
 }
 
+/* 어디서 한 작업인지: 회사 / 개인 / SSAFY / 연구실 / 학부 */
+.proj-context {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.04em;
+  color: var(--text-dim);
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
+  padding: 0.08rem 0.42rem;
+  white-space: nowrap;
+}
+
+.proj-context.company {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.45);
+}
+
 .proj-status {
   display: inline-flex;
   align-items: center;

@@ -109,6 +109,24 @@
   color: var(--text-dim);
 }
 
+.context-badge {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.688rem;
+  letter-spacing: 0.06em;
+  padding: 0.32rem 0.65rem;
+  border-radius: 2px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-panel);
+  color: var(--text);
+}
+
+.context-badge.company {
+  color: var(--cyan);
+  border-color: rgba(34, 211, 238, 0.45);
+}
+
 .status-badge.in-progress {
   color: var(--amber);
   border-color: rgba(251, 191, 36, 0.35);
