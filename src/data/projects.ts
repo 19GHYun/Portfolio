@@ -86,7 +86,7 @@ export const projects: Project[] = [
     title: '개인 포트폴리오 웹사이트',
     summary: 'React와 TypeScript로 구현한 반응형 포트폴리오 사이트',
     description: '현대적인 웹 기술을 활용하여 개인 포트폴리오를 제작했습니다. 반응형 디자인과 다양한 인터랙션을 구현하여 사용자 경험을 극대화했으며, 프로젝트 상세 페이지를 통해 체계적으로 작업물을 소개할 수 있도록 구성했습니다.',
-    technologies: ['React', 'TypeScript', 'CSS', 'React Router', 'Vite'],
+    technologies: ['React', 'TypeScript', 'CSS', 'React Router', 'Create React App'],
     category: 'web',
     status: 'in-progress',
     startDate: '2025-08',
