@@ -121,6 +121,26 @@ const scatter: Waveform = (rand) => {
   return toPath(pts);
 };
 
+// 게임: 던진 공이 바닥에 튀며 점점 낮아지는 궤적
+const bounce: Waveform = (rand) => {
+  const floor = H - 18;
+  const pts: number[][] = [];
+  let x = 0;
+  let height = 70 + rand() * 18;
+  while (x < W && height > 4) {
+    const span = 46 + height * 0.9 + rand() * 10;
+    for (let i = 0; i <= 24; i += 1) {
+      const u = i / 24;
+      // 포물선: 양 끝은 바닥, 가운데가 꼭대기
+      pts.push([x + u * span, floor - 4 * height * u * (1 - u)]);
+    }
+    x += span;
+    height *= 0.62 + rand() * 0.08;
+  }
+  pts.push([W, floor]);
+  return toPath(pts);
+};
+
 // 기타: 랜덤 워크
 const walk: Waveform = (rand) => {
   const pts: number[][] = [];
@@ -140,6 +160,7 @@ const BY_CATEGORY: Record<Project['category'], Waveform> = {
   desktop: chirp,
   web: eye,
   ai: scatter,
+  game: bounce,
   etc: walk,
 };
 

@@ -6,7 +6,7 @@ export interface Project {
   summary: string;
   description: string;
   technologies: string[];
-  category: 'web' | 'mobile' | 'desktop' | 'ai' | 'research' | 'etc' | 'hardware';
+  category: 'web' | 'mobile' | 'desktop' | 'ai' | 'research' | 'etc' | 'hardware' | 'game';
   status: 'completed' | 'in-progress' | 'planned';
   startDate: string;
   endDate?: string;

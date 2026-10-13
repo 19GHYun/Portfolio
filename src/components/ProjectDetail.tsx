@@ -67,6 +67,7 @@ const ProjectDetail: React.FC = () => {
       case 'research': return '연구';
       case 'etc': return '기타';
       case 'hardware': return '하드웨어';
+      case 'game': return '게임';
       default: return category;
     }
   };
