@@ -22,6 +22,7 @@ const CATEGORY_ORDER: Project['category'][] = [
   'desktop',
   'web',
   'ai',
+  'game',
   'etc',
 ];
 
@@ -32,6 +33,7 @@ const CATEGORY_LABEL: Record<Project['category'], string> = {
   desktop: '데스크톱',
   web: '웹 개발',
   ai: 'AI/ML',
+  game: '게임',
   etc: '기타',
 };
 

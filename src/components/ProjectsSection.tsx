@@ -24,6 +24,7 @@ const CATEGORY_TEXT: Record<Project['category'], string> = {
   research: 'RESEARCH',
   etc: 'ETC',
   hardware: 'HARDWARE',
+  game: 'GAME',
 };
 
 type SortKey = 'date-desc' | 'date-asc';
