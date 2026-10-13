@@ -1,7 +1,9 @@
 import React, { useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
+import { CONTEXT_LABEL } from '../types/Project';
 import { getProjectImages } from '../utils/projectImages';
+import { recallScroll } from '../utils/scrollMemory';
 import ImageLightbox from './ImageLightbox';
 import ProjectCover from './ProjectCover';
 import './ProjectDetail.css';
@@ -26,8 +28,14 @@ const ProjectDetail: React.FC = () => {
   }, [project]);
 
   const handleBackToProjects = () => {
+    // 목록에서 카드를 눌러 들어왔다면 보던 그 자리로 돌아간다
+    if (recallScroll('/') !== undefined) {
+      navigate('/', { replace: true, state: { restoreScroll: true } });
+      return;
+    }
+
+    // 상세 주소로 바로 들어온 경우엔 기억한 위치가 없으니 프로젝트 섹션으로
     navigate('/', { replace: true });
-    // 약간의 지연 후 프로젝트 섹션으로 스크롤
     setTimeout(() => {
       const projectsSection = document.getElementById('projects');
       if (projectsSection) {
@@ -88,11 +96,15 @@ const ProjectDetail: React.FC = () => {
           <div className="project-title-section">
             <div className="project-eyebrow mono-label">
               PROJECT {project.id.padStart(2, '0')} /{' '}
-              {getCategoryText(project.category)}
+              {getCategoryText(project.category)} /{' '}
+              {CONTEXT_LABEL[project.context]}
             </div>
             <h1 className="project-title">{project.title}</h1>
             <p className="project-summary-lead">{project.summary}</p>
             <div className="project-meta">
+              <span className={`context-badge ${project.context}`}>
+                {CONTEXT_LABEL[project.context]}
+              </span>
               <span className={`status-badge ${project.status}`}>
                 <span
                   className={`led ${

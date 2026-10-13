@@ -1,8 +1,15 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CAREER } from '../data/career';
+import { projects } from '../data/projects';
+import { rememberScroll } from '../utils/scrollMemory';
 import SectionHeader from './SectionHeader';
 import CertificateModal from './CertificateModal';
 import './Section.css';
 import './ProfileSection.css';
+
+// 'YYYY-MM' -> 'YYYY.MM'
+const dotted = (value: string) => value.replace('-', '.');
 
 interface ProfileSectionProps {}
 
@@ -24,12 +31,69 @@ const ProfileSection: React.FC<ProfileSectionProps> = () => {
 
   const close = () => setModal({ isOpen: false, title: '', pdfPath: '' });
 
+  const navigate = useNavigate();
+  const openProject = (id: string) => {
+    rememberScroll('/');
+    navigate(`/project/${id}`);
+  };
+
   return (
     <section id="profile" className="section">
       <div className="container">
         <SectionHeader index="SEC 02" title="프로필" meta="IDENTITY" />
 
         <div className="profile-grid">
+          {/* 경력: 회사에서 한 프로젝트는 projects.ts 의 context 로 자동으로 모은다 */}
+          <div className="profile-panel panel reveal profile-panel-wide">
+            <div className="profile-panel-bar">
+              <span className="mono-label">CAREER</span>
+              <h3 className="profile-panel-title">경력</h3>
+            </div>
+            <div className="profile-panel-body">
+              {CAREER.map((job) => {
+                const work = projects
+                  .filter((p) => p.context === job.context)
+                  .sort((a, b) => b.startDate.localeCompare(a.startDate));
+
+                return (
+                  <div key={job.start} className="career">
+                    <div className="career-period readout">
+                      {dotted(job.start)} — {job.end ? dotted(job.end) : '현재'}
+                    </div>
+                    <div className="career-main">
+                      <div className="career-head">
+                        <span className="career-role">{job.role}</span>
+                        <span className="career-org">{job.org}</span>
+                        {!job.end && (
+                          <span className="career-now">
+                            <span className="led active" aria-hidden="true" />
+                            재직 중
+                          </span>
+                        )}
+                      </div>
+                      <ul className="career-work">
+                        {work.map((p) => (
+                          <li key={p.id}>
+                            <button
+                              type="button"
+                              className="career-link"
+                              onClick={() => openProject(p.id)}
+                            >
+                              {p.title}
+                            </button>
+                            <span className="career-when">
+                              {dotted(p.startDate)} — {p.endDate ? dotted(p.endDate) : '현재'}
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
           {/* 기본 정보 */}
           <div className="profile-panel panel reveal">
             <div className="profile-panel-bar">
