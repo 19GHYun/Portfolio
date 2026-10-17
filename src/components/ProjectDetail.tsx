@@ -57,6 +57,12 @@ const ProjectDetail: React.FC = () => {
     );
   }
 
+  // 배너로 띄운 첫 이미지는 아래 이미지 목록에서 빼고, 눌렀을 때만 라이트박스에서 함께 넘겨 본다
+  const banner = project.coverBanner ? galleryImages[0] : undefined;
+  const listedImages = galleryImages
+    .map((image, index) => ({ image, index }))
+    .filter(({ index }) => !(banner && index === 0));
+
   const getStatusText = (status: string) => {
     switch (status) {
       case 'completed': return '완료';
@@ -136,6 +142,17 @@ const ProjectDetail: React.FC = () => {
           </dl>
         )}
 
+        {banner && (
+          <button
+            type="button"
+            className="detail-banner panel"
+            onClick={() => setLightboxIndex(0)}
+            aria-label={`${banner.description || project.title} 크게 보기`}
+          >
+            <img src={banner.src} alt={banner.description || project.title} />
+          </button>
+        )}
+
         {/* 이미지가 없는 프로젝트는 생성된 파형으로 머리그림을 대신한다 */}
         {galleryImages.length === 0 && (
           <div className="detail-cover panel">
@@ -172,11 +189,11 @@ const ProjectDetail: React.FC = () => {
         </div>
 
         {/* 프로젝트 이미지 */}
-        {galleryImages.length > 0 && (
+        {listedImages.length > 0 && (
           <div className="project-section">
             <h2>프로젝트 이미지</h2>
             <div className="project-images">
-              {galleryImages.map((image, index) => (
+              {listedImages.map(({ image, index }) => (
                 <div key={index} className="image-container">
                   <button
                     type="button"
@@ -282,6 +299,11 @@ const ProjectDetail: React.FC = () => {
           {project.demoUrl && (
             <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="link-button demo">
               🚀 데모 보기
+            </a>
+          )}
+          {project.gameUrl && (
+            <a href={project.gameUrl} target="_blank" rel="noopener noreferrer" className="link-button game">
+              🎮 게임 페이지 · 다운로드
             </a>
           )}
           {project.githubUrl && (
