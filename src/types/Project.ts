@@ -41,7 +41,11 @@ export interface Project {
   results: string[];
   images: string[];
   imageDescriptions?: string[];
+  /** 첫 번째 이미지를 상세 페이지 위쪽에 큰 배너로 띄운다. 게임 타이틀처럼 가로로 긴 대표 그림용 */
+  coverBanner?: boolean;
   demoUrl?: string;
+  /** 공개한 게임의 소개 · 다운로드 페이지 */
+  gameUrl?: string;
   githubUrl?: string;
   youtubeUrl?: string;
   namuWikiUrl?: string;

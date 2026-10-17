@@ -172,6 +172,30 @@
   background: var(--bg-inset);
 }
 
+/* 대표 그림 배너 (coverBanner) */
+.detail-banner {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: var(--sp-8);
+  background: var(--bg-inset);
+  cursor: zoom-in;
+  overflow: hidden;
+  transition: border-color 0.25s ease;
+}
+
+.detail-banner:hover {
+  border-color: var(--line-strong);
+}
+
+.detail-banner img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+}
+
 /* ── 개요 ─────────────────────────────────── */
 
 .project-overview {
@@ -512,7 +536,8 @@
   .back-button,
   .link-button,
   .tech-badge,
-  .image-container {
+  .image-container,
+  .detail-banner {
     transition: none;
   }
 
