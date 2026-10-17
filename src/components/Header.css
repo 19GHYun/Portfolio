@@ -59,10 +59,10 @@
 }
 
 .nav-list button {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0;
   color: var(--text-faint);
   background: none;
   border: none;
@@ -84,12 +84,81 @@
   transition: transform 0.22s ease;
 }
 
-.nav-list button:hover {
+.nav-list button:hover,
+.nav-list button.is-active {
   color: var(--phosphor);
 }
 
-.nav-list button:hover::after {
+.nav-list button:hover::after,
+.nav-list button.is-active::after {
   transform: scaleX(1);
+}
+
+.nav-index {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--phosphor-dim);
+  margin-right: 0.45em;
+}
+
+.nav-list button.is-active .nav-index {
+  color: var(--phosphor);
+}
+
+/* 스크롤 진행도 */
+.header-progress {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+.header-progress span {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--phosphor-dim), var(--phosphor) 70%, var(--cyan));
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.6);
+  transform-origin: left center;
+  transition: transform 0.12s linear;
+}
+
+/* 빠른 이동 버튼 */
+.nav {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.search-btn {
+  order: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.45rem 0.3rem 0.65rem;
+  font: inherit;
+  font-size: 0.78rem;
+  color: var(--text-faint);
+  background: var(--bg-panel);
+  border: 1px solid var(--line);
+  border-radius: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.search-btn:hover {
+  color: var(--phosphor);
+  border-color: var(--line-strong);
+}
+
+.search-btn kbd {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  padding: 0.05rem 0.3rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 2px;
 }
 
 /* 모바일 토글 */
@@ -127,9 +196,14 @@
   transform: translateY(-5px) rotate(-45deg);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   .menu-toggle {
     display: flex;
+    order: 3;
+  }
+
+  .search-btn kbd {
+    display: none;
   }
 
   .nav {
