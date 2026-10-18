@@ -1,92 +1,74 @@
 import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
-import { CONTEXT_LABEL, Project } from '../types/Project';
-import { getProjectImages } from '../utils/projectImages';
+import { findSkill, projectsUsing } from '../data/skills';
+import { Project, ProjectContext } from '../types/Project';
+import { CATEGORY_CODE, CATEGORY_ORDER, byNewest } from '../utils/projectMeta';
 import { rememberScroll } from '../utils/scrollMemory';
-import ProjectCover from './ProjectCover';
+import ProjectCard from './ProjectCard';
 import SectionHeader from './SectionHeader';
 import './Section.css';
 import './ProjectsSection.css';
 
-interface ProjectsSectionProps {}
+interface ProjectsSectionProps {
+  /** 스킬 섹션에서 고른 기술 */
+  tech: string | null;
+  onClearTech: () => void;
+}
 
-const STATUS_TEXT: Record<Project['status'], string> = {
-  completed: '완료',
-  'in-progress': '진행중',
-  planned: '계획',
-};
+// 맥락 필터. 학부 · 연구실 프로젝트는 '연구실'과 '학부' 양쪽에 다 잡힌다
+const CONTEXT_FILTERS: { key: string; label: string; color: string; has: ProjectContext[] }[] = [
+  { key: 'company', label: '회사', color: 'var(--ctx-company)', has: ['company'] },
+  { key: 'personal', label: '개인', color: 'var(--ctx-personal)', has: ['personal'] },
+  { key: 'ssafy', label: 'SSAFY', color: 'var(--ctx-ssafy)', has: ['ssafy'] },
+  { key: 'lab', label: '연구실', color: 'var(--ctx-lab)', has: ['lab', 'undergrad-lab'] },
+  { key: 'undergrad', label: '학부', color: 'var(--ctx-undergrad)', has: ['undergrad', 'undergrad-lab'] },
+];
 
-const CATEGORY_TEXT: Record<Project['category'], string> = {
-  web: 'WEB',
-  mobile: 'MOBILE',
-  desktop: 'DESKTOP',
-  ai: 'AI/ML',
-  research: 'RESEARCH',
-  etc: 'ETC',
-  hardware: 'HARDWARE',
-  game: 'GAME',
-};
+type SortKey = 'newest' | 'oldest';
 
-type SortKey = 'featured' | 'date-desc' | 'date-asc';
-type FilterKey = 'all' | Project['category'];
-
-// 정렬 버튼을 누를 때마다 다음 방식으로 넘어간다
-const SORT_NEXT: Record<SortKey, SortKey> = {
-  featured: 'date-desc',
-  'date-desc': 'date-asc',
-  'date-asc': 'featured',
-};
-
-const SORT_LABEL: Record<SortKey, string> = {
-  featured: '대표 먼저 ★',
-  'date-desc': '최신순 ↓',
-  'date-asc': '오래된순 ↑',
-};
-
-const startOf = (p: Project) => new Date(`${p.startDate}-01`).getTime();
-
-const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
+const ProjectsSection: React.FC<ProjectsSectionProps> = ({ tech, onClearTech }) => {
   const navigate = useNavigate();
-  const [sortBy, setSortBy] = useState<SortKey>('featured');
-  const [filter, setFilter] = useState<FilterKey>('all');
+  const [ctx, setCtx] = useState<string>('all');
+  const [category, setCategory] = useState<'all' | Project['category']>('all');
+  const [sortBy, setSortBy] = useState<SortKey>('newest');
 
-  // 실제로 존재하는 카테고리만 필터 버튼으로 노출한다
+  const skill = tech ? findSkill(tech) : undefined;
+
+  // 실제로 존재하는 분야만 버튼으로 노출한다
   const categories = useMemo(() => {
     const present = new Set(projects.map((p) => p.category));
-    return (Object.keys(CATEGORY_TEXT) as Project['category'][]).filter((c) =>
-      present.has(c)
-    );
+    return CATEGORY_ORDER.filter((c) => present.has(c));
   }, []);
 
   const visible = useMemo(() => {
-    const filtered =
-      filter === 'all'
-        ? projects
-        : projects.filter((p) => p.category === filter);
+    const ctxFilter = CONTEXT_FILTERS.find((f) => f.key === ctx);
+    const techSet = skill ? new Set(projectsUsing(skill).map((p) => p.id)) : null;
+    const list = projects.filter(
+      (p) =>
+        (!ctxFilter || ctxFilter.has.includes(p.context)) &&
+        (category === 'all' || p.category === category) &&
+        (!techSet || techSet.has(p.id))
+    );
+    list.sort(byNewest);
+    if (sortBy === 'oldest') list.reverse();
+    return list;
+  }, [ctx, category, sortBy, skill]);
 
-    return [...filtered].sort((a, b) => {
-      if (sortBy === 'date-asc') return startOf(a) - startOf(b);
-      // 기본(대표 먼저): 대표 프로젝트를 앞에 두고, 그 안에서는 최신순
-      if (sortBy === 'featured' && Boolean(a.featured) !== Boolean(b.featured)) {
-        return a.featured ? -1 : 1;
-      }
-      return startOf(b) - startOf(a);
-    });
-  }, [filter, sortBy]);
+  const countFor = (has: ProjectContext[]) => projects.filter((p) => has.includes(p.context)).length;
 
-  // 돌아왔을 때 이 자리로 오도록 위치를 적어 두고 상세로 간다
   const openProject = (id: string) => {
     rememberScroll('/');
     navigate(`/project/${id}`);
   };
 
-  // 대표 이미지가 있으면 쓰고, 없으면 파형 커버로 대신한다
-  const thumbOf = (project: Project): string | null => {
-    if (project.images && project.images.length > 0) return project.images[0];
-    const auto = getProjectImages(project.id);
-    return auto.length > 0 ? auto[0].src : null;
+  const resetAll = () => {
+    setCtx('all');
+    setCategory('all');
+    onClearTech();
   };
+
+  const filtered = ctx !== 'all' || category !== 'all' || Boolean(skill);
 
   return (
     <section id="projects" className="section">
@@ -95,132 +77,100 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = () => {
           index="SEC 05"
           title="프로젝트"
           meta={`${visible.length} / ${projects.length} ENTRIES`}
-          lead="연구실에서 시작해 실무까지 이어진 작업들입니다. 카드를 누르면 문제와 해결 과정, 실측 결과까지 볼 수 있습니다."
+          lead="연구실에서 시작해 실무와 개인 작업까지 이어진 기록입니다. 카드를 누르면 문제와 해결 과정, 실측 결과까지 볼 수 있습니다."
         />
 
-        {/* 필터 바 */}
+        {/* 필터 */}
         <div className="proj-controls">
-          <div className="proj-filters" role="group" aria-label="분야 필터">
+          <div className="proj-ctx" role="group" aria-label="어디서 한 작업인지">
             <button
               type="button"
-              className={`proj-filter ${filter === 'all' ? 'is-on' : ''}`}
-              onClick={() => setFilter('all')}
+              className={`proj-ctx-btn ${ctx === 'all' ? 'is-on' : ''}`}
+              onClick={() => setCtx('all')}
             >
-              ALL
+              전체 <span className="proj-ctx-n">{projects.length}</span>
             </button>
-            {categories.map((c) => (
+            {CONTEXT_FILTERS.map((f) => (
               <button
-                key={c}
+                key={f.key}
                 type="button"
-                className={`proj-filter ${filter === c ? 'is-on' : ''}`}
-                onClick={() => setFilter(c)}
+                className={`proj-ctx-btn ${ctx === f.key ? 'is-on' : ''}`}
+                style={{ ['--ctx' as string]: f.color }}
+                onClick={() => setCtx(ctx === f.key ? 'all' : f.key)}
               >
-                {CATEGORY_TEXT[c]}
+                <span className="proj-ctx-dot" aria-hidden="true" />
+                {f.label} <span className="proj-ctx-n">{countFor(f.has)}</span>
               </button>
             ))}
           </div>
 
-          <button
-            type="button"
-            className="proj-sort"
-            onClick={() => setSortBy((s) => SORT_NEXT[s])}
-          >
-            {SORT_LABEL[sortBy]}
-          </button>
-        </div>
-
-        <div className="proj-grid">
-          {visible.map((project) => {
-            const thumb = thumbOf(project);
-            const isActive = project.status === 'in-progress';
-
-            return (
-              <article
-                key={project.id}
-                className={`proj-card panel reveal ${
-                  project.featured ? 'is-featured' : ''
-                }`}
-                onClick={() => openProject(project.id)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    openProject(project.id);
-                  }
-                }}
-                role="link"
-                tabIndex={0}
+          <div className="proj-row">
+            <div className="proj-filters" role="group" aria-label="분야">
+              <button
+                type="button"
+                className={`proj-filter ${category === 'all' ? 'is-on' : ''}`}
+                onClick={() => setCategory('all')}
               >
-                {/* 상단 바: 대표 / 분야 / 상태 */}
-                <div className="proj-card-bar">
-                  {project.featured && (
-                    <span className="proj-featured">★ 대표</span>
-                  )}
-                  <span className={`proj-context ${project.context}`}>
-                    {CONTEXT_LABEL[project.context]}
-                  </span>
-                  <span className="mono-label">
-                    {CATEGORY_TEXT[project.category]}
-                  </span>
-                  <span className={`proj-status ${project.status}`}>
-                    <span
-                      className={`led ${isActive ? 'active' : 'done'}`}
-                      aria-hidden="true"
-                    />
-                    {STATUS_TEXT[project.status]}
-                  </span>
-                </div>
+                ALL
+              </button>
+              {categories.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  className={`proj-filter ${category === c ? 'is-on' : ''}`}
+                  onClick={() => setCategory(category === c ? 'all' : c)}
+                >
+                  {CATEGORY_CODE[c]}
+                </button>
+              ))}
+            </div>
 
-                {/* 대표 이미지 또는 생성된 파형 */}
-                <div className="proj-visual">
-                  {thumb ? (
-                    <img src={thumb} alt="" loading="lazy" />
-                  ) : (
-                    <ProjectCover project={project} height={96} />
-                  )}
-                </div>
+            <button
+              type="button"
+              className="proj-sort"
+              onClick={() => setSortBy((s) => (s === 'newest' ? 'oldest' : 'newest'))}
+            >
+              {sortBy === 'newest' ? '최신순 ↓' : '오래된순 ↑'}
+            </button>
+          </div>
 
-                <div className="proj-body">
-                  <h3 className="proj-title">{project.title}</h3>
-                  <p className="proj-summary">{project.summary}</p>
-
-                  {project.metrics && project.metrics.length > 0 && (
-                    <dl className="proj-metrics">
-                      {project.metrics.slice(0, 3).map((m) => (
-                        <div key={m.label} className="proj-metric">
-                          <dt className="mono-label">{m.label}</dt>
-                          <dd className="readout">{m.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  )}
-
-                  <div className="proj-tech">
-                    {project.technologies.slice(0, 4).map((tech) => (
-                      <span key={tech} className="tech-tag">
-                        {tech}
-                      </span>
-                    ))}
-                    {project.technologies.length > 4 && (
-                      <span className="tech-more">
-                        +{project.technologies.length - 4}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                <div className="proj-card-foot">
-                  <span className="readout-sm">
-                    {project.startDate} — {project.endDate || '현재'}
-                  </span>
-                  <span className="readout-sm">
-                    {project.teamSize === 1 ? '단독' : `${project.teamSize}인`}
-                  </span>
-                  <span className="proj-go">자세히 →</span>
-                </div>
-              </article>
-            );
-          })}
+          {(skill || filtered) && (
+            <div className="proj-active">
+              {skill && (
+                <button type="button" className="proj-chip" onClick={onClearTech}>
+                  기술 · <b>{skill.name}</b> <span aria-hidden="true">×</span>
+                  <span className="sr-only">필터 지우기</span>
+                </button>
+              )}
+              <span className="proj-active-count readout-sm">
+                {visible.length}개 표시 중
+              </span>
+              <button type="button" className="proj-reset" onClick={resetAll}>
+                필터 모두 지우기
+              </button>
+            </div>
+          )}
         </div>
+
+        {visible.length > 0 ? (
+          <div className="proj-grid">
+            {visible.map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onOpen={openProject}
+                highlight={skill?.match}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="proj-empty panel">
+            <p>조건에 맞는 프로젝트가 없습니다.</p>
+            <button type="button" className="btn btn-ghost" onClick={resetAll}>
+              필터 지우기
+            </button>
+          </div>
+        )}
       </div>
     </section>
   );

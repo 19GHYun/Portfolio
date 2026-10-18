@@ -1,30 +1,77 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
 import { CONTEXT_LABEL } from '../types/Project';
-import { getProjectImages } from '../utils/projectImages';
-import { recallScroll } from '../utils/scrollMemory';
+import {
+  CATEGORY_CODE,
+  CATEGORY_LABEL,
+  STATUS_LABEL,
+  contextColorVar,
+  imagesOf,
+  neighborsOf,
+  periodText,
+  teamText,
+} from '../utils/projectMeta';
+import { recallScroll, rememberScroll } from '../utils/scrollMemory';
+import useReveal from '../hooks/useReveal';
+import Footer from './Footer';
 import ImageLightbox from './ImageLightbox';
+import ProjectCard from './ProjectCard';
 import ProjectCover from './ProjectCover';
+import './Section.css';
 import './ProjectDetail.css';
+
+// '[OFDM] 부반송파 분류' 처럼 앞에 붙은 묶음 이름으로 기능을 나눈다
+const groupFeatures = (features: string[]) => {
+  const groups: { tag: string | null; items: string[] }[] = [];
+  features.forEach((f) => {
+    const m = f.match(/^\[([^\]]+)\]\s*(.*)$/);
+    const tag = m ? m[1] : null;
+    const text = m ? m[2] : f;
+    const last = groups[groups.length - 1];
+    if (last && last.tag === tag) last.items.push(text);
+    else groups.push({ tag, items: [text] });
+  });
+  return groups;
+};
+
+const getYouTubeEmbedUrl = (url: string) => {
+  const videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
+  return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
+};
 
 const ProjectDetail: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [activeSection, setActiveSection] = useState('overview');
+  useReveal();
 
-  const project = projects.find(p => p.id === id);
+  const project = projects.find((p) => p.id === id);
+  const images = useMemo(() => (project ? imagesOf(project) : []), [project]);
 
-  // projects.ts에 직접 적은 이미지 + src/assets/projects/<id>/ 에서 자동 수집한 이미지
-  const galleryImages = useMemo(() => {
-    if (!project) return [];
-
-    const declared = (project.images || []).map((src, index) => ({
-      src,
-      description: project.imageDescriptions?.[index] || '',
-    }));
-
-    return [...declared, ...getProjectImages(project.id)];
+  // 목차: 지금 읽고 있는 칸
+  useEffect(() => {
+    if (!project) return;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const probe = window.innerHeight * 0.3;
+      let current = 'overview';
+      document.querySelectorAll<HTMLElement>('.pd-section[id]').forEach((el) => {
+        if (el.getBoundingClientRect().top <= probe) current = el.id;
+      });
+      setActiveSection(current);
+    };
+    const onScroll = () => {
+      if (!frame) frame = window.requestAnimationFrame(update);
+    };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', onScroll);
+    };
   }, [project]);
 
   const handleBackToProjects = () => {
@@ -37,300 +84,376 @@ const ProjectDetail: React.FC = () => {
     // 상세 주소로 바로 들어온 경우엔 기억한 위치가 없으니 프로젝트 섹션으로
     navigate('/', { replace: true });
     setTimeout(() => {
-      const projectsSection = document.getElementById('projects');
-      if (projectsSection) {
-        projectsSection.scrollIntoView({ behavior: 'smooth' });
-      }
+      document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
   };
 
   if (!project) {
     return (
-      <div className="project-detail-container">
-        <div className="container">
+      <div className="pd">
+        <div className="container pd-missing">
+          <span className="mono-label">404 · NO SIGNAL</span>
           <h1>프로젝트를 찾을 수 없습니다</h1>
-          <button onClick={handleBackToProjects} className="back-button">
-            프로젝트 목록으로 돌아가기
+          <button onClick={handleBackToProjects} className="btn btn-ghost">
+            ← 프로젝트 목록으로
           </button>
         </div>
       </div>
     );
   }
 
-  // 배너로 띄운 첫 이미지는 아래 이미지 목록에서 빼고, 눌렀을 때만 라이트박스에서 함께 넘겨 본다
-  const banner = project.coverBanner ? galleryImages[0] : undefined;
-  const listedImages = galleryImages
-    .map((image, index) => ({ image, index }))
-    .filter(({ index }) => !(banner && index === 0));
+  const banner = images[0];
+  const gallery = images.slice(1);
+  const featureGroups = groupFeatures(project.features);
+  const paired =
+    project.challenges.length > 0 && project.challenges.length === project.solutions.length;
+  const { prev, next } = neighborsOf(project.id);
 
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case 'completed': return '완료';
-      case 'in-progress': return '진행중';
-      case 'planned': return '계획중';
-      default: return status;
-    }
+  const openNeighbor = (pid: string) => {
+    // 이웃 프로젝트로 넘어가도 '목록으로'는 원래 보던 목록 위치로 돌아가야 하므로 기억을 덮어쓰지 않는다
+    if (recallScroll('/') === undefined) rememberScroll('/');
+    navigate(`/project/${pid}`);
   };
 
-  const getCategoryText = (category: string) => {
-    switch (category) {
-      case 'web': return '웹 개발';
-      case 'mobile': return '모바일 앱';
-      case 'desktop': return '데스크톱 앱';
-      case 'ai': return '인공지능';
-      case 'research': return '연구';
-      case 'etc': return '기타';
-      case 'hardware': return '하드웨어';
-      case 'game': return '게임';
-      default: return category;
-    }
-  };
+  const toc = [
+    { id: 'overview', label: '개요' },
+    gallery.length > 0 && { id: 'gallery', label: '이미지' },
+    project.features.length > 0 && { id: 'features', label: '주요 기능' },
+    project.youtubeUrl && { id: 'video', label: '영상' },
+    project.challenges.length > 0 && { id: 'problems', label: '문제와 해결' },
+    project.results.length > 0 && { id: 'results', label: '결과' },
+    project.reflection && { id: 'reflection', label: '회고' },
+  ].filter(Boolean) as { id: string; label: string }[];
 
-  const getYouTubeEmbedUrl = (url: string) => {
-    const videoIdMatch = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
-    return videoIdMatch ? `https://www.youtube.com/embed/${videoIdMatch[1]}` : null;
-  };
+  const links = [
+    project.gameUrl && { href: project.gameUrl, label: '게임 페이지 · 다운로드', icon: '🎮', primary: true },
+    project.demoUrl && { href: project.demoUrl, label: '데모 보기', icon: '🚀', primary: true },
+    project.githubUrl && { href: project.githubUrl, label: 'GitHub', icon: '📁' },
+    project.documentation && { href: project.documentation, label: '문서', icon: '📚' },
+    project.namuWikiUrl && { href: project.namuWikiUrl, label: '나무위키', icon: '🌱' },
+  ].filter(Boolean) as { href: string; label: string; icon: string; primary?: boolean }[];
+
+  // 제목 앞 번호는 실제로 보이는 칸 순서대로
+  const num = (sectionId: string) => String(toc.findIndex((t) => t.id === sectionId) + 1).padStart(2, '0');
+
+  const jump = (sectionId: string) =>
+    document.getElementById(sectionId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   return (
-    <div className="project-detail-container">
-      <div className="container">
-        {/* 헤더 섹션 */}
-        <div className="project-header">
-          <button onClick={handleBackToProjects} className="back-button">
-            ← 프로젝트 목록으로
-          </button>
-          <div className="project-title-section">
-            <div className="project-eyebrow mono-label">
-              PROJECT {project.id.padStart(2, '0')} /{' '}
-              {getCategoryText(project.category)} /{' '}
+    <>
+      <div className="pd" style={{ ['--ctx' as string]: contextColorVar(project.context) }}>
+        <div className="container">
+          {/* 머리 */}
+          <div className="pd-crumbs">
+            <button onClick={handleBackToProjects} className="back-button">
+              ← 프로젝트 목록
+            </button>
+            <span className="mono-label">
+              PROJECT {project.id.padStart(2, '0')} / {CATEGORY_CODE[project.category]} /{' '}
               {CONTEXT_LABEL[project.context]}
-            </div>
-            <h1 className="project-title">{project.title}</h1>
-            <p className="project-summary-lead">{project.summary}</p>
-            <div className="project-meta">
-              <span className={`context-badge ${project.context}`}>
-                {CONTEXT_LABEL[project.context]}
-              </span>
-              <span className={`status-badge ${project.status}`}>
+            </span>
+          </div>
+
+          <header className="pd-head">
+            <div className="pd-kicker">
+              <span className="pd-ctx">{CONTEXT_LABEL[project.context]}</span>
+              {project.featured && <span className="pd-star">★ 대표 작업</span>}
+              <span className={`pd-status ${project.status}`}>
                 <span
-                  className={`led ${
-                    project.status === 'in-progress' ? 'active' : 'done'
-                  }`}
+                  className={`led ${project.status === 'in-progress' ? 'active' : 'done'}`}
                   aria-hidden="true"
                 />
-                {getStatusText(project.status)}
+                {STATUS_LABEL[project.status]}
               </span>
-              <span className="period-badge">
-                {project.startDate} ~ {project.endDate || '현재'}
-              </span>
-              <span className="period-badge">
-                {project.teamSize === 1 ? '단독 개발' : `${project.teamSize}인`}
-              </span>
+              <span className="readout-sm">{periodText(project)}</span>
+              <span className="readout-sm">{teamText(project)}</span>
             </div>
-          </div>
-        </div>
+            <h1 className="pd-title">{project.title}</h1>
+            <p className="pd-lead">{project.summary}</p>
+          </header>
 
-        {/* 대표 수치 */}
-        {project.metrics && project.metrics.length > 0 && (
-          <dl className="detail-metrics">
-            {project.metrics.map((m) => (
-              <div key={m.label} className="detail-metric">
-                <dt className="mono-label">{m.label}</dt>
-                <dd className="readout">{m.value}</dd>
-              </div>
-            ))}
-          </dl>
-        )}
-
-        {banner && (
-          <button
-            type="button"
-            className="detail-banner panel"
-            onClick={() => setLightboxIndex(0)}
-            aria-label={`${banner.description || project.title} 크게 보기`}
-          >
-            <img src={banner.src} alt={banner.description || project.title} />
-          </button>
-        )}
-
-        {/* 이미지가 없는 프로젝트는 생성된 파형으로 머리그림을 대신한다 */}
-        {galleryImages.length === 0 && (
-          <div className="detail-cover panel">
-            <ProjectCover project={project} height={150} />
-          </div>
-        )}
-
-        {/* 프로젝트 개요 */}
-        <div className="project-overview">
-          <div className="overview-grid">
-            <div className="overview-item">
-              <h3>프로젝트 개요</h3>
-              <p>{project.description}</p>
+          {/* 대표 그림 */}
+          {banner ? (
+            <button
+              type="button"
+              className="pd-banner panel"
+              onClick={() => setLightboxIndex(0)}
+              aria-label={`${banner.description || project.title} 크게 보기`}
+            >
+              <img src={banner.src} alt="" aria-hidden="true" className="pd-banner-fill" />
+              <img src={banner.src} alt={banner.description || project.title} className="pd-banner-img" />
+              {banner.description && <span className="pd-banner-cap">{banner.description}</span>}
+            </button>
+          ) : (
+            <div className="pd-banner is-cover panel">
+              <ProjectCover project={project} height={180} />
             </div>
-            <div className="overview-item">
-              <h3>팀 규모</h3>
-              <p>{project.teamSize}명</p>
-            </div>
-            <div className="overview-item">
-              <h3>담당 역할</h3>
-              <p>{project.myRole}</p>
-            </div>
-          </div>
-        </div>
+          )}
 
-        {/* 기술 스택 */}
-        <div className="project-section">
-          <h2>사용 기술</h2>
-          <div className="tech-stack">
-            {project.technologies.map((tech, index) => (
-              <span key={index} className="tech-badge">{tech}</span>
-            ))}
-          </div>
-        </div>
-
-        {/* 프로젝트 이미지 */}
-        {listedImages.length > 0 && (
-          <div className="project-section">
-            <h2>프로젝트 이미지</h2>
-            <div className="project-images">
-              {listedImages.map(({ image, index }) => (
-                <div key={index} className="image-container">
-                  <button
-                    type="button"
-                    className="image-zoom-button"
-                    onClick={() => setLightboxIndex(index)}
-                    aria-label={`${image.description || `${project.title} 이미지 ${index + 1}`} 크게 보기`}
-                  >
-                    <img
-                      src={image.src}
-                      alt={image.description || `${project.title} 이미지 ${index + 1}`}
-                      className="project-image"
-                    />
-                  </button>
-                  {image.description && (
-                    <p className="image-description">{image.description}</p>
-                  )}
+          {/* 대표 수치 */}
+          {project.metrics && project.metrics.length > 0 && (
+            <dl className="pd-metrics">
+              {project.metrics.map((m, i) => (
+                <div key={m.label} className="pd-metric">
+                  <dt className="k-label">
+                    <span className="mono-label">M{i + 1}</span> {m.label}
+                  </dt>
+                  <dd className="readout">{m.value}</dd>
                 </div>
               ))}
-            </div>
+            </dl>
+          )}
+
+          <div className="pd-layout">
+            <article className="pd-main">
+              <section id="overview" className="pd-section">
+                <h2 className="pd-h">
+                  <span>{num('overview')}</span> 개요
+                </h2>
+                <p className="pd-text">{project.description}</p>
+              </section>
+
+              {gallery.length > 0 && (
+                <section id="gallery" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>{num('gallery')}</span> 이미지 <em>{images.length}</em>
+                  </h2>
+                  <div className={`pd-gallery ${gallery.length === 1 ? 'is-single' : ''}`}>
+                    {gallery.map((image, i) => (
+                      <figure key={image.src} className="pd-figure">
+                        <button
+                          type="button"
+                          onClick={() => setLightboxIndex(i + 1)}
+                          aria-label={`${image.description || `${project.title} 이미지 ${i + 2}`} 크게 보기`}
+                        >
+                          <img
+                            src={image.src}
+                            alt={image.description || `${project.title} 이미지 ${i + 2}`}
+                            loading="lazy"
+                          />
+                        </button>
+                        {image.description && (
+                          <figcaption>
+                            <span className="mono-label">FIG {i + 2}</span> {image.description}
+                          </figcaption>
+                        )}
+                      </figure>
+                    ))}
+                  </div>
+                </section>
+              )}
+
+              {project.features.length > 0 && (
+                <section id="features" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>{num('features')}</span> 주요 기능
+                  </h2>
+                  {featureGroups.map((g, gi) => (
+                    <div key={`${g.tag}-${gi}`} className="pd-feature-group">
+                      {g.tag && <h3 className="pd-feature-tag">{g.tag}</h3>}
+                      <ul className="pd-features">
+                        {g.items.map((f, i) => (
+                          <li key={i}>{f}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ))}
+                </section>
+              )}
+
+              {project.youtubeUrl && (
+                <section id="video" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>▶</span> 데모 영상
+                  </h2>
+                  <div className="youtube-container">
+                    <iframe
+                      src={getYouTubeEmbedUrl(project.youtubeUrl) || ''}
+                      title="프로젝트 데모 영상"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    ></iframe>
+                  </div>
+                </section>
+              )}
+
+              {project.challenges.length > 0 && (
+                <section id="problems" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>{num('problems')}</span> 문제와 해결
+                  </h2>
+                  {paired ? (
+                    <ol className="pd-pairs">
+                      {project.challenges.map((c, i) => (
+                        <li key={i} className="pd-pair">
+                          <div className="pd-pair-num readout">{String(i + 1).padStart(2, '0')}</div>
+                          <div className="pd-pair-body">
+                            <div className="pd-problem">
+                              <span className="pd-tag is-problem">PROBLEM</span>
+                              <p>{c}</p>
+                            </div>
+                            <div className="pd-fix">
+                              <span className="pd-tag is-fix">FIX</span>
+                              <p>{project.solutions[i]}</p>
+                            </div>
+                          </div>
+                        </li>
+                      ))}
+                    </ol>
+                  ) : (
+                    <div className="pd-split">
+                      <div>
+                        <span className="pd-tag is-problem">PROBLEM</span>
+                        <ul className="pd-features">
+                          {project.challenges.map((c, i) => (
+                            <li key={i}>{c}</li>
+                          ))}
+                        </ul>
+                      </div>
+                      <div>
+                        <span className="pd-tag is-fix">FIX</span>
+                        <ul className="pd-features">
+                          {project.solutions.map((s, i) => (
+                            <li key={i}>{s}</li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+                  )}
+                </section>
+              )}
+
+              {project.results.length > 0 && (
+                <section id="results" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>{num('results')}</span> 결과
+                  </h2>
+                  <ul className="pd-results">
+                    {project.results.map((r, i) => (
+                      <li key={i}>{r}</li>
+                    ))}
+                  </ul>
+                </section>
+              )}
+
+              {project.reflection && (
+                <section id="reflection" className="pd-section">
+                  <h2 className="pd-h">
+                    <span>{num('reflection')}</span> 회고
+                  </h2>
+                  <blockquote className="pd-reflection">{project.reflection}</blockquote>
+                </section>
+              )}
+            </article>
+
+            {/* 옆 패널 */}
+            <aside className="pd-side">
+              <div className="pd-panel panel">
+                <div className="pd-panel-bar mono-label">SPEC</div>
+                <dl className="pd-spec">
+                  <div className="readout-row">
+                    <dt className="readout-key">기간</dt>
+                    <dd className="readout-value num">{periodText(project)}</dd>
+                  </div>
+                  <div className="readout-row">
+                    <dt className="readout-key">팀</dt>
+                    <dd className="readout-value">{project.teamSize}명</dd>
+                  </div>
+                  <div className="readout-row">
+                    <dt className="readout-key">맥락</dt>
+                    <dd className="readout-value">{CONTEXT_LABEL[project.context]}</dd>
+                  </div>
+                  <div className="readout-row">
+                    <dt className="readout-key">분야</dt>
+                    <dd className="readout-value">{CATEGORY_LABEL[project.category]}</dd>
+                  </div>
+                  <div className="pd-role">
+                    <dt className="readout-key">담당</dt>
+                    <dd>{project.myRole}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div className="pd-panel panel">
+                <div className="pd-panel-bar mono-label">
+                  STACK <span>{project.technologies.length}</span>
+                </div>
+                <div className="pd-stack">
+                  {project.technologies.map((t) => (
+                    <span key={t} className="tech-tag">
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              {links.length > 0 && (
+                <div className="pd-links">
+                  {links.map((l) => (
+                    <a
+                      key={l.href}
+                      href={l.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className={`btn ${l.primary ? 'btn-primary' : 'btn-ghost'}`}
+                    >
+                      <span aria-hidden="true">{l.icon}</span> {l.label} ↗
+                    </a>
+                  ))}
+                </div>
+              )}
+
+              <nav className="pd-toc" aria-label="목차">
+                <span className="mono-label">CONTENTS</span>
+                {toc.map((t) => (
+                  <button
+                    key={t.id}
+                    type="button"
+                    className={activeSection === t.id ? 'is-on' : ''}
+                    onClick={() => jump(t.id)}
+                  >
+                    {t.label}
+                  </button>
+                ))}
+              </nav>
+            </aside>
           </div>
-        )}
+
+          {/* 이전 / 다음 */}
+          {(prev || next) && (
+            <nav className="pd-neighbors" aria-label="다른 프로젝트">
+              {prev ? (
+                <ProjectCard project={prev} onOpen={openNeighbor} compact kicker="← 최근 작업" />
+              ) : (
+                <span />
+              )}
+              {next ? (
+                <ProjectCard project={next} onOpen={openNeighbor} compact kicker="지난 작업 →" />
+              ) : (
+                <span />
+              )}
+            </nav>
+          )}
+
+          <div className="pd-bottom">
+            <button onClick={handleBackToProjects} className="btn btn-ghost">
+              ← 프로젝트 목록으로 돌아가기
+            </button>
+          </div>
+        </div>
 
         {lightboxIndex !== null && (
           <ImageLightbox
-            images={galleryImages}
+            images={images}
             index={lightboxIndex}
             onClose={() => setLightboxIndex(null)}
             onNavigate={setLightboxIndex}
           />
         )}
-
-        {/* 주요 기능 */}
-        <div className="project-section">
-          <h2>주요 기능</h2>
-          <ul className="feature-list">
-            {project.features.map((feature, index) => (
-              <li key={index}>{feature}</li>
-            ))}
-          </ul>
-        </div>
-
-        {/* 유튜브 영상 */}
-        {project.youtubeUrl && (
-          <div className="project-section">
-            <h2>프로젝트 데모 영상</h2>
-            <div className="youtube-container">
-              <iframe
-                src={getYouTubeEmbedUrl(project.youtubeUrl) || ''}
-                title="프로젝트 데모 영상"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
-            </div>
-          </div>
-        )}
-
-        {/* 도전 과제와 해결책 */}
-        <div className="project-section">
-          <h2>도전 과제 및 해결책</h2>
-          <div className="challenge-solution-grid">
-            <div className="challenges">
-              <h3>도전 과제</h3>
-              <ul>
-                {project.challenges.map((challenge, index) => (
-                  <li key={index}>{challenge}</li>
-                ))}
-              </ul>
-            </div>
-            <div className="solutions">
-              <h3>해결책</h3>
-              <ul>
-                {project.solutions.map((solution, index) => (
-                  <li key={index}>{solution}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-
-        {/* 결과 및 성과 */}
-        <div className="project-section">
-          <h2>결과 및 성과</h2>
-          <ul className="results-list">
-            {project.results.map((result, index) => (
-              <li key={index}>{result}</li>
-            ))}
-          </ul>
-        </div>
-
-        {/* 프로젝트 회고 */}
-        {project.reflection && (
-          <div className="project-section">
-            <h2>프로젝트 회고</h2>
-            <div className="reflection-content">
-              <p>{project.reflection}</p>
-            </div>
-          </div>
-        )}
-
-        {/* 링크들 */}
-        <div className="project-links">
-          {project.demoUrl && (
-            <a href={project.demoUrl} target="_blank" rel="noopener noreferrer" className="link-button demo">
-              🚀 데모 보기
-            </a>
-          )}
-          {project.gameUrl && (
-            <a href={project.gameUrl} target="_blank" rel="noopener noreferrer" className="link-button game">
-              🎮 게임 페이지 · 다운로드
-            </a>
-          )}
-          {project.githubUrl && (
-            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="link-button github">
-              📁 GitHub 보기
-            </a>
-          )}
-          {project.documentation && (
-            <a href={project.documentation} target="_blank" rel="noopener noreferrer" className="link-button docs">
-              📚 문서 보기
-            </a>
-          )}
-          {project.namuWikiUrl && (
-            <a href={project.namuWikiUrl} target="_blank" rel="noopener noreferrer" className="link-button namuwiki">
-              🌱 나무위키 보기
-            </a>
-          )}
-        </div>
-
-        {/* 하단 뒤로가기 버튼 */}
-        <div className="bottom-navigation">
-          <button onClick={handleBackToProjects} className="back-button-bottom">
-            ← 프로젝트 목록으로 돌아가기
-          </button>
-        </div>
       </div>
-    </div>
+      <Footer />
+    </>
   );
 };
 

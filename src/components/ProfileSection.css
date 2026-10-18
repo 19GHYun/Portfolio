@@ -1,54 +1,348 @@
-/* ProfileSection.css - 판독 패널 */
+/* ProfileSection.css - 신분증 카드 + 이력 타임라인 */
 
-.profile-grid {
+.profile-layout {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: var(--sp-6);
+  grid-template-columns: minmax(300px, 0.8fr) minmax(0, 1.6fr);
+  gap: var(--sp-12);
   align-items: start;
 }
 
-.profile-panel {
+/* ── 신분증 카드 ─────────────────────────────── */
+
+/* .panel 이 position: relative 를 주므로 두 클래스를 같이 걸어 이긴다 */
+.id-card.panel {
+  position: sticky;
+}
+
+.id-card {
+  top: calc(56px + var(--sp-6));
   overflow: hidden;
+  background: linear-gradient(165deg, rgba(74, 222, 128, 0.07), transparent 45%), var(--bg-panel);
 }
 
-.profile-panel-wide {
-  grid-column: 1 / -1;
-}
-
-.profile-panel-bar {
+.id-card-bar {
   display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
+  align-items: center;
+  justify-content: space-between;
   padding: var(--sp-3) var(--sp-4);
   border-bottom: 1px solid var(--line);
   background: var(--bg-inset);
 }
 
-.profile-panel-title {
-  font-size: 0.95rem;
+.id-card-led {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: var(--amber);
+}
+
+.id-card-head {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  padding: var(--sp-6) var(--sp-4) var(--sp-4);
+}
+
+/* 사진 대신 이름 첫 글자를 계측기 표식처럼 */
+.id-card-mark {
+  position: relative;
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line-strong);
+  border-radius: 4px;
+  background: radial-gradient(circle at 50% 40%, rgba(74, 222, 128, 0.18), transparent 70%), var(--bg-inset);
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--phosphor);
+  text-shadow: 0 0 18px rgba(74, 222, 128, 0.6);
+}
+
+.id-card-mark::before,
+.id-card-mark::after {
+  content: '';
+  position: absolute;
+  background: var(--line-strong);
+}
+
+.id-card-mark::before {
+  left: 50%;
+  top: -6px;
+  bottom: -6px;
+  width: 1px;
+  opacity: 0.35;
+}
+
+.id-card-mark::after {
+  top: 50%;
+  left: -6px;
+  right: -6px;
+  height: 1px;
+  opacity: 0.35;
+}
+
+.id-card-mark span {
+  position: relative;
+  z-index: 1;
+}
+
+.id-card-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.id-card-latin {
+  margin-top: 0.3rem;
+}
+
+.id-card-role {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  color: var(--text-dim);
+}
+
+.id-card-body {
+  padding: 0 var(--sp-4) var(--sp-4);
+}
+
+.id-card-body a {
+  color: var(--phosphor);
+  text-decoration: none;
+}
+
+.id-card-body a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.id-card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  padding: var(--sp-4);
+  border-top: 1px solid var(--line);
+  background: var(--bg-inset);
+}
+
+.id-card-actions .btn {
+  flex: 1 1 auto;
+  padding: 0.6rem 0.8rem;
+  font-size: 0.68rem;
+}
+
+/* ── 타임라인 ────────────────────────────────── */
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: var(--sp-3);
+}
+
+/* 세로 줄 */
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: calc(7.5rem + 7px);
+  top: 10px;
+  bottom: 10px;
+  width: 1px;
+  background: linear-gradient(180deg, var(--phosphor), var(--line) 30%, var(--line) 80%, transparent);
+}
+
+.tl-item {
+  --tl: var(--text-faint);
+  display: grid;
+  grid-template-columns: 7.5rem 15px minmax(0, 1fr);
+  gap: var(--sp-4);
+  align-items: start;
+}
+
+.tl-item.is-career {
+  --tl: var(--ctx-company);
+}
+.tl-item.is-edu {
+  --tl: var(--blue);
+}
+.tl-item.is-paper {
+  --tl: var(--violet);
+}
+.tl-item.is-award {
+  --tl: var(--amber);
+}
+.tl-item.is-cert {
+  --tl: var(--phosphor);
+}
+.tl-item.is-lab {
+  --tl: var(--ctx-lab);
+}
+
+.tl-when {
+  padding-top: 0.45rem;
+  font-size: 0.8rem;
+  text-align: right;
+  line-height: 1.35;
+  color: var(--text-dim);
+}
+
+.tl-when span {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--text-faint);
+}
+
+.tl-item.is-career .tl-when {
+  color: var(--phosphor);
+}
+
+.tl-node {
+  position: relative;
+  z-index: 1;
+  width: 15px;
+  height: 15px;
+  margin-top: 0.55rem;
+  border-radius: 50%;
+  border: 1px solid var(--tl);
+  background: var(--bg);
+  box-shadow: 0 0 0 3px var(--bg);
+}
+
+.tl-node::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--tl);
+  box-shadow: 0 0 8px var(--tl);
+}
+
+.tl-card {
+  padding: var(--sp-3) var(--sp-4);
+}
+
+.tl-card.is-flat {
+  padding-top: var(--sp-2);
+  padding-bottom: var(--sp-3);
+  border-bottom: 1px dashed var(--line-soft);
+}
+
+.tl-item.is-career .tl-card {
+  padding: var(--sp-4);
+  background: linear-gradient(120deg, rgba(34, 211, 238, 0.06), transparent 50%), var(--bg-panel);
+}
+
+.tl-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.tl-kind {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--tl);
+  border: 1px solid color-mix(in srgb, var(--tl) 45%, transparent);
+  padding: 0.08rem 0.45rem;
+  border-radius: 2px;
+}
+
+.tl-kind.is-career {
+  color: var(--ctx-company);
+  border-color: rgba(34, 211, 238, 0.45);
+}
+
+.tl-sub {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-faint);
+}
+
+.tl-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  color: var(--amber);
+}
+
+.tl-title {
+  margin-top: var(--sp-2);
+  font-size: 1.15rem;
   font-weight: 700;
+  line-height: 1.45;
   color: var(--text);
 }
 
-.profile-panel-body {
-  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+.tl-title span {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text-dim);
 }
 
-.readout-value a {
-  color: var(--phosphor);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+.tl-title.is-small {
+  font-size: 0.92rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
 }
 
-.readout-value a:hover {
-  border-bottom-color: var(--phosphor);
+.tl-work {
+  list-style: none;
+  margin-top: var(--sp-3);
+  border-top: 1px solid var(--line-soft);
 }
 
-/* 확인서 열기 버튼 */
+.tl-work button {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--sp-4);
+  width: 100%;
+  padding: 0.55rem 0;
+  font: inherit;
+  text-align: left;
+  color: var(--text-dim);
+  background: none;
+  border: none;
+  border-bottom: 1px dashed var(--line-soft);
+  cursor: pointer;
+}
+
+.tl-work li:last-child button {
+  border-bottom: none;
+}
+
+.tl-work-title {
+  font-size: 0.9rem;
+  transition: color 0.18s ease;
+}
+
+.tl-work-title::before {
+  content: '▸ ';
+  color: var(--cyan);
+}
+
+.tl-work button:hover .tl-work-title {
+  color: var(--phosphor-bright);
+}
+
+.tl-work-when {
+  flex: 0 0 auto;
+}
+
+/* 증빙 PDF 링크 */
 .cert-link {
   font: inherit;
-  color: var(--phosphor);
+  color: var(--text);
+  text-align: left;
   background: none;
   border: none;
   border-bottom: 1px dashed var(--line-strong);
@@ -65,158 +359,61 @@
 .cert-link::after {
   content: ' ↗';
   font-size: 0.75em;
-  opacity: 0.7;
+  color: var(--phosphor);
 }
 
-.profile-sub {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  color: var(--text-faint);
-  letter-spacing: 0.04em;
-  margin-top: 2px;
-}
-
-/* 경력 */
-.career {
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  gap: var(--sp-6);
-  padding: var(--sp-4) 0 var(--sp-2);
-}
-
-.career-period {
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  padding-top: 0.2rem;
-}
-
-.career-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--sp-3);
-}
-
-.career-role {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.career-org {
-  color: var(--text-dim);
-  font-size: 0.925rem;
-}
-
-.career-now {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--sp-2);
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  letter-spacing: 0.08em;
-  color: var(--amber);
-}
-
-.career-work {
-  list-style: none;
-  margin-top: var(--sp-3);
-}
-
-.career-work li {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-2) var(--sp-4);
-  padding: 0.55rem 0;
-  border-bottom: 1px dashed var(--line-soft);
-}
-
-.career-work li:last-child {
-  border-bottom: none;
-}
-
-.career-link {
-  font: inherit;
-  font-size: 0.925rem;
-  text-align: left;
-  color: var(--text-dim);
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: color 0.2s ease;
-}
-
-.career-link::before {
-  content: '▸ ';
-  color: var(--cyan);
-}
-
-.career-link:hover {
-  color: var(--phosphor-bright);
-}
-
-.career-when {
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  color: var(--text-faint);
-  white-space: nowrap;
-}
-
-/* 논문 목록 */
-.paper {
-  display: grid;
-  grid-template-columns: 96px minmax(0, 1fr);
-  gap: var(--sp-4);
-  align-items: baseline;
-  padding: var(--sp-3) 0;
-  border-bottom: 1px dashed var(--line-soft);
-}
-
-.paper:last-child {
-  border-bottom: none;
-}
-
-.paper-venue {
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-}
-
-.paper-title {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--text-dim);
-}
-
-@media (max-width: 768px) {
-  .profile-grid {
+@media (max-width: 1024px) {
+  .profile-layout {
     grid-template-columns: 1fr;
-    gap: var(--sp-4);
+    gap: var(--sp-8);
   }
 
-  .paper {
-    grid-template-columns: 1fr;
-    gap: var(--sp-1);
+  .id-card.panel {
+    position: relative;
+    top: auto;
+  }
+}
+
+@media (max-width: 640px) {
+  .timeline::before {
+    left: 7px;
   }
 
-  .career {
-    grid-template-columns: 1fr;
-    gap: var(--sp-2);
+  .tl-item {
+    grid-template-columns: 15px minmax(0, 1fr);
+    gap: var(--sp-3);
   }
 
-  .readout-row {
-    flex-wrap: wrap;
-  }
-
-  .readout-row::after {
-    display: none;
-  }
-
-  .readout-value {
+  .tl-when {
+    grid-column: 2;
+    grid-row: 1;
     text-align: left;
-    width: 100%;
+    padding-top: 0.4rem;
+  }
+
+  .tl-when span {
+    display: inline;
+    margin-left: 0.4rem;
+  }
+
+  .tl-node {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .tl-card {
+    grid-column: 2;
+  }
+
+  .tl-work button {
+    flex-direction: column;
+    gap: 2px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cert-link,
+  .tl-work-title {
+    transition: none;
   }
 }

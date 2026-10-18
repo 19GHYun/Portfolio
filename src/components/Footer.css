@@ -66,6 +66,96 @@
   margin-left: auto;
 }
 
+/* ── 연락 ─────────────────────────────────── */
+
+.contact {
+  position: relative;
+  padding: var(--sp-16) 0 var(--sp-12);
+  margin-bottom: var(--sp-8);
+  border-bottom: 1px solid var(--line-soft);
+}
+
+/* 뒤로 퍼지는 송신 원 */
+.contact::before {
+  content: '';
+  position: absolute;
+  right: -6%;
+  top: 50%;
+  width: 520px;
+  height: 520px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, rgba(74, 222, 128, 0.07) 0 1px, transparent 1px 38px);
+  mask-image: radial-gradient(circle, #000 20%, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle, #000 20%, transparent 70%);
+  pointer-events: none;
+}
+
+.contact-rule {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-4);
+  margin-bottom: var(--sp-6);
+}
+
+.contact-rule::after {
+  content: '';
+  flex: 1 1 auto;
+  height: 1px;
+  background: linear-gradient(90deg, var(--line-strong), transparent);
+  order: 2;
+}
+
+.contact-rule .mono-label {
+  order: 3;
+}
+
+.contact-title {
+  position: relative;
+  font-size: clamp(1.9rem, 4.2vw, 3.1rem);
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.035em;
+}
+
+.contact-title em {
+  font-style: normal;
+  color: var(--phosphor);
+  text-shadow: 0 0 28px rgba(74, 222, 128, 0.45);
+}
+
+.contact-lead {
+  position: relative;
+  margin-top: var(--sp-4);
+  max-width: 48ch;
+  color: var(--text-dim);
+  line-height: 1.8;
+}
+
+.contact-mail {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--sp-4) var(--sp-6);
+  margin-top: var(--sp-8);
+}
+
+.contact-address {
+  font-family: var(--font-mono);
+  font-size: clamp(1.05rem, 2.4vw, 1.6rem);
+  color: var(--text);
+  text-decoration: none;
+  border-bottom: 1px solid var(--line-strong);
+  padding-bottom: 0.2rem;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.contact-address:hover {
+  color: var(--phosphor);
+  border-color: var(--phosphor);
+}
+
 @media (max-width: 768px) {
   .footer {
     padding: var(--sp-8) 0 var(--sp-6);
@@ -83,6 +173,16 @@
   .footer-status .mono-label:last-child {
     margin-left: 0;
     width: 100%;
+  }
+
+  .contact {
+    padding: var(--sp-12) 0 var(--sp-8);
+  }
+
+  .contact::before {
+    width: 320px;
+    height: 320px;
+    right: -30%;
   }
 }
 
