@@ -1,7 +1,7 @@
 /* Section.css - 섹션 공통 껍데기와 섹션 헤더 */
 
 .section {
-  padding: 5.5rem 0;
+  padding: var(--sp-24) 0;
   position: relative;
   border-top: 1px solid var(--line-soft);
 }
@@ -139,26 +139,6 @@
 .tech-tag:hover {
   color: var(--phosphor);
   border-color: var(--line-strong);
-}
-
-.tech-tag.is-hit {
-  color: var(--phosphor);
-  border-color: var(--phosphor-dim);
-  background: rgba(74, 222, 128, 0.08);
-}
-
-.tech-more {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  color: var(--text-faint);
-  padding: 0.2rem 0.35rem;
-}
-
-.readout-sm {
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  color: var(--text-faint);
-  letter-spacing: 0.04em;
 }
 
 @media (max-width: 1024px) {

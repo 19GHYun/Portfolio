@@ -17,16 +17,6 @@
   --phosphor-dim: #2f7d51;
   --cyan: #22d3ee;
   --amber: #fbbf24;
-  --violet: #a78bfa;
-  --blue: #60a5fa;
-  --rose: #fb7185;
-
-  /* 어디서 한 작업인지(맥락)마다 고정된 색. 카드 · 워크 맵 · 타임라인이 같은 색을 쓴다 */
-  --ctx-company: var(--cyan);
-  --ctx-personal: var(--phosphor);
-  --ctx-ssafy: var(--blue);
-  --ctx-lab: var(--violet);
-  --ctx-undergrad: var(--amber);
 
   /* 선 */
   --line: rgba(74, 222, 128, 0.13);
@@ -153,14 +143,6 @@ main {
   color: var(--text-faint);
 }
 
-/* 한글 라벨. 고정폭 라벨처럼 자간을 벌리면 한글은 글자가 흩어져 보여서 따로 둔다 */
-.k-label {
-  font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.01em;
-  color: var(--text-faint);
-}
-
 /* 계측값 */
 .readout {
   font-family: var(--font-mono);
@@ -229,78 +211,6 @@ main {
   );
 }
 
-/* 버튼 */
-.btn {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.4em;
-  cursor: pointer;
-  white-space: nowrap;
-  overflow: hidden;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  padding: 0.7rem 1.3rem;
-  border-radius: 2px;
-  border: 1px solid transparent;
-  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
-    box-shadow 0.2s ease, transform 0.2s ease;
-}
-
-/* 버튼을 훑고 지나가는 빛 */
-.btn::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 25%,
-    rgba(255, 255, 255, 0.28) 50%,
-    transparent 75%
-  );
-  transform: translateX(-130%);
-  transition: transform 0.6s ease;
-}
-
-.btn:hover::after {
-  transform: translateX(130%);
-}
-
-.btn:hover {
-  transform: translateY(-2px);
-}
-
-.btn-primary {
-  background: var(--phosphor);
-  color: #06210f;
-  font-weight: 700;
-}
-
-.btn-primary:hover {
-  background: var(--phosphor-bright);
-  box-shadow: 0 0 22px rgba(74, 222, 128, 0.35);
-}
-
-.btn-ghost {
-  color: var(--text-dim);
-  border-color: var(--line);
-  background: var(--bg-panel);
-}
-
-.btn-ghost:hover {
-  color: var(--phosphor);
-  border-color: var(--line-strong);
-}
-
-.btn.is-copied {
-  color: var(--phosphor);
-  border-color: var(--line-strong);
-}
-
 /* 상태 LED */
 .led {
   display: inline-block;
@@ -344,19 +254,6 @@ main {
   transform: none;
 }
 
-/* 화면에는 안 보이고 스크린리더만 읽는 글자 */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
 ::selection {
   background: rgba(74, 222, 128, 0.28);
   color: var(--text);
@@ -394,10 +291,6 @@ main {
   body::before {
     background-size: 40px 40px;
   }
-
-  .btn {
-    flex: 1 1 auto;
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -413,14 +306,5 @@ main {
 
   .led.active {
     animation: none;
-  }
-
-  .btn,
-  .btn::after {
-    transition: none;
-  }
-
-  .btn:hover {
-    transform: none;
   }
 }
