@@ -6,7 +6,7 @@
   min-height: min(calc(100vh - 56px), 820px);
   display: flex;
   align-items: center;
-  padding: var(--sp-12) 0 var(--sp-16);
+  padding: var(--sp-16) 0 var(--sp-24);
   overflow: hidden;
 }
 
@@ -34,14 +34,10 @@
   width: 100%;
 }
 
-.hero-main {
-  min-width: 0;
-}
-
 .hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(360px, 1.02fr);
-  gap: var(--sp-12);
+  grid-template-columns: minmax(0, 1.25fr) minmax(320px, 0.85fr);
+  gap: var(--sp-16);
   align-items: center;
 }
 
@@ -56,8 +52,6 @@
   border-radius: 2px;
   background: var(--bg-panel);
   margin-bottom: var(--sp-6);
-  font-size: 0.8rem;
-  color: var(--text-dim);
 }
 
 .hero-name {
@@ -134,82 +128,132 @@
   gap: var(--sp-3);
 }
 
-/* ── 지금 진행 중 ─────────────────────────── */
-
-.hero-now {
-  margin-top: var(--sp-8);
-  padding-top: var(--sp-4);
-  border-top: 1px dashed var(--line);
-  max-width: 34rem;
+.btn {
+  position: relative;
+  overflow: hidden;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 0.7rem 1.3rem;
+  border-radius: 2px;
+  border: 1px solid transparent;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease,
+    box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.hero-now-label {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-2);
-  margin-bottom: var(--sp-2);
-  font-size: 0.78rem;
-  color: var(--text-faint);
+/* 버튼을 훑고 지나가는 빛 */
+.btn::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    100deg,
+    transparent 25%,
+    rgba(255, 255, 255, 0.28) 50%,
+    transparent 75%
+  );
+  transform: translateX(-130%);
+  transition: transform 0.6s ease;
 }
 
-.hero-now-label .mono-label {
-  color: var(--amber);
+.btn:hover::after {
+  transform: translateX(130%);
 }
 
-.hero-now ul {
-  list-style: none;
-  display: grid;
-  gap: 2px;
+.btn:hover {
+  transform: translateY(-2px);
 }
 
-.hero-now button {
+.btn-primary {
+  background: var(--phosphor);
+  color: #06210f;
+  font-weight: 700;
+}
+
+.btn-primary:hover {
+  background: var(--phosphor-bright);
+  box-shadow: 0 0 22px rgba(74, 222, 128, 0.35);
+}
+
+.btn-ghost {
+  color: var(--text-dim);
+  border-color: var(--line);
+  background: var(--bg-panel);
+}
+
+.btn-ghost:hover {
+  color: var(--phosphor);
+  border-color: var(--line-strong);
+}
+
+/* ── 우측 계측 패널 ────────────────────────── */
+
+.hero-panel {
+  padding: 0;
+  overflow: hidden;
+}
+
+.hero-panel-bar {
   display: flex;
   align-items: center;
-  gap: var(--sp-3);
+  justify-content: space-between;
+  padding: var(--sp-3) var(--sp-4);
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-inset);
+}
+
+.hero-scope {
+  padding: var(--sp-4);
+  background: var(--bg-inset);
+  border-bottom: 1px solid var(--line);
+}
+
+.hero-scope svg {
+  display: block;
   width: 100%;
-  padding: 0.35rem 0.5rem;
-  margin-left: -0.5rem;
-  background: none;
-  border: none;
-  border-radius: 2px;
-  color: var(--text-dim);
-  font: inherit;
-  font-size: 0.875rem;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.2s ease, color 0.2s ease;
+  height: 130px;
 }
 
-.hero-now button:hover {
-  background: rgba(74, 222, 128, 0.06);
-  color: var(--text);
+/* 파형이 왼쪽에서 오른쪽으로 그려지는 연출 */
+.hero-trace-path {
+  stroke-dasharray: 900;
+  stroke-dashoffset: 900;
+  animation: hero-sweep 2.4s ease-out 0.25s forwards;
 }
 
-.hero-now-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  flex: 0 0 auto;
-  box-shadow: 0 0 6px currentColor;
+@keyframes hero-sweep {
+  to {
+    stroke-dashoffset: 0;
+  }
 }
 
-.hero-now-ctx {
-  flex: 0 0 2.4rem;
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.08em;
-  color: var(--text-faint);
+.hero-readouts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
 }
 
-.hero-now-title {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.hero-readout {
+  padding: var(--sp-4);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
-.hero-now button:hover .hero-now-title::after {
-  content: ' →';
-  color: var(--phosphor);
+.hero-readout:nth-child(2n) {
+  border-right: none;
+}
+
+.hero-readout:nth-last-child(-n + 2) {
+  border-bottom: none;
+}
+
+.hero-readout dd {
+  margin-top: var(--sp-1);
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
 }
 
 /* ── 스크롤 안내 ──────────────────────────── */
@@ -259,12 +303,33 @@
     transform: none;
   }
 
+  .hero-readout dd {
+    font-size: 1.25rem;
+  }
+
+  .btn {
+    flex: 1 1 auto;
+    text-align: center;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .hero-trace-path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+
   .hero-scroll,
   .hero-name::after {
     animation: none;
   }
 
+  .btn,
+  .btn::after {
+    transition: none;
+  }
+
+  .btn:hover {
+    transform: none;
+  }
 }

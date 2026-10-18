@@ -1,34 +1,54 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { projects } from '../data/projects';
-import { CONTEXT_LABEL } from '../types/Project';
+import { Project } from '../types/Project';
 import SectionHeader from './SectionHeader';
 import { rememberScroll } from '../utils/scrollMemory';
-import {
-  CATEGORY_LABEL,
-  STATUS_LABEL,
-  byNewest,
-  contextColorVar,
-  toMonthIndex,
-} from '../utils/projectMeta';
 import './Section.css';
 import './WorkMapSection.css';
 
 interface WorkMapSectionProps {}
+
+// 'YYYY-MM' 문자열을 절대 개월 수로 변환 (정렬 및 위치 계산용)
+const toMonthIndex = (value: string): number => {
+  const [year, month] = value.split('-').map(Number);
+  return year * 12 + (month - 1);
+};
+
+// 카테고리 표시 순서 및 라벨
+const CATEGORY_ORDER: Project['category'][] = [
+  'research',
+  'hardware',
+  'mobile',
+  'desktop',
+  'web',
+  'ai',
+  'game',
+  'etc',
+];
+
+const CATEGORY_LABEL: Record<Project['category'], string> = {
+  research: '연구',
+  hardware: '하드웨어',
+  mobile: '모바일',
+  desktop: '데스크톱',
+  web: '웹 개발',
+  ai: 'AI/ML',
+  game: '게임',
+  etc: '기타',
+};
+
+const STATUS_LABEL: Record<Project['status'], string> = {
+  completed: '완료',
+  'in-progress': '제작중',
+  planned: '계획중',
+};
 
 // 'YYYY-MM' -> 'YY.MM'
 const shortPeriod = (value: string): string => {
   const [year, month] = value.split('-');
   return `${year.slice(2)}.${month}`;
 };
-
-const LEGEND: { label: string; color: string }[] = [
-  { label: '회사', color: 'var(--ctx-company)' },
-  { label: '개인', color: 'var(--ctx-personal)' },
-  { label: 'SSAFY', color: 'var(--ctx-ssafy)' },
-  { label: '연구실', color: 'var(--ctx-lab)' },
-  { label: '학부', color: 'var(--ctx-undergrad)' },
-];
 
 const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
   const navigate = useNavigate();
@@ -37,61 +57,55 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
     const now = new Date();
     const nowIndex = now.getFullYear() * 12 + now.getMonth();
 
-    const spans = projects.map((p) => {
-      const start = toMonthIndex(p.startDate);
-      const end = p.endDate ? toMonthIndex(p.endDate) : nowIndex;
-      return { p, start, end: Math.max(start, end) };
-    });
-
-    const minYear = Math.floor(Math.min(...spans.map((s) => s.start)) / 12);
-    const maxYear = Math.max(
-      Math.floor(Math.max(...spans.map((s) => s.end)) / 12),
-      Math.floor(nowIndex / 12)
+    // 전체 기간을 연 단위로 맞춰서 눈금과 막대의 기준을 일치시킨다
+    const startIndexes = projects.map((p) => toMonthIndex(p.startDate));
+    const endIndexes = projects.map((p) =>
+      p.endDate ? toMonthIndex(p.endDate) : nowIndex
     );
+
+    const minYear = Math.floor(Math.min(...startIndexes) / 12);
+    const maxYear = Math.max(Math.floor(Math.max(...endIndexes) / 12), Math.floor(nowIndex / 12));
+
+    const originMonth = minYear * 12;
+    const totalMonths = (maxYear - minYear + 1) * 12;
     const years = Array.from({ length: maxYear - minYear + 1 }, (_, i) => minYear + i);
 
-    // 연도마다 폭을 다르게: 그 해에 걸친 프로젝트가 많을수록 넓게 (0.55 ~ 1.55)
-    const active = years.map(
-      (y) => spans.filter((s) => s.start <= y * 12 + 11 && s.end >= y * 12).length
-    );
-    const peak = Math.max(1, ...active);
-    const weights = active.map((n) => 0.55 + n / peak);
-    const total = weights.reduce((a, b) => a + b, 0);
-    const yearLeft: number[] = [];
-    weights.reduce((acc, w, i) => {
-      yearLeft[i] = (acc / total) * 100;
-      return acc + w;
-    }, 0);
-    const yearWidth = weights.map((w) => (w / total) * 100);
+    const toPercent = (monthIndex: number) =>
+      ((monthIndex - originMonth) / totalMonths) * 100;
 
-    // 개월 -> 가로 위치(%)
-    const toPercent = (monthIndex: number) => {
-      const yi = Math.min(years.length - 1, Math.max(0, Math.floor(monthIndex / 12) - minYear));
-      const within = (monthIndex - (minYear + yi) * 12) / 12;
-      return yearLeft[yi] + yearWidth[yi] * Math.min(1, Math.max(0, within));
-    };
+    const rows = projects.map((project) => {
+      const start = toMonthIndex(project.startDate);
+      const end = project.endDate ? toMonthIndex(project.endDate) : nowIndex;
 
-    const rows = [...spans]
-      .sort((a, b) => byNewest(a.p, b.p))
-      .map(({ p, start, end }) => {
-        const left = toPercent(start);
-        const right = toPercent(end + 1); // 종료 월까지 포함
-        return {
-          project: p,
-          left,
-          width: Math.max(right - left, 1.1),
-          labelLeft: right > 76,
-        };
-      });
+      const left = toPercent(start);
+      // 종료 월까지 포함해야 하므로 +1개월
+      const right = toPercent(Math.max(end, start) + 1);
+
+      return {
+        project,
+        left,
+        width: Math.max(right - left, 1.2),
+        // 막대가 오른쪽 끝에 가까우면 라벨을 왼쪽에 붙인다
+        labelSide: right > 68 ? ('left' as const) : ('right' as const),
+      };
+    });
+
+    const groups = CATEGORY_ORDER.map((category) => ({
+      category,
+      rows: rows
+        .filter((row) => row.project.category === category)
+        .sort(
+          (a, b) =>
+            toMonthIndex(a.project.startDate) - toMonthIndex(b.project.startDate)
+        ),
+    })).filter((group) => group.rows.length > 0);
 
     return {
-      rows,
-      years: years.map((y, i) => ({ year: y, left: yearLeft[i], width: yearWidth[i] })),
-      todayPercent: toPercent(nowIndex + now.getDate() / 31),
+      groups,
+      years,
+      todayPercent: toPercent(nowIndex),
       inProgressCount: projects.filter((p) => p.status === 'in-progress').length,
       completedCount: projects.filter((p) => p.status === 'completed').length,
-      first: years[0],
-      last: years[years.length - 1],
     };
   }, []);
 
@@ -100,19 +114,24 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
     navigate(`/project/${projectId}`);
   };
 
-  // 좁은 화면에서는 차트가 가로로 넘친다. 처음엔 오른쪽 끝(현재)을 보여 준다
+  // 좁은 화면에서는 차트가 가로로 넘친다. 이때 왼쪽(2021년)부터 보이면
+  // 최근 프로젝트가 다 오른쪽에 몰려 있어 첫 화면이 비어 보이므로,
+  // 처음엔 오른쪽 끝(현재 시점)을 보여 주고 넘길 수 있다는 안내를 띄운다.
   const scrollRef = useRef<HTMLDivElement>(null);
   const [overflowing, setOverflowing] = useState(false);
 
   useEffect(() => {
     const el = scrollRef.current;
     if (!el) return;
+
     const sync = () => {
       const over = el.scrollWidth > el.clientWidth + 1;
       setOverflowing(over);
       return over;
     };
+
     if (sync()) el.scrollLeft = el.scrollWidth;
+
     window.addEventListener('resize', sync);
     return () => window.removeEventListener('resize', sync);
   }, []);
@@ -123,94 +142,103 @@ const WorkMapSection: React.FC<WorkMapSectionProps> = () => {
         <SectionHeader
           index="SEC 04"
           title="워크 맵"
-          meta={`${map.first}—${map.last}`}
-          lead="모든 프로젝트를 한 장의 시간축에 놓았습니다. 색은 어디서 한 작업인지이고, 최근 작업이 위에 있습니다. 프로젝트가 몰린 해일수록 칸이 넓습니다."
+          meta={`${map.years[0]}—${map.years[map.years.length - 1]}`}
+          lead="지금까지 진행한 프로젝트를 분야별 레인에 시간순으로 배치했습니다. 막대를 누르면 해당 프로젝트의 상세로 이동합니다."
         />
 
         <div className="workmap-legend">
-          {LEGEND.map((l) => (
-            <span key={l.label} className="workmap-legend-item">
-              <span className="workmap-swatch" style={{ background: l.color }} />
-              {l.label}
-            </span>
-          ))}
           <span className="workmap-legend-item">
-            <span className="workmap-swatch is-progress" />
-            진행중 {map.inProgressCount}
+            <span className="workmap-swatch completed" />
+            완료 {map.completedCount}건
           </span>
           <span className="workmap-legend-item">
-            <span className="workmap-swatch is-today" />
-            현재
+            <span className="workmap-swatch in-progress" />
+            제작중 {map.inProgressCount}건
+          </span>
+          <span className="workmap-legend-item">
+            <span className="workmap-swatch today" />
+            현재 시점
           </span>
         </div>
 
-        {overflowing && <p className="workmap-hint k-label">← 옆으로 넘기면 이전 프로젝트</p>}
+        {overflowing && (
+          <p className="workmap-hint mono-label">← 옆으로 넘기면 이전 프로젝트</p>
+        )}
 
-        <div className="workmap-scroll panel reveal" ref={scrollRef}>
-          <div className="workmap-chart">
+        <div className="workmap-scroll reveal" ref={scrollRef}>
+          <div
+            className="workmap-chart"
+            style={{ ['--workmap-years' as string]: map.years.length }}
+          >
             {/* 연도 눈금 */}
             <div className="workmap-row workmap-axis">
-              <div className="workmap-name mono-label">PROJECT</div>
-              <div className="workmap-track">
-                {map.years.map((y) => (
-                  <span
-                    key={y.year}
-                    className="workmap-year"
-                    style={{ left: `${y.left}%`, width: `${y.width}%` }}
-                  >
-                    {y.year}
+              <div className="workmap-row-name" aria-hidden="true" />
+              <div className="workmap-axis-track">
+                {map.years.map((year) => (
+                  <span key={year} className="workmap-axis-year">
+                    {year}
                   </span>
                 ))}
               </div>
             </div>
 
-            <div className="workmap-body">
-              {/* 연도 칸 배경과 현재 시점 */}
-              <div className="workmap-grid" aria-hidden="true">
-                {map.years.map((y, i) => (
-                  <span
-                    key={y.year}
-                    className={i % 2 ? 'is-alt' : ''}
-                    style={{ left: `${y.left}%`, width: `${y.width}%` }}
-                  />
-                ))}
-                <span className="workmap-today" style={{ left: `${map.todayPercent}%` }} />
-              </div>
+            {map.groups.map((group) => (
+              <div key={group.category} className="workmap-group">
+                <h3 className="workmap-group-title">
+                  {CATEGORY_LABEL[group.category]}
+                  <span className="workmap-group-count">{group.rows.length}</span>
+                </h3>
 
-              {map.rows.map(({ project, left, width, labelLeft }) => (
-                <button
-                  key={project.id}
-                  type="button"
-                  className={`workmap-row workmap-item ${project.status}`}
-                  style={{ ['--ctx' as string]: contextColorVar(project.context) }}
-                  onClick={() => handleSelect(project.id)}
-                  title={`${project.title} · ${CONTEXT_LABEL[project.context]} · ${CATEGORY_LABEL[project.category]} · ${STATUS_LABEL[project.status]}`}
-                >
-                  <span className="workmap-name">
-                    <span className="workmap-dot" aria-hidden="true" />
-                    <span className="workmap-title">{project.title.split(' - ')[0]}</span>
-                  </span>
-                  <span className="workmap-track">
-                    <span
-                      className="workmap-bar"
-                      style={{ left: `${left}%`, width: `${width}%` }}
-                    />
-                    <span
-                      className={`workmap-period ${labelLeft ? 'is-left' : ''}`}
-                      style={labelLeft ? { right: `${100 - left}%` } : { left: `${left + width}%` }}
-                    >
-                      {shortPeriod(project.startDate)}
-                      {project.endDate
-                        ? project.endDate !== project.startDate
-                          ? ` — ${shortPeriod(project.endDate)}`
-                          : ''
-                        : ' — '}
-                      {project.status !== 'completed' && <b>{STATUS_LABEL[project.status]}</b>}
-                    </span>
-                  </span>
-                </button>
-              ))}
-            </div>
+                {group.rows.map(({ project, left, width, labelSide }) => (
+                  <div key={project.id} className="workmap-row">
+                    <div className="workmap-row-name" title={project.title}>
+                      {project.title}
+                    </div>
+
+                    <div className="workmap-track">
+                      <div
+                        className="workmap-today"
+                        style={{ left: `${map.todayPercent}%` }}
+                        aria-hidden="true"
+                      />
+
+                      <button
+                        type="button"
+                        className={`workmap-bar ${project.status}`}
+                        style={{ left: `${left}%`, width: `${width}%` }}
+                        onClick={() => handleSelect(project.id)}
+                        title={`${project.title} (${project.startDate} ~ ${
+                          project.endDate || '현재'
+                        })`}
+                      >
+                        <span className="workmap-bar-sr">
+                          {project.title} 상세 보기
+                        </span>
+                      </button>
+
+                      <span
+                        className={`workmap-bar-label ${labelSide}`}
+                        style={
+                          labelSide === 'right'
+                            ? { left: `${left + width}%` }
+                            : { right: `${100 - left}%` }
+                        }
+                      >
+                        <span className="workmap-bar-period">
+                          {shortPeriod(project.startDate)} ~{' '}
+                          {project.endDate ? shortPeriod(project.endDate) : ''}
+                        </span>
+                        {project.status !== 'completed' && (
+                          <span className={`workmap-bar-badge ${project.status}`}>
+                            {STATUS_LABEL[project.status]}
+                          </span>
+                        )}
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ))}
           </div>
         </div>
       </div>
