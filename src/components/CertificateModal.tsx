@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { IconClose } from './ide/icons';
 import './CertificateModal.css';
 
 interface CertificateModalProps {
@@ -8,40 +9,38 @@ interface CertificateModalProps {
   pdfPath: string;
 }
 
-const CertificateModal: React.FC<CertificateModalProps> = ({
-  isOpen,
-  onClose,
-  title,
-  pdfPath
-}) => {
-  if (!isOpen) return null;
+/**
+ * 증명서 PDF 보기. 네이티브 <dialog> 라서 Esc 닫기와 포커스 가두기를 브라우저가 맡고,
+ * 맨 위 레이어(top layer)에 떠서 어떤 부모 레이아웃에도 갇히지 않는다.
+ */
+const CertificateModal: React.FC<CertificateModalProps> = ({ isOpen, onClose, title, pdfPath }) => {
+  const ref = useRef<HTMLDialogElement>(null);
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
+  useEffect(() => {
+    const dialog = ref.current;
+    if (!dialog) return;
+    if (isOpen && !dialog.open) dialog.showModal();
+    if (!isOpen && dialog.open) dialog.close();
+  }, [isOpen]);
 
   return (
-    <div className="certificate-modal-backdrop" onClick={handleBackdropClick}>
-      <div className="certificate-modal">
-        <div className="certificate-modal-header">
-          <h3>{title}</h3>
-          <button className="certificate-modal-close" onClick={onClose}>
-            ×
-          </button>
-        </div>
-        <div className="certificate-modal-content">
-          <iframe
-            src={pdfPath}
-            title={title}
-            width="100%"
-            height="600px"
-            style={{ border: 'none' }}
-          />
-        </div>
+    <dialog
+      ref={ref}
+      className="cert-dialog"
+      aria-label={title}
+      onClose={onClose}
+      onMouseDown={(e) => {
+        if (e.target === ref.current) onClose();
+      }}
+    >
+      <div className="cert-head">
+        <span className="cert-title mono">{title}.pdf</span>
+        <button type="button" className="cert-close" onClick={onClose} aria-label="닫기">
+          <IconClose size={15} />
+        </button>
       </div>
-    </div>
+      {isOpen && <iframe className="cert-frame" src={pdfPath} title={title} />}
+    </dialog>
   );
 };
 

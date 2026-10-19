@@ -1,222 +1,203 @@
-/* ProfileSection.css - 판독 패널 */
+/* ProfileSection.css - profile.json */
+
+/* 컨테이너 쿼리 기준은 섹션 안 본문 폭 (컨테이너 자기 자신은 쿼리로 못 바꾼다) */
+#profile > .container {
+  container-type: inline-size;
+}
 
 .profile-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: var(--sp-6);
-  align-items: start;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
 }
 
-.profile-panel {
-  overflow: hidden;
-}
-
-.profile-panel-wide {
+.json-card.is-wide {
   grid-column: 1 / -1;
 }
 
-.profile-panel-bar {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-  padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--line);
-  background: var(--bg-inset);
+.json-body {
+  padding: 10px 16px 4px 32px;
 }
 
-.profile-panel-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text);
+.json-row {
+  display: grid;
+  grid-template-columns: minmax(84px, max-content) minmax(0, 1fr);
+  gap: 4px 16px;
+  padding: 7px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
 }
 
-.profile-panel-body {
-  padding: var(--sp-2) var(--sp-4) var(--sp-4);
+.json-row:last-child {
+  border-bottom: 0;
 }
 
-.readout-value a {
-  color: var(--phosphor);
-  text-decoration: none;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.2s ease;
+.json-key {
+  color: var(--syn-var);
+  font-size: 13px;
+  white-space: nowrap;
 }
 
-.readout-value a:hover {
-  border-bottom-color: var(--phosphor);
+.json-key::after {
+  content: ':';
+  color: var(--fg-muted);
 }
 
-/* 확인서 열기 버튼 */
+.json-val {
+  color: var(--fg-strong);
+  font-size: 14.5px;
+}
+
+.json-num {
+  color: var(--syn-number);
+}
+
+.json-sub {
+  margin-left: 8px;
+  color: var(--fg-muted);
+  font-size: 13px;
+}
+
 .cert-link {
-  font: inherit;
-  color: var(--phosphor);
-  background: none;
-  border: none;
-  border-bottom: 1px dashed var(--line-strong);
   padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-fg);
+  font-size: 14.5px;
   cursor: pointer;
-  transition: border-color 0.2s ease, color 0.2s ease;
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 4px;
 }
 
 .cert-link:hover {
-  color: var(--phosphor-bright);
-  border-bottom-color: var(--phosphor);
-}
-
-.cert-link::after {
-  content: ' ↗';
-  font-size: 0.75em;
-  opacity: 0.7;
-}
-
-.profile-sub {
-  display: block;
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  color: var(--text-faint);
-  letter-spacing: 0.04em;
-  margin-top: 2px;
+  text-decoration-style: solid;
 }
 
 /* 경력 */
 .career {
-  display: grid;
-  grid-template-columns: 150px minmax(0, 1fr);
-  gap: var(--sp-6);
-  padding: var(--sp-4) 0 var(--sp-2);
+  padding: 6px 0 10px;
+}
+
+.career-top {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
 .career-period {
-  font-size: 0.8rem;
-  letter-spacing: 0.04em;
-  padding-top: 0.2rem;
-}
-
-.career-head {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: var(--sp-3);
-}
-
-.career-role {
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text);
-}
-
-.career-org {
-  color: var(--text-dim);
-  font-size: 0.925rem;
+  color: var(--syn-number);
+  font-size: 13.5px;
 }
 
 .career-now {
   display: inline-flex;
   align-items: center;
-  gap: var(--sp-2);
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  letter-spacing: 0.08em;
-  color: var(--amber);
+  gap: 6px;
+  padding: 1px 9px;
+  border: 1px solid color-mix(in oklab, var(--git-added) 45%, transparent);
+  border-radius: 99px;
+  color: var(--git-added);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.career-now-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.career-role {
+  margin-top: 6px;
+  color: var(--fg-strong);
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.career-org {
+  margin-left: 10px;
+  color: var(--fg-muted);
+  font-size: 14.5px;
+  font-weight: 500;
 }
 
 .career-work {
-  list-style: none;
-  margin-top: var(--sp-3);
+  margin-top: 10px;
+  border-left: 1px solid var(--border-strong);
 }
 
 .career-work li {
+  list-style: none;
   display: flex;
-  flex-wrap: wrap;
   align-items: baseline;
-  justify-content: space-between;
-  gap: var(--sp-2) var(--sp-4);
-  padding: 0.55rem 0;
-  border-bottom: 1px dashed var(--line-soft);
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  padding: 4px 0 4px 14px;
 }
 
-.career-work li:last-child {
-  border-bottom: none;
-}
-
-.career-link {
-  font: inherit;
-  font-size: 0.925rem;
-  text-align: left;
-  color: var(--text-dim);
-  background: none;
-  border: none;
+.career-work button {
   padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent-fg);
+  font-size: 14.5px;
+  text-align: left;
   cursor: pointer;
-  transition: color 0.2s ease;
 }
 
-.career-link::before {
-  content: '▸ ';
-  color: var(--cyan);
-}
-
-.career-link:hover {
-  color: var(--phosphor-bright);
+.career-work button:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .career-when {
-  font-family: var(--font-mono);
-  font-size: 0.688rem;
-  color: var(--text-faint);
-  white-space: nowrap;
+  color: var(--fg-faint);
+  font-size: 12px;
 }
 
-/* 논문 목록 */
+/* 논문 */
 .paper {
   display: grid;
   grid-template-columns: 96px minmax(0, 1fr);
-  gap: var(--sp-4);
+  gap: 4px 14px;
   align-items: baseline;
-  padding: var(--sp-3) 0;
-  border-bottom: 1px dashed var(--line-soft);
+  padding: 8px 0;
+  border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
 }
 
 .paper:last-child {
-  border-bottom: none;
+  border-bottom: 0;
 }
 
 .paper-venue {
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
+  color: var(--syn-type);
+  font-size: 12.5px;
 }
 
-.paper-title {
-  font-size: 0.9rem;
-  line-height: 1.7;
-  color: var(--text-dim);
+.paper p {
+  color: var(--fg-strong);
+  font-size: 14.5px;
 }
 
-@media (max-width: 768px) {
+@container (max-width: 680px) {
   .profile-grid {
-    grid-template-columns: 1fr;
-    gap: var(--sp-4);
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .profile-grid {
+    grid-template-columns: minmax(0, 1fr);
   }
 
+  .json-body {
+    padding-left: 18px;
+  }
+
+  .json-row,
   .paper {
-    grid-template-columns: 1fr;
-    gap: var(--sp-1);
-  }
-
-  .career {
-    grid-template-columns: 1fr;
-    gap: var(--sp-2);
-  }
-
-  .readout-row {
-    flex-wrap: wrap;
-  }
-
-  .readout-row::after {
-    display: none;
-  }
-
-  .readout-value {
-    text-align: left;
-    width: 100%;
+    grid-template-columns: minmax(0, 1fr);
   }
 }

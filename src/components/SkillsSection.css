@@ -1,133 +1,47 @@
-/* SkillsSection.css - 기술 칩 패널 */
+/* SkillsSection.css - skills.ts */
 
 .skills-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
-  gap: var(--sp-6);
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr));
+  gap: 16px;
 }
 
-.skill-panel {
-  overflow: hidden;
+.skill-note {
+  margin-left: auto;
 }
 
-/* 마우스를 올리면 위쪽 테두리에 인광이 들어온다 */
-.skill-panel {
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.skill-panel:hover {
-  border-color: var(--line-strong);
-  box-shadow: inset 0 1px 0 var(--phosphor), 0 10px 30px rgba(0, 0, 0, 0.4);
-}
-
-.skill-panel-bar {
-  display: flex;
-  align-items: baseline;
-  gap: var(--sp-3);
-  padding: var(--sp-3) var(--sp-4);
-  border-bottom: 1px solid var(--line);
-  background: var(--bg-inset);
-}
-
-.skill-panel-title {
-  font-size: 0.95rem;
-  font-weight: 700;
-  letter-spacing: -0.01em;
-  color: var(--text);
-}
-
-/* ── 칩 ─────────────────────────────────── */
-.skill-chips {
-  list-style: none;
+.skill-tokens {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--sp-2);
-  padding: var(--sp-4);
+  gap: 8px;
+  padding: 14px 16px 4px 32px;
 }
 
-.skill-chip {
-  position: relative;
-  font-family: var(--font-mono);
-  font-size: 0.75rem;
-  letter-spacing: 0.02em;
-  color: var(--text-dim);
-  background: var(--bg-inset);
-  border: 1px solid var(--line);
-  border-radius: 2px;
-  padding: 0.36rem 0.7rem;
-  overflow: hidden;
-  cursor: default;
-  transition: color 0.2s ease, border-color 0.2s ease, transform 0.2s ease,
-    box-shadow 0.2s ease;
+.skill-token {
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 9px;
+  border: 1px solid color-mix(in oklab, var(--syn-string) 28%, transparent);
+  border-radius: 4px;
+  background: color-mix(in oklab, var(--syn-string) 7%, transparent);
+  color: var(--syn-string);
+  font-size: 12.5px;
+  transition: background 0.15s, border-color 0.15s, translate 0.15s;
 }
 
-/* 마우스를 올리면 빛이 한 번 훑고 지나간다 */
-.skill-chip::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    100deg,
-    transparent 20%,
-    rgba(74, 222, 128, 0.22) 50%,
-    transparent 80%
-  );
-  transform: translateX(-120%);
-  transition: transform 0.55s ease;
+.skill-token:hover {
+  background: color-mix(in oklab, var(--syn-string) 15%, transparent);
+  border-color: color-mix(in oklab, var(--syn-string) 55%, transparent);
+  translate: 0 -1px;
 }
 
-.skill-chip:hover {
-  color: var(--phosphor-bright);
-  border-color: var(--line-strong);
-  transform: translateY(-2px);
-  box-shadow: 0 0 14px rgba(74, 222, 128, 0.18);
+.skill-q {
+  opacity: 0.55;
 }
 
-.skill-chip:hover::before {
-  transform: translateX(120%);
-}
-
-/* 패널이 화면에 들어오면 칩이 차례로 떠오른다 */
-.js-reveal .skill-panel.is-visible .skill-chip {
-  animation: chip-in 0.42s ease-out backwards;
-  animation-delay: calc(var(--i) * 45ms);
-}
-
-@keyframes chip-in {
-  from {
-    opacity: 0;
-    transform: translateY(8px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-@media (max-width: 768px) {
-  .skills-grid {
-    grid-template-columns: 1fr;
-    gap: var(--sp-4);
-  }
-
-  .skill-chip {
-    font-size: 0.7rem;
-    padding: 0.32rem 0.6rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .skill-chip,
-  .skill-chip::before,
-  .skill-panel {
-    transition: none;
-  }
-
-  .skill-chip:hover {
-    transform: none;
-  }
-
-  .js-reveal .skill-panel.is-visible .skill-chip {
-    animation: none;
+@media (max-width: 767px) {
+  .skill-tokens {
+    padding-left: 16px;
   }
 }

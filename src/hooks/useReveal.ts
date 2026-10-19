@@ -26,6 +26,11 @@ export const useReveal = (): void => {
       '(prefers-reduced-motion: reduce)'
     ).matches;
 
+    // 스크롤 위치에 묶인 CSS 애니메이션을 쓸 수 있으면 App.css 가 처리한다
+    if (typeof CSS !== 'undefined' && CSS.supports('animation-timeline: view()')) {
+      return;
+    }
+
     // 애니메이션을 쓸 수 없는 상황이면 숨기지도 않는다
     if (reduceMotion || typeof IntersectionObserver === 'undefined') {
       revealAll();
