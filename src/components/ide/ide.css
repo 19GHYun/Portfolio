@@ -1,0 +1,984 @@
+/* ide.css - VS Code 모양 작업 화면 틀 */
+
+.ide {
+  min-height: 100vh;
+}
+
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 100;
+  padding: 6px 12px;
+  border-radius: 4px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font-size: 13px;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+/* ── 제목 표시줄 ───────────────────────────────────────── */
+
+.titlebar {
+  position: sticky;
+  top: 0;
+  z-index: 60;
+  height: var(--h-title);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--border);
+  view-transition-name: titlebar;
+}
+
+.tb-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 4px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  cursor: pointer;
+}
+
+.tb-brand:hover {
+  background: var(--bg-hover);
+}
+
+.tb-logo {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 5px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 700 10px/1 var(--font-mono);
+  letter-spacing: -0.05em;
+}
+
+.tb-name {
+  color: var(--fg-strong);
+  font-size: 13px;
+}
+
+.tb-nav {
+  display: flex;
+  gap: 2px;
+}
+
+.tb-nav button {
+  padding: 3px 9px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--fg);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.tb-nav button:hover {
+  background: var(--bg-hover);
+  color: var(--fg-strong);
+}
+
+.tb-command {
+  flex: 0 1 460px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 26px;
+  padding: 0 6px 0 10px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: color-mix(in oklab, var(--bg-editor) 70%, var(--bg-chrome));
+  color: var(--fg-muted);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.tb-command:hover {
+  border-color: var(--fg-faint);
+  background: var(--bg-hover);
+}
+
+.tb-command-text {
+  flex: 1;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.tb-command-keys {
+  display: flex;
+  gap: 3px;
+}
+
+.tb-actions {
+  display: flex;
+  gap: 2px;
+}
+
+.tb-icon-btn {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 5px;
+  background: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.tb-icon-btn:hover {
+  background: var(--bg-hover);
+  color: var(--fg-strong);
+  text-decoration: none;
+}
+
+.tb-menu {
+  display: none;
+}
+
+/* ── 몸통: 활동 막대 · 탐색기 · 편집기 ─────────────────── */
+
+.ide-body {
+  display: grid;
+  grid-template-columns: var(--w-activity) var(--w-sidebar) minmax(0, 1fr);
+  transition: grid-template-columns 0.22s var(--ease-out);
+}
+
+.ide-body.no-sidebar {
+  grid-template-columns: var(--w-activity) 0px minmax(0, 1fr);
+}
+
+.activitybar {
+  position: sticky;
+  top: var(--h-title);
+  z-index: 30;
+  height: calc(100dvh - var(--h-title) - var(--h-status));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px 0 4px;
+  background: var(--bg-chrome);
+  border-right: 1px solid var(--border);
+  view-transition-name: activitybar;
+}
+
+.ab-btn {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 46px;
+  border: 0;
+  background: none;
+  color: var(--fg-faint);
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.ab-btn:hover,
+.ab-btn.is-on {
+  color: var(--fg-strong);
+}
+
+.ab-btn.is-on::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: var(--accent);
+}
+
+.ab-btn[data-tip]:hover::after,
+.ab-btn[data-tip]:focus-visible::after {
+  content: attr(data-tip);
+  position: absolute;
+  left: calc(100% + 4px);
+  top: 50%;
+  translate: 0 -50%;
+  z-index: 70;
+  padding: 3px 9px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--bg-widget);
+  color: var(--fg-strong);
+  font: 12px/1.6 var(--font-sans);
+  white-space: pre;
+  box-shadow: 0 4px 14px rgb(0 0 0 / 0.25);
+  pointer-events: none;
+}
+
+.ab-badge {
+  position: absolute;
+  right: 5px;
+  bottom: 7px;
+  min-width: 17px;
+  height: 16px;
+  padding: 0 4px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: var(--on-accent);
+  font: 600 9.5px/16px var(--font-mono);
+}
+
+.ab-spacer {
+  flex: 1;
+}
+
+/* ── 탐색기 ───────────────────────────────────────────── */
+
+.explorer {
+  position: sticky;
+  top: var(--h-title);
+  z-index: 20;
+  height: calc(100dvh - var(--h-title) - var(--h-status));
+  min-width: 0;
+  overflow: hidden auto;
+  background: var(--bg-chrome);
+  border-right: 1px solid var(--border);
+  font-size: 13px;
+  scrollbar-width: thin;
+  view-transition-name: explorer;
+}
+
+.no-sidebar .explorer {
+  visibility: hidden;
+  border-right: 0;
+}
+
+.ex-title {
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  color: var(--fg-muted);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+}
+
+.explorer summary {
+  list-style: none;
+}
+
+.explorer summary::-webkit-details-marker {
+  display: none;
+}
+
+.ex-group-head {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  height: 22px;
+  padding: 0 4px;
+  color: var(--fg-strong);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+}
+
+.ex-chevron {
+  flex: none;
+  transition: rotate 0.15s;
+}
+
+details[open] > summary .ex-chevron {
+  rotate: 90deg;
+}
+
+/* 폴더 접고 펼치기: ::details-content 와 interpolate-size 로 높이 auto 를 부드럽게 */
+.ex-group::details-content,
+.ex-folder::details-content {
+  block-size: 0;
+  overflow-y: clip;
+  transition: block-size 0.2s var(--ease-out), content-visibility 0.2s allow-discrete;
+}
+
+.ex-group[open]::details-content,
+.ex-folder[open]::details-content {
+  block-size: auto;
+}
+
+.explorer li {
+  list-style: none;
+}
+
+.ex-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  height: 22px;
+  padding: 0 10px 0 calc(var(--depth, 0) * 12px + 6px);
+  border: 1px solid transparent;
+  background: none;
+  color: var(--fg);
+  font: 13px/1 var(--font-sans);
+  text-align: left;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.ex-item:hover {
+  background: var(--bg-hover);
+}
+
+.ex-item.is-active {
+  background: var(--bg-active);
+  color: var(--fg-strong);
+}
+
+.ex-item:focus-visible {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.ex-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ex-item.is-modified .ex-name {
+  color: var(--git-modified);
+}
+
+.ex-count {
+  margin-left: auto;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: var(--bg-active);
+  color: var(--fg-muted);
+  font: 600 10.5px/16px var(--font-mono);
+  text-align: center;
+}
+
+.ex-star {
+  color: light-dark(#b8860b, #e2c08d);
+  font-size: 11px;
+}
+
+.ex-git {
+  color: var(--git-modified);
+  font: 700 11px/1 var(--font-mono);
+}
+
+.ex-item > .ex-star,
+.ex-item > .ex-git {
+  margin-left: auto;
+}
+
+.ex-item > .ex-star + .ex-git {
+  margin-left: 6px;
+}
+
+.ex-legend {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 11px;
+}
+
+.ex-legend b {
+  font-weight: 700;
+  margin-right: 3px;
+}
+
+.ex-backdrop {
+  display: none;
+}
+
+/* 파일 아이콘 */
+.file-icon {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 16px;
+  font: 700 9.5px/1 var(--font-mono);
+  letter-spacing: -0.04em;
+}
+
+.file-icon.md { color: light-dark(#3d7ea0, #519aba); }
+.file-icon.json { color: light-dark(#a39e00, #cbcb41); }
+.file-icon.ts { color: light-dark(#2f6db5, #4d8fd6); }
+.file-icon.git { color: light-dark(#d1401f, #f14e32); }
+.file-icon.folder { color: light-dark(#b98a2e, #dcb67a); }
+
+/* ── 편집기 ───────────────────────────────────────────── */
+
+.editor {
+  min-width: 0;
+}
+
+.editor-head {
+  position: sticky;
+  top: var(--h-title);
+  z-index: 40;
+  background: var(--bg-editor);
+  view-transition-name: editor-head;
+}
+
+.tabs {
+  display: flex;
+  height: var(--h-tabs);
+  overflow-x: auto;
+  background: var(--bg-chrome);
+  border-bottom: 1px solid var(--border);
+  scrollbar-width: none;
+}
+
+.tab {
+  position: relative;
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  height: 100%;
+  padding: 0 14px;
+  border: 0;
+  border-right: 1px solid var(--border);
+  background: transparent;
+  color: var(--fg-muted);
+  font-size: 13px;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.tab:hover {
+  background: var(--bg-hover);
+}
+
+.tab.is-active {
+  background: var(--bg-editor);
+  color: var(--fg-strong);
+  cursor: default;
+}
+
+.tab.is-active::before {
+  content: '';
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  background: var(--accent);
+}
+
+.tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -1px;
+  height: 1px;
+  background: var(--bg-editor);
+}
+
+.tab.is-preview > span {
+  font-style: italic;
+}
+
+.tab-prefix {
+  color: var(--fg-muted);
+}
+
+.tab-close {
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
+  margin-left: 2px;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.tab-close:hover {
+  background: var(--bg-hover);
+  color: var(--fg-strong);
+}
+
+.crumbs {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: var(--h-crumbs);
+  padding: 0 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-editor);
+  color: var(--fg-muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.crumbs button {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.crumbs button:hover {
+  color: var(--fg-strong);
+  text-decoration: underline;
+}
+
+.crumbs-current {
+  color: var(--fg);
+}
+
+.editor-content {
+  min-width: 0;
+}
+
+/* ── 미니맵 ───────────────────────────────────────────── */
+
+.minimap {
+  display: none;
+}
+
+@media (min-width: 1280px) {
+  .editor-main.has-minimap {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 84px;
+  }
+
+  .minimap {
+    display: block;
+    position: sticky;
+    top: var(--sticky-top);
+    height: calc(100dvh - var(--sticky-top) - var(--h-status));
+    overflow: hidden;
+    border-left: 1px solid var(--border);
+    cursor: pointer;
+  }
+}
+
+.mm-track {
+  position: absolute;
+  inset: 8px 10px 8px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.mm-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.mm-line {
+  flex: none;
+  display: block;
+  height: 2px;
+  border-radius: 1px;
+  opacity: 0.5;
+}
+
+.mm-slider {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: var(--mm-h);
+  background: light-dark(rgb(0 0 0 / 0.07), rgb(255 255 255 / 0.07));
+  transition: background 0.15s;
+}
+
+.minimap:hover .mm-slider {
+  background: light-dark(rgb(0 0 0 / 0.13), rgb(255 255 255 / 0.13));
+}
+
+.mm-slider.is-timeline {
+  animation-name: mm-scroll;
+  animation-timing-function: linear;
+  animation-fill-mode: both;
+  animation-timeline: scroll(root block);
+}
+
+@keyframes mm-scroll {
+  from {
+    top: 0%;
+  }
+  to {
+    top: calc(100% - var(--mm-h));
+  }
+}
+
+/* ── 상태 표시줄 ─────────────────────────────────────── */
+
+@property --scroll-pct {
+  syntax: '<integer>';
+  inherits: true;
+  initial-value: 0;
+}
+
+.statusbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  height: var(--h-status);
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding-right: 6px;
+  background: var(--bg-chrome);
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 12px;
+  view-transition-name: statusbar;
+}
+
+.sb-remote {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+  padding: 0 10px;
+  background: var(--accent);
+  color: var(--on-accent);
+}
+
+.sb-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  height: 100%;
+  padding: 0 8px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  white-space: nowrap;
+}
+
+button.sb-item {
+  cursor: pointer;
+}
+
+button.sb-item:hover {
+  background: var(--bg-hover);
+  color: var(--fg-strong);
+}
+
+.sb-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--git-added);
+}
+
+.sb-spacer {
+  flex: 1;
+}
+
+/* 스크롤 위치 표시: 스크롤 타임라인이 정수형 --scroll-pct 를 0→100 으로 움직이고
+   그 값을 CSS 카운터로 글자로 찍는다. 지원하지 않으면 '맨 위로' 로 보인다. */
+.sb-scroll-value::after {
+  content: '맨 위로 ↑';
+}
+
+@supports (animation-timeline: scroll()) {
+  .sb-scroll {
+    animation-name: sb-pct;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(root block);
+    counter-reset: pct var(--scroll-pct);
+  }
+
+  .sb-scroll-value::after {
+    content: 'Ln ' counter(pct) '%';
+  }
+}
+
+@keyframes sb-pct {
+  from {
+    --scroll-pct: 0;
+  }
+  to {
+    --scroll-pct: 100;
+  }
+}
+
+/* ── 명령 팔레트 ─────────────────────────────────────── */
+
+.palette {
+  margin: 12vh auto auto;
+  padding: 0;
+  width: min(640px, calc(100vw - 32px));
+  border: 1px solid var(--border-strong);
+  border-radius: 8px;
+  background: var(--bg-widget);
+  color: var(--fg);
+  box-shadow: 0 18px 50px rgb(0 0 0 / 0.38);
+  overflow: hidden;
+  opacity: 0;
+  translate: 0 -10px;
+  scale: 0.98;
+  transition: opacity 0.16s ease, translate 0.18s var(--ease-out), scale 0.18s var(--ease-out),
+    overlay 0.18s allow-discrete, display 0.18s allow-discrete;
+}
+
+.palette[open] {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+}
+
+.palette::backdrop {
+  background: rgb(0 0 0 / 0);
+  transition: background 0.18s, overlay 0.18s allow-discrete, display 0.18s allow-discrete;
+}
+
+.palette[open]::backdrop {
+  background: rgb(0 0 0 / 0.38);
+}
+
+@starting-style {
+  .palette[open] {
+    opacity: 0;
+    translate: 0 -10px;
+    scale: 0.98;
+  }
+
+  .palette[open]::backdrop {
+    background: rgb(0 0 0 / 0);
+  }
+}
+
+.pl-input-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  color: var(--fg-muted);
+}
+
+.pl-input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  padding: 0 8px;
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  outline: none;
+  background: var(--bg-input);
+  color: var(--fg-strong);
+  font: 14px var(--font-sans);
+}
+
+.pl-list {
+  max-height: min(56vh, 440px);
+  overflow-y: auto;
+  padding: 4px 0;
+  list-style: none;
+  scrollbar-width: thin;
+}
+
+.pl-group {
+  padding: 8px 14px 4px;
+  color: var(--fg-muted);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.pl-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 30px;
+  padding: 0 14px;
+  font-size: 13.5px;
+  cursor: pointer;
+}
+
+.pl-item.is-cursor {
+  background: var(--bg-active);
+  color: var(--fg-strong);
+  outline: 1px solid var(--accent);
+  outline-offset: -1px;
+}
+
+.pl-icon {
+  display: grid;
+  place-items: center;
+  width: 16px;
+  flex: none;
+  color: var(--fg-muted);
+}
+
+.pl-label {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.pl-label mark {
+  background: none;
+  color: var(--accent-fg);
+  font-weight: 700;
+}
+
+.pl-detail {
+  margin-left: auto;
+  max-width: 46%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--fg-muted);
+  font-size: 11.5px;
+}
+
+.pl-empty {
+  padding: 16px;
+  color: var(--fg-muted);
+  list-style: none;
+}
+
+.pl-foot {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 6px 12px;
+  border-top: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 11px;
+}
+
+.pl-foot span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* ── 반응형 ───────────────────────────────────────────── */
+
+@media (max-width: 1279px) {
+  .tb-nav {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .tb-menu {
+    display: grid;
+  }
+
+  .ide-body,
+  .ide-body.no-sidebar {
+    grid-template-columns: var(--w-activity) minmax(0, 1fr);
+  }
+
+  /* 좁은 화면의 탐색기는 서랍 */
+  .explorer,
+  .no-sidebar .explorer {
+    position: fixed;
+    left: var(--w-activity);
+    top: var(--h-title);
+    bottom: var(--h-status);
+    z-index: 55;
+    width: min(300px, 82vw);
+    height: auto;
+    translate: -120% 0;
+    visibility: hidden;
+    border-right: 1px solid var(--border);
+    box-shadow: 10px 0 30px rgb(0 0 0 / 0.3);
+    transition: translate 0.25s var(--ease-out), visibility 0.25s;
+  }
+
+  .explorer.is-open {
+    translate: 0 0;
+    visibility: visible;
+  }
+
+  .ex-backdrop {
+    display: block;
+    position: fixed;
+    inset: var(--h-title) 0 var(--h-status) 0;
+    z-index: 50;
+    border: 0;
+    background: rgb(0 0 0 / 0.42);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.25s;
+  }
+
+  .ex-backdrop.is-open {
+    opacity: 1;
+    pointer-events: auto;
+  }
+}
+
+@media (max-width: 767px) {
+  .ide-body,
+  .ide-body.no-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .activitybar {
+    display: none;
+  }
+
+  .explorer,
+  .no-sidebar .explorer {
+    left: 0;
+  }
+
+  .tb-command {
+    flex: 0 0 auto;
+    margin-left: auto;
+    width: 34px;
+    justify-content: center;
+    padding: 0;
+  }
+
+  .tb-command-text,
+  .tb-command-keys {
+    display: none;
+  }
+
+  .sb-wide {
+    display: none;
+  }
+
+  .pl-foot span:last-child {
+    display: none;
+  }
+}
+
+/* 터치 기기에서는 단축키 안내를 숨긴다 */
+@media (hover: none) {
+  .tb-command-keys,
+  .welcome-keys {
+    display: none;
+  }
+}

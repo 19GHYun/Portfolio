@@ -183,20 +183,20 @@ const ProjectCover: React.FC<ProjectCoverProps> = ({ project, height = 96 }) => 
       className="project-cover"
       viewBox={`0 0 ${W} ${H}`}
       preserveAspectRatio="none"
-      style={{ height }}
+      style={{ height, ['--lane' as string]: `var(--lane-${project.category})` }}
       aria-hidden="true"
       focusable="false"
     >
       <defs>
         <linearGradient id={gradientId} x1="0" y1="0" x2="1" y2="0">
-          <stop offset="0%" stopColor="var(--phosphor)" stopOpacity="0.15" />
-          <stop offset="45%" stopColor="var(--phosphor)" stopOpacity="0.9" />
-          <stop offset="100%" stopColor="var(--cyan)" stopOpacity="0.35" />
+          <stop offset="0%" stopColor="var(--lane)" stopOpacity="0.15" />
+          <stop offset="45%" stopColor="var(--lane)" stopOpacity="0.95" />
+          <stop offset="100%" stopColor="var(--accent-fg)" stopOpacity="0.4" />
         </linearGradient>
       </defs>
 
-      {/* 계측기 눈금 */}
-      <g stroke="var(--line)" strokeWidth="1">
+      {/* 그래프 눈금 */}
+      <g stroke="var(--border)" strokeWidth="1">
         {[0.25, 0.5, 0.75].map((p) => (
           <line key={p} x1={0} y1={H * p} x2={W} y2={H * p} />
         ))}

@@ -1,64 +1,60 @@
-/* WorkMapSection.css - 프로젝트 타임라인 맵 */
-
-.workmap-section {
-  min-height: auto;
-}
-
-.workmap-intro {
-  max-width: 720px;
-  margin: -2.5rem auto 2rem;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 1rem;
-  line-height: 1.7;
-}
+/* WorkMapSection.css - timeline.git */
 
 /* 범례 */
 .workmap-legend {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 2.5rem;
+  align-items: center;
+  gap: 8px 22px;
+  margin-bottom: 14px;
+  color: var(--fg-muted);
+  font-size: 12px;
 }
 
 .workmap-legend-item {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  color: var(--text-light);
-  font-size: 0.9rem;
+  gap: 8px;
 }
 
 .workmap-swatch {
-  width: 26px;
-  height: 10px;
-  border-radius: 5px;
   display: inline-block;
+  width: 24px;
+  height: 8px;
+  border-radius: 4px;
 }
 
 .workmap-swatch.completed {
-  background: var(--mint-gradient);
+  background: var(--accent);
 }
 
 .workmap-swatch.in-progress {
-  background: rgba(74, 222, 128, 0.12);
-  border: 1px dashed var(--secondary-color);
+  border: 1px solid var(--accent);
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--accent-soft) 0 3px,
+    transparent 3px 6px
+  );
 }
 
 .workmap-swatch.today {
-  width: 3px;
-  height: 16px;
-  border-radius: 2px;
-  background: var(--accent-color);
-  box-shadow: 0 0 8px rgba(34, 211, 238, 0.8);
+  width: 2px;
+  height: 14px;
+  border-radius: 1px;
+  background: var(--git-modified);
+}
+
+.workmap-hint {
+  margin-left: auto;
+  color: var(--fg-faint);
 }
 
 /* 좁은 화면에서는 가로 스크롤 */
 .workmap-scroll {
   overflow-x: auto;
   overflow-y: hidden;
-  padding-bottom: 0.5rem;
+  padding: 14px 16px 10px 0;
+  scrollbar-width: thin;
 }
 
 .workmap-chart {
@@ -71,167 +67,193 @@
   display: grid;
   grid-template-columns: var(--workmap-name-width) 1fr;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 0.55rem;
+  gap: 16px;
+  margin-bottom: 6px;
 }
 
 .workmap-row-name {
-  color: var(--text-light);
-  font-size: 0.88rem;
-  line-height: 1.4;
-  text-align: right;
-  overflow: hidden;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  /* 좁은 화면에서 차트를 옆으로 넘겨도 이름 열은 제자리에 남는다.
-     오른쪽 그림자는 이름과 트랙 사이 간격까지 덮어 막대가 비치지 않게 한다 */
   position: sticky;
   left: 0;
   z-index: 3;
-  background: var(--bg);
-  box-shadow: 1rem 0 0 var(--bg);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  padding-left: 16px;
+  background: var(--bg-elev);
+  /* 옆으로 넘겨도 이름 열이 제자리에 남고, 간격까지 덮어 막대가 비치지 않게 한다 */
+  box-shadow: 16px 0 0 var(--bg-elev);
+  color: var(--fg);
+  font-size: 13px;
+  line-height: 1.4;
+  text-align: right;
 }
 
-/* 연도 줄의 이름 칸은 비어 있어 높이가 0이 되므로, 줄 높이만큼 늘려서
-   옆으로 넘긴 연도 글자를 가린다 */
 .workmap-axis .workmap-row-name {
   align-self: stretch;
 }
 
-/* 가로로 넘칠 때만 보이는 안내 */
-.workmap-hint.mono-label {
-  text-align: right;
-  margin-bottom: var(--sp-2);
-  color: var(--phosphor-dim);
-}
-
 /* 연도 눈금 */
 .workmap-axis {
-  margin-bottom: 1rem;
+  margin-bottom: 10px;
 }
 
 .workmap-axis-track {
+  position: relative;
   display: grid;
   grid-template-columns: repeat(var(--workmap-years), 1fr);
-  border-bottom: 1px solid rgba(74, 222, 128, 0.25);
+  border-bottom: 1px solid var(--border-strong);
 }
 
 .workmap-axis-year {
-  color: var(--secondary-color);
-  font-size: 0.8rem;
-  font-weight: 600;
-  padding-bottom: 0.4rem;
-  padding-left: 0.4rem;
-  border-left: 1px solid rgba(74, 222, 128, 0.18);
+  padding: 0 0 6px 6px;
+  border-left: 1px solid var(--border);
+  color: var(--fg-muted);
+  font-size: 12px;
 }
 
-/* 카테고리 그룹 */
+.workmap-head {
+  position: absolute;
+  bottom: calc(100% - 2px);
+  translate: -50% 0;
+  padding: 0 5px;
+  border-radius: 3px;
+  background: var(--git-modified);
+  color: var(--bg-editor);
+  font-size: 9.5px;
+  font-weight: 700;
+  line-height: 15px;
+}
+
+/* 분야(브랜치) */
 .workmap-group {
-  margin-bottom: 1.8rem;
+  margin-bottom: 18px;
 }
 
 .workmap-group-title {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  color: var(--secondary-color);
-  font-size: 0.95rem;
-  font-weight: 600;
-  margin-bottom: 0.7rem;
-  padding-left: 0.2rem;
-  /* 이름 열과 마찬가지로 옆으로 넘겨도 분야 제목이 왼쪽에 남는다.
-     차트 전체 폭으로 늘어나 있으면 붙어 있을 수가 없어서 내용 폭으로 줄인다 */
   position: sticky;
   left: 0;
   z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 7px;
   width: fit-content;
+  margin-bottom: 8px;
+  padding-left: 16px;
+  color: var(--lane);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.workmap-group-label {
+  color: var(--fg-muted);
+  font-weight: 500;
 }
 
 .workmap-group-count {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 20px;
-  height: 20px;
-  padding: 0 0.4rem;
-  border-radius: 10px;
-  background: rgba(74, 222, 128, 0.15);
-  border: 1px solid rgba(74, 222, 128, 0.3);
-  color: var(--secondary-color);
-  font-size: 0.72rem;
+  min-width: 18px;
+  padding: 0 5px;
+  border-radius: 9px;
+  background: color-mix(in oklab, var(--lane) 16%, transparent);
+  color: var(--lane);
+  font-size: 10.5px;
+  line-height: 16px;
+  text-align: center;
 }
 
 /* 막대가 놓이는 트랙 */
 .workmap-track {
   position: relative;
-  height: 30px;
-  border-radius: 6px;
-  background-color: rgba(74, 222, 128, 0.04);
-  background-image: linear-gradient(
-    90deg,
-    rgba(74, 222, 128, 0.14) 1px,
-    transparent 1px
-  );
+  height: 28px;
+  background-image: linear-gradient(90deg, var(--border) 1px, transparent 1px);
   background-size: calc(100% / var(--workmap-years)) 100%;
 }
 
-/* 현재 시점 표시선 */
+.workmap-track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  border-top: 1px dashed color-mix(in oklab, var(--lane) 30%, transparent);
+}
+
+/* 현재 시점 (HEAD) */
 .workmap-today {
   position: absolute;
-  top: -2px;
-  bottom: -2px;
-  width: 2px;
-  background: var(--accent-color);
-  opacity: 0.55;
-  box-shadow: 0 0 6px rgba(34, 211, 238, 0.6);
+  top: -4px;
+  bottom: -4px;
+  width: 1px;
+  background: var(--git-modified);
+  opacity: 0.7;
 }
 
 /* 프로젝트 막대 */
 .workmap-bar {
   position: absolute;
-  top: 6px;
-  height: 18px;
-  min-width: 10px;
+  top: 7px;
+  height: 14px;
+  min-width: 12px;
   padding: 0;
-  border: none;
-  border-radius: 9px;
-  background: var(--mint-gradient);
+  border: 0;
+  border-radius: 7px;
+  background: var(--lane);
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  anchor-name: var(--anchor);
+  transition: transform 0.18s var(--ease-out), box-shadow 0.18s, filter 0.18s;
+}
+
+/* 시작과 끝의 커밋 점 */
+.workmap-bar::before,
+.workmap-bar::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  border: 2px solid var(--lane);
+  border-radius: 50%;
+  background: var(--bg-elev);
+  translate: 0 -50%;
+}
+
+.workmap-bar::before {
+  left: -3px;
+}
+
+.workmap-bar::after {
+  right: -3px;
 }
 
 .workmap-bar:hover,
 .workmap-bar:focus-visible {
-  transform: scaleY(1.25);
-  box-shadow: 0 0 14px rgba(74, 222, 128, 0.55);
-  filter: brightness(1.12);
+  transform: scaleY(1.2);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--lane) 28%, transparent);
   outline: none;
   z-index: 2;
 }
 
 .workmap-bar.in-progress {
-  background: rgba(74, 222, 128, 0.14);
-  border: 1px dashed var(--secondary-color);
-  animation: workmap-pulse 2.2s ease-in-out infinite;
+  border: 1px solid var(--lane);
+  background: repeating-linear-gradient(
+    -45deg,
+    color-mix(in oklab, var(--lane) 35%, transparent) 0 4px,
+    transparent 4px 8px
+  );
+  animation: wm-pulse 2.4s ease-in-out infinite;
 }
 
 .workmap-bar.planned {
-  background: rgba(107, 114, 128, 0.2);
-  border: 1px dashed var(--text-muted);
+  border: 1px dashed var(--fg-muted);
+  background: transparent;
 }
 
-@keyframes workmap-pulse {
-  0%,
-  100% {
-    box-shadow: 0 0 0 rgba(74, 222, 128, 0);
-  }
+@keyframes wm-pulse {
   50% {
-    box-shadow: 0 0 12px rgba(74, 222, 128, 0.6);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--lane) 22%, transparent);
   }
 }
 
-/* 스크린리더 전용 텍스트 */
 .workmap-bar-sr {
   position: absolute;
   width: 1px;
@@ -248,70 +270,114 @@
   transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
-  gap: 0.4rem;
+  gap: 6px;
   white-space: nowrap;
   pointer-events: none;
 }
 
 .workmap-bar-label.right {
-  margin-left: 0.5rem;
+  margin-left: 10px;
 }
 
 .workmap-bar-label.left {
-  margin-right: 0.5rem;
+  margin-right: 10px;
   flex-direction: row-reverse;
 }
 
 .workmap-bar-period {
-  color: var(--text-muted);
-  font-size: 0.74rem;
-  letter-spacing: 0.02em;
+  color: var(--fg-muted);
+  font-size: 11px;
 }
 
 .workmap-bar-badge {
-  padding: 0.1rem 0.5rem;
-  border-radius: 10px;
-  font-size: 0.68rem;
-  font-weight: 700;
+  padding: 0 7px;
+  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 17px;
 }
 
 .workmap-bar-badge.in-progress {
-  background: rgba(74, 222, 128, 0.18);
-  border: 1px solid var(--secondary-color);
-  color: var(--secondary-color);
+  background: color-mix(in oklab, var(--git-modified) 18%, transparent);
+  color: var(--git-modified);
 }
 
 .workmap-bar-badge.planned {
-  background: rgba(107, 114, 128, 0.18);
-  border: 1px solid var(--text-muted);
-  color: var(--text-muted);
+  background: var(--bg-active);
+  color: var(--fg-muted);
+}
+
+/* 막대 요약: CSS 앵커 위치 지정. 막대 위에 붙고, 위가 모자라면 아래로 뒤집힌다 */
+.wm-tip {
+  display: none;
+}
+
+@supports (anchor-name: --a) {
+  .wm-tip {
+    position: fixed;
+    position-anchor: var(--anchor);
+    position-area: top;
+    position-try-fallbacks: flip-block;
+    z-index: 45;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: max-content;
+    max-width: 340px;
+    margin: 10px 0;
+    padding: 10px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 6px;
+    background: var(--bg-widget);
+    box-shadow: 0 12px 32px rgb(0 0 0 / 0.3);
+    opacity: 0;
+    visibility: hidden;
+    translate: 0 4px;
+    pointer-events: none;
+    transition: opacity 0.14s, translate 0.14s var(--ease-out), visibility 0.14s;
+  }
+
+  .workmap-row:has(.workmap-bar:hover, .workmap-bar:focus-visible) .wm-tip {
+    opacity: 1;
+    visibility: visible;
+    translate: 0 0;
+  }
+}
+
+.wm-tip-title {
+  color: var(--fg-strong);
+  font-size: 13.5px;
+  font-weight: 700;
+}
+
+.wm-tip-meta {
+  color: var(--lane);
+  font-size: 11px;
+}
+
+.wm-tip-summary {
+  color: var(--fg-muted);
+  font-size: 12.5px;
+  line-height: 1.55;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .workmap-bar.in-progress {
     animation: none;
   }
-  .workmap-bar {
-    transition: none;
-  }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .workmap-chart {
     min-width: 640px;
-    --workmap-name-width: 170px;
+    --workmap-name-width: 160px;
   }
 
   .workmap-row-name {
-    font-size: 0.78rem;
+    font-size: 12px;
   }
 
-  .workmap-intro {
-    margin-top: -1rem;
-    font-size: 0.92rem;
-  }
-
-  .workmap-legend {
-    gap: 1rem;
+  .workmap-hint {
+    margin-left: 0;
   }
 }
