@@ -45,6 +45,7 @@ const PROJECT_FILES: Record<string, string> = {
   '15': 'reimu-calendar',
   '16': 'hokora',
   '17': 'inflation-rpg',
+  '18': 'sanae-miracle-picker',
 };
 
 export const projectFile = (project: Pick<Project, 'id'>): string =>

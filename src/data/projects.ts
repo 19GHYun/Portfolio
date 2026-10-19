@@ -119,7 +119,7 @@ export const projects: Project[] = [
     results: [
       'Netlify로 배포 중 (19ygh.netlify.app), main에 머지되면 자동 재배포',
       '상세 주소로 바로 들어와도 열리도록 SPA 리다이렉트 설정',
-      '프로젝트 17개와 기술 39개를 데이터 파일 한 곳에서 관리'
+      '프로젝트와 기술 목록을 데이터 파일 한 곳에서 관리해, 항목을 추가하면 카드 · 타임라인 · 탐색기 · 검색 목록이 함께 바뀜'
     ],
     images: [],
     githubUrl: 'https://github.com/19GHYun/Portfolio',
@@ -714,11 +714,12 @@ export const projects: Project[] = [
     technologies: ['Python', 'PySide6', 'Win32 API', 'PyInstaller', '이미지 생성 AI (Gemini)', 'GitHub Releases'],
     category: 'game',
     context: 'personal',
-    status: 'in-progress',
+    status: 'completed',
     startDate: '2026-09',
+    endDate: '2026-10',
     teamSize: 1,
     myRole: '기획 · 개발 · 리소스 디렉팅 (1인)',
-    metrics: [{ label: '릴리즈', value: '15회 / 2주' }, { label: '등장 캐릭터', value: '22명' }, { label: '스프라이트', value: '604장' }],
+    metrics: [{ label: '릴리즈', value: '24회 / 17일' }, { label: '등장 캐릭터', value: '22명' }, { label: '스프라이트', value: '604장' }],
     features: [
       '작업표시줄뿐 아니라 열려 있는 다른 프로그램 창 위로도 점프해 올라가고, 창 끝에서 돌아서거나 뛰어내림',
       '집어서 던지면 회전하며 날아가 통통 튀는 물리',
@@ -741,7 +742,7 @@ export const projects: Project[] = [
       '부적 뽑기, 의상 가챠, 시즌 한정 뽑기와 옷감 구매 등 재화 소비처를 추가해 밸런스 조정'
     ],
     results: [
-      '2주 동안 15회 릴리즈 (v0.1 → v1.6.0), 44회 커밋',
+      '17일 동안 24회 릴리즈 (v0.1.0 → v1.12.3), 55회 커밋',
       '22명 캐릭터, 스프라이트 604장',
       '사용자 피드백(최종 단계 신사가 너무 크다)을 받아 단계별 외형 선택 기능으로 반영'
     ],
@@ -757,8 +758,9 @@ export const projects: Project[] = [
     technologies: ['vJASS', 'JNLoader', 'Python', 'JN 서버 (저장 · 랭킹)', 'JassHelper', 'pjass', 'MPQ · BLP · MDX', 'Pillow', 'ffmpeg', 'Warcraft III 1.28'],
     category: 'game',
     context: 'personal',
-    status: 'in-progress',
+    status: 'completed',
     startDate: '2026-10',
+    endDate: '2026-10',
     teamSize: 1,
     myRole: '기획 · 개발 · 밸런스 설계 (1인)',
     metrics: [{ label: '최대 인원', value: '6인' }, { label: '최고 레벨', value: 'Lv 1000만' }, { label: '커밋', value: '103 / 11일' }],
@@ -794,5 +796,45 @@ export const projects: Project[] = [
     coverBanner: true,
     gameUrl: 'https://m16tool.xyz/Game/IRPG',
     reflection: '워크래프트3 맵을 만들 때마다 에디터가 있는 PC로 옮겨 가서 작업해야 하는 게 번거로웠는데, 맵 파일이 결국 MPQ 압축 파일이라는 걸 알고 나서 에디터가 하던 일을 빌드 스크립트가 대신하게 했습니다. 다른 맵을 고치면서 먼저 써 본 방식을 이 프로젝트에서는 처음부터 기본 작업 방식으로 정했고, 덕분에 맵도 일반 소프트웨어처럼 코드로 고치고, 빌드하고, git으로 배포합니다. 원작을 옮기는 일은 결국 숫자를 옮기는 일이라 공식을 명세로 먼저 정리했고, 원작 너머의 모드는 직접 해 볼 수 없는 수백 판을 시뮬레이터로 돌려 판 수를 맞췄습니다.'
+  },
+  {
+    id: '18',
+    title: '사나에의 기적 추첨기 - Windows 추첨 프로그램',
+    summary: '룰렛 · 당첨자 뽑기 · 사다리 · 팀 나누기 · 순서 · 주사위를 사나에가 기적을 일으켜 뽑아 주는 오프라인 추첨기',
+    description: '모리야 신사의 무녀 코치야 사나에가 기적을 일으켜 뽑아 주는 Windows 추첨 프로그램입니다. 점심 메뉴 고르기부터 방송 · 카페 이벤트 경품 추첨까지 목록만 붙여 넣으면 됩니다. 인터넷 없이 동작해서 참가자 명단이 밖으로 나가지 않고, 모든 추첨은 시드 하나로 정해져 기록에 남기 때문에 같은 목록 · 같은 시드로 언제든 같은 결과를 다시 확인할 수 있습니다.',
+    technologies: ['Python', 'PySide6', 'PyInstaller', 'GitHub Actions', 'GitHub Releases', 'secrets · SHA-256'],
+    category: 'desktop',
+    context: 'personal',
+    status: 'in-progress',
+    startDate: '2026-10',
+    teamSize: 1,
+    myRole: '기획 · 개발 · 배포 (1인)',
+    metrics: [{ label: '추첨 모드', value: '6종' }, { label: '스모크 테스트', value: '71개' }, { label: '릴리즈', value: 'v0.2.0' }],
+    features: [
+      '룰렛: 가중치대로 칸 넓이를 나누고, 뽑힌 항목을 빼면 순서 정하기처럼 사용',
+      '당첨자 뽑기: 등수별 인원을 정하고 낮은 등수부터 한 명씩 발표 (1등은 더 길게), 한 사람은 한 번만 당첨, 직전 당첨자 빼고 뽑기',
+      '사다리 (2~20명): 가로줄을 깐 뒤 한 명씩 색깔 선으로 따라 내려가는 연출, 결과가 모자라면 꽝으로 채움',
+      '팀 나누기 (2~12팀, 인원 차이 최대 1명) · 순서 정하기 · 주사위(d4~d100) · 동전 · 숫자 뽑기',
+      '목록 입력: 한 줄에 하나 · 쉼표 · 엑셀 붙여넣기 · "이름 x3" 가중치 · # 메모 줄, 이름 붙여 저장 · 섞기 · 가나다순 · 중복 제거',
+      '공정성 기록: 추첨마다 시각 · 목록 · 결과 · 시드 · 목록 지문을 남기고 결과 복사 · CSV 저장',
+      '사나에 연출: 돌리는 동안 고헤이를 휘두르고, 결과가 나오면 "기적 발생!" 컷인과 색종이'
+    ],
+    challenges: [
+      '방송 · 카페 이벤트처럼 결과를 나중에 다른 사람이 검증할 수 있어야 하는 추첨',
+      '가중치 표기("치킨x3", "이름 x3")와 원래 이름에 x와 숫자가 들어간 경우("FX3")를 구분해야 하는 점',
+      'Windows 빌드 러너 콘솔(cp1252)에서 한글 출력 때문에 시험 단계가 멈추던 문제'
+    ],
+    solutions: [
+      '모든 추첨을 운영체제 난수(secrets)로 만든 48비트 시드 하나로 정하고, 시드와 목록 지문(SHA-256 앞 8자리)을 기록에 남겨 같은 목록 · 같은 시드면 언제든 같은 결과를 재현',
+      '한글 바로 뒤의 x, 또는 공백이나 * 뒤의 숫자만 가중치로 읽도록 규칙을 정하고 시험 코드로 고정',
+      'CI에 PYTHONUTF8=1 을 걸고, 화면 없이(offscreen) 스모크 테스트 71개를 돌린 뒤 exe 빌드 · 릴리즈까지 자동화. 태그와 코드 버전이 다르면 릴리즈를 막음'
+    ],
+    results: [
+      '만든 첫날 v0.1.0(룰렛 · 당첨자 뽑기)에 이어 v0.2.0(사다리 · 팀 나누기 · 순서 정하기 · 주사위)까지 릴리즈',
+      'v* 태그를 올리면 GitHub Actions가 시험 → exe 빌드 → 릴리즈를 자동으로 진행',
+      '설치 없이 exe 하나로 실행, 목록 · 기록 · 설정은 사용자 폴더(%APPDATA%)에만 저장'
+    ],
+    images: [],
+    githubUrl: 'https://github.com/19GHYun/sanae-miracle-picker'
   }
 ];
