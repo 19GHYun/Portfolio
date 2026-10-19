@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { projects } from '../data/projects';
-import { orderedProjects, projectFile } from '../data/explorer';
+import { orderedProjects } from '../data/explorer';
 import { CONTEXT_LABEL } from '../types/Project';
 import { getProjectImages } from '../utils/projectImages';
 import ImageLightbox from './ImageLightbox';
@@ -110,10 +110,6 @@ const ProjectDetail: React.FC = () => {
         <dl className="front-matter mono" aria-label="프로젝트 정보">
           <div className="fm-fence" aria-hidden="true">
             ---
-          </div>
-          <div>
-            <dt>file</dt>
-            <dd className="fm-str">{projectFile(project)}</dd>
           </div>
           <div>
             <dt>category</dt>

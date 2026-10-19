@@ -1,5 +1,4 @@
 import React from 'react';
-import { SECTION_FILES } from '../../data/explorer';
 import { isMac, originOf, useIde } from './IdeContext';
 import { IconGithub, IconMenu, IconMoon, IconSearch, IconSun } from './icons';
 
@@ -7,7 +6,7 @@ interface TitleBarProps {
   onToggleExplorer: () => void;
 }
 
-/** 맨 위 제목 표시줄: 섹션 메뉴, 가운데 명령 센터(검색), 테마 · GitHub */
+/** 맨 위 제목 표시줄: 가운데 명령 센터(검색), 오른쪽 테마 · GitHub */
 const TitleBar: React.FC<TitleBarProps> = ({ onToggleExplorer }) => {
   const { theme, toggleTheme, openPalette, goToSection } = useIde();
   const mod = isMac() ? '⌘' : 'Ctrl';
@@ -29,14 +28,6 @@ const TitleBar: React.FC<TitleBarProps> = ({ onToggleExplorer }) => {
         </span>
         <span className="tb-name mono">ygh-portfolio</span>
       </button>
-
-      <nav className="tb-nav" aria-label="섹션 메뉴">
-        {SECTION_FILES.filter((s) => s.id !== 'about').map((s) => (
-          <button key={s.id} type="button" onClick={() => goToSection(s.id)}>
-            {s.label}
-          </button>
-        ))}
-      </nav>
 
       <button type="button" className="tb-command" onClick={openPalette}>
         <IconSearch size={14} />

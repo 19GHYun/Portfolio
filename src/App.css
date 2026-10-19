@@ -31,7 +31,8 @@
   --fg: light-dark(#3b3b3b, #cccccc);
   --fg-strong: light-dark(#1f1f1f, #ededed);
   --fg-muted: light-dark(#666666, #9d9d9d);
-  --fg-faint: light-dark(#8b8b8b, #6e7681);
+  /* 날짜 · 경로 같은 보조 글자도 4.5:1 대비를 넘기도록 */
+  --fg-faint: light-dark(#6e7681, #8b949e);
 
   --accent: light-dark(#005fb8, #0078d4);
   --accent-fg: light-dark(#005fb8, #4daafc);

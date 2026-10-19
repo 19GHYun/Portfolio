@@ -108,16 +108,16 @@ export const projects: Project[] = [
     ],
     challenges: [
       '목록과 상세를 오갈 때 보던 위치가 사라지는 문제',
-      '빌드 과정에서 CSS 선언이 정렬되며 animation 단축 속성이 animation-timeline 을 덮어써, 스크롤에 묶인 애니메이션이 모두 꺼지던 문제',
+      '빌드 과정에서 CSS 선언이 정렬되며 animation 단축 속성이 animation-timeline을 덮어써, 스크롤에 묶인 애니메이션이 모두 꺼지던 문제',
       '최신 CSS 기능을 지원하지 않는 브라우저에서도 내용은 그대로 보여야 하는 점'
     ],
     solutions: [
       '상세로 떠나기 직전 스크롤 위치를 기억해 두고, 돌아올 때 화면 전환이 새 화면을 찍기 전에 복원(useLayoutEffect)',
       'animation 단축 속성 대신 개별 속성으로 적어 선언 순서와 상관없이 동작하게 하고, 빌드 결과물에서 실제로 남았는지 확인',
-      '최신 기능은 @supports 로 감싸고 기본 상태를 늘 보이게 두어, 지원하지 않으면 효과만 빠지게 구성'
+      '최신 기능은 @supports로 감싸고 기본 상태를 늘 보이게 두어, 지원하지 않으면 효과만 빠지게 구성'
     ],
     results: [
-      'Netlify 로 배포 중 (19ygh.netlify.app), main 에 머지되면 자동 재배포',
+      'Netlify로 배포 중 (19ygh.netlify.app), main에 머지되면 자동 재배포',
       '상세 주소로 바로 들어와도 열리도록 SPA 리다이렉트 설정',
       '프로젝트 17개와 기술 39개를 데이터 파일 한 곳에서 관리'
     ],

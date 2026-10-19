@@ -112,81 +112,171 @@
   margin-left: 2px;
 }
 
-.welcome-cols {
-  display: grid;
-  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
-  gap: 28px;
-  margin-top: 40px;
+.welcome-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 18px;
+  margin-top: 16px;
+  font-size: 13.5px;
+}
+
+.welcome-contact a {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: var(--fg-muted);
+}
+
+.welcome-contact a:hover {
+  color: var(--accent-fg);
 }
 
 .welcome-h {
-  margin-bottom: 8px;
+  margin: 36px 0 8px;
   color: var(--fg-strong);
   font-size: 13px;
   font-weight: 600;
 }
 
-.welcome-links li,
-.welcome-recent li {
+/* 고정된(대표) 프로젝트 */
+.welcome-pinned {
+  border-top: 1px solid var(--border);
+}
+
+.welcome-pinned li {
   list-style: none;
+  border-bottom: 1px solid var(--border);
 }
 
-.welcome-links button,
-.welcome-links a {
-  display: flex;
-  align-items: center;
-  gap: 9px;
-  padding: 4px 0;
-  border: 0;
-  background: none;
-  color: var(--accent-fg);
-  font-size: 14px;
-  cursor: pointer;
-}
-
-.welcome-links button:hover,
-.welcome-links a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.welcome-recent button {
+.welcome-pinned button {
   display: grid;
   grid-template-columns: 16px minmax(0, 1fr);
-  column-gap: 8px;
+  column-gap: 10px;
+  row-gap: 2px;
   width: 100%;
-  margin-left: -6px;
-  padding: 5px 6px;
+  padding: 10px 8px;
   border: 0;
-  border-radius: 4px;
   background: none;
   text-align: left;
   cursor: pointer;
+  transition: background 0.15s;
 }
 
-.welcome-recent button:hover {
+.welcome-pinned button:hover {
   background: var(--bg-hover);
 }
 
-.welcome-recent .file-icon {
-  margin-top: 4px;
+.welcome-pinned .file-icon {
+  margin-top: 5px;
 }
 
-.recent-title {
-  overflow: hidden;
+.pin-title {
   color: var(--accent-fg);
-  font-size: 14px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.pin-summary,
+.pin-meta {
+  grid-column: 2;
+}
+
+.pin-summary {
+  overflow: hidden;
+  color: var(--fg-muted);
+  font-size: 13.5px;
   white-space: nowrap;
   text-overflow: ellipsis;
 }
 
-.recent-path {
-  grid-column: 2;
-  overflow: hidden;
+.pin-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 12px;
   color: var(--fg-faint);
   font-size: 11.5px;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+}
+
+.pin-metric {
+  color: var(--syn-number);
+}
+
+/* 이렇게 일합니다: 소개 문장을 프로젝트로 뒷받침 */
+.principles {
+  position: relative;
+  margin-top: clamp(48px, 7vw, 72px);
+}
+
+.principles-title {
+  margin-bottom: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.principle {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 18px 18px 16px;
+}
+
+.principle-no {
+  color: var(--syn-keyword);
+  font-size: 12px;
+}
+
+.principle-title {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.principle-body {
+  color: var(--fg-muted);
+  font-size: 14px;
+  line-height: 1.75;
+}
+
+.principle-proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: auto;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.principle-proof-label {
+  margin-right: 2px;
+  color: var(--fg-faint);
+  font-size: 11.5px;
+}
+
+.principle-proof button {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 2px 8px;
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  background: var(--bg-editor);
+  color: var(--accent-fg);
+  font-size: 12.5px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.principle-proof button:hover {
+  border-color: var(--accent);
+  background: var(--accent-soft);
 }
 
 /* ── about.ts 코드 카드 ─────────────────────────────── */
@@ -334,11 +424,13 @@
   }
 }
 
-@container (max-width: 520px) {
-  .welcome-cols {
+@container (max-width: 760px) {
+  .principles-grid {
     grid-template-columns: minmax(0, 1fr);
   }
+}
 
+@container (max-width: 520px) {
   .welcome-stats {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

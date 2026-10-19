@@ -68,26 +68,6 @@
   font-size: 13px;
 }
 
-.tb-nav {
-  display: flex;
-  gap: 2px;
-}
-
-.tb-nav button {
-  padding: 3px 9px;
-  border: 0;
-  border-radius: 4px;
-  background: none;
-  color: var(--fg);
-  font-size: 13px;
-  cursor: pointer;
-}
-
-.tb-nav button:hover {
-  background: var(--bg-hover);
-  color: var(--fg-strong);
-}
-
 .tb-command {
   flex: 0 1 460px;
   margin: 0 auto;
@@ -882,12 +862,6 @@ button.sb-item:hover {
 
 /* ── 반응형 ───────────────────────────────────────────── */
 
-@media (max-width: 1279px) {
-  .tb-nav {
-    display: none;
-  }
-}
-
 @media (max-width: 1023px) {
   .tb-menu {
     display: grid;
@@ -980,5 +954,22 @@ button.sb-item:hover {
   .tb-command-keys,
   .welcome-keys {
     display: none;
+  }
+}
+
+/* 손가락으로 누르는 기기에서는 누를 자리를 넓힌다 */
+@media (pointer: coarse) {
+  .ex-item {
+    height: 34px;
+  }
+
+  .tb-icon-btn {
+    width: 40px;
+    height: 36px;
+  }
+
+  .tab-close {
+    width: 32px;
+    height: 32px;
   }
 }

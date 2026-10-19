@@ -1,7 +1,7 @@
 import React from 'react';
 import { stats } from '../../utils/projectStats';
 import { originOf, useIde } from './IdeContext';
-import { IconBell, IconBranch, IconCheck } from './icons';
+import { IconBranch, IconCheck } from './icons';
 
 interface StatusBarProps {
   onDetail: boolean;
@@ -46,9 +46,6 @@ const StatusBar: React.FC<StatusBarProps> = ({ onDetail }) => {
       >
         {theme === 'dark' ? 'Dark Modern' : 'Light Modern'}
       </button>
-      <span className="sb-item sb-wide" aria-hidden="true">
-        <IconBell size={13} />
-      </span>
     </footer>
   );
 };
