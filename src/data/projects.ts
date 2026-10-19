@@ -87,40 +87,43 @@ export const projects: Project[] = [
   {
     id: '3',
     title: '개인 포트폴리오 웹사이트',
-    summary: 'React와 TypeScript로 구현한 반응형 포트폴리오 사이트',
-    description: '현대적인 웹 기술을 활용하여 개인 포트폴리오를 제작했습니다. 반응형 디자인과 다양한 인터랙션을 구현하여 사용자 경험을 극대화했으며, 프로젝트 상세 페이지를 통해 체계적으로 작업물을 소개할 수 있도록 구성했습니다.',
-    technologies: ['React', 'TypeScript', 'CSS', 'React Router', 'Create React App'],
+    summary: '코드 에디터(VS Code) 작업 화면처럼 꾸민 React · TypeScript 포트폴리오',
+    description: '저장소를 열어 둔 코드 에디터처럼 보이는 포트폴리오입니다. 섹션은 파일로, 프로젝트는 projects 폴더 안 문서로 보여 주고 탐색기 · 편집기 탭 · 명령 팔레트 · 상태 표시줄로 이동합니다. 프로젝트 데이터 한 곳(projects.ts)에서 카드, 타임라인, 상세 페이지, 탐색기, 검색 목록을 모두 만들어서 프로젝트를 추가하면 화면 전체가 따라 바뀝니다.',
+    technologies: ['React', 'TypeScript', 'CSS', 'React Router', 'Create React App', 'View Transitions API', 'CSS 스크롤 타임라인', 'CSS 앵커 위치 지정', 'Container Queries'],
     category: 'web',
     context: 'personal',
     status: 'in-progress',
     startDate: '2025-08',
     teamSize: 1,
-    myRole: 'Full Stack Developer',
+    myRole: '기획 · 디자인 · 개발 (1인)',
     features: [
-      '반응형 웹 디자인',
-      '부드러운 스크롤 애니메이션',
-      '프로젝트 상세 페이지 라우팅',
-      '환경변수를 통한 개인정보 보호',
-      '스킬별 카테고리 분류 시스템'
+      'VS Code 모양 작업 화면: 탐색기, 편집기 탭, 이동 경로, 미니맵, 상태 표시줄',
+      '명령 팔레트(Ctrl+K): 프로젝트 이름 · 기술 · 분야로 검색해 바로 이동',
+      '다크 / 라이트 테마: 누른 자리에서 원이 퍼지며 바뀌는 화면 전환(View Transitions API)',
+      '목록 카드의 제목이 상세 페이지 제목으로 이어지는 화면 전환',
+      '스크롤 위치에 묶인 CSS 애니메이션: 진입 효과, 미니맵 슬라이더, 읽은 만큼 차는 막대, 상태 표시줄의 스크롤 %',
+      '타임라인 막대 요약을 CSS 앵커 위치 지정으로 막대에 붙이고, 화면 끝에서는 자동으로 뒤집기',
+      '화면 폭이 아니라 편집기 폭에 맞춰 배치를 바꾸는 컨테이너 쿼리',
+      '프로젝트 이미지는 폴더에 넣기만 하면 자동으로 모으고, 사진이 없으면 파형 커버를 생성'
     ],
     challenges: [
-      'SEO 최적화를 위한 라우팅 구조 설계',
-      '다양한 디바이스에서의 일관된 사용자 경험',
-      '성능 최적화와 사용자 인터랙션의 균형'
+      '목록과 상세를 오갈 때 보던 위치가 사라지는 문제',
+      '빌드 과정에서 CSS 선언이 정렬되며 animation 단축 속성이 animation-timeline 을 덮어써, 스크롤에 묶인 애니메이션이 모두 꺼지던 문제',
+      '최신 CSS 기능을 지원하지 않는 브라우저에서도 내용은 그대로 보여야 하는 점'
     ],
     solutions: [
-      'React Router를 활용한 SPA 라우팅 구현',
-      'CSS Grid와 Flexbox를 활용한 반응형 레이아웃',
-      '이미지 최적화 및 코드 스플리팅 적용'
+      '상세로 떠나기 직전 스크롤 위치를 기억해 두고, 돌아올 때 화면 전환이 새 화면을 찍기 전에 복원(useLayoutEffect)',
+      'animation 단축 속성 대신 개별 속성으로 적어 선언 순서와 상관없이 동작하게 하고, 빌드 결과물에서 실제로 남았는지 확인',
+      '최신 기능은 @supports 로 감싸고 기본 상태를 늘 보이게 두어, 지원하지 않으면 효과만 빠지게 구성'
     ],
     results: [
-      '포트폴리오 사이트 성공적 배포를 목표',
-      '모바일 호환성 100% 달성을 목표',
-      '사용자 친화적 UI/UX 구현을 목표'
+      'Netlify 로 배포 중 (19ygh.netlify.app), main 에 머지되면 자동 재배포',
+      '상세 주소로 바로 들어와도 열리도록 SPA 리다이렉트 설정',
+      '프로젝트 17개와 기술 39개를 데이터 파일 한 곳에서 관리'
     ],
     images: [],
     githubUrl: 'https://github.com/19GHYun/Portfolio',
-    reflection: '포트폴리오를 만들면서 CI/CD까지 목표로 삼고 진행해보고 있습니다.'
+    reflection: '처음에는 계측기 화면 콘셉트로 만들었다가, 개발자다운 모습을 보여 주려고 코드 에디터 콘셉트로 다시 만들었습니다. 새 CSS 기능은 지원하지 않는 브라우저에서 내용이 사라지지 않도록, 효과만 얹는 방식으로 썼습니다.'
   },
     {
     id: '4',
