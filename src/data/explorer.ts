@@ -40,7 +40,7 @@ const PROJECT_FILES: Record<string, string> = {
   '10': 'plate-pay',
   '11': 'tactical-sa-plugin',
   '12': 'rf-signal-tools',
-  '13': 'touhou-mahjong-war',
+  '13': 'touhou-mahjong',
   '14': 'gomin-bot',
   '15': 'reimu-calendar',
   '16': 'hokora',

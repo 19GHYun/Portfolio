@@ -84,7 +84,17 @@ const ProjectDetail: React.FC = () => {
   const prev = index > 0 ? orderedProjects[index - 1] : null;
   const next = index < orderedProjects.length - 1 ? orderedProjects[index + 1] : null;
 
+  // coverBanner 인 프로젝트는 첫 이미지를 제목 아래 큰 배너로 띄우고 목록에서는 뺀다.
+  // 배너를 누르면 라이트박스에서 나머지 이미지와 함께 넘겨 볼 수 있다.
+  const banner = project.coverBanner ? galleryImages[0] : undefined;
+  const listedImages = galleryImages
+    .map((image, i) => ({ image, i }))
+    .filter(({ i }) => !(banner && i === 0));
+
   const links = [
+    project.gameUrl
+      ? { href: project.gameUrl, label: '게임 페이지 · 다운로드', icon: <IconRun size={15} />, primary: true }
+      : null,
     project.githubUrl && project.githubUrl !== '#'
       ? { href: project.githubUrl, label: 'GitHub 저장소', icon: <IconGithub size={15} /> }
       : null,
@@ -95,7 +105,10 @@ const ProjectDetail: React.FC = () => {
     project.namuWikiUrl
       ? { href: project.namuWikiUrl, label: '나무위키', icon: <IconLink size={15} /> }
       : null,
-  ].filter((l): l is { href: string; label: string; icon: React.ReactElement } => Boolean(l));
+  ].filter(
+    (l): l is { href: string; label: string; icon: React.ReactElement; primary?: boolean } =>
+      Boolean(l)
+  );
 
   return (
     <article className="md-preview">
@@ -161,6 +174,17 @@ const ProjectDetail: React.FC = () => {
           </dl>
         )}
 
+        {banner && (
+          <button
+            type="button"
+            className="md-banner"
+            onClick={() => setLightboxIndex(0)}
+            aria-label={`${banner.description || project.title} 크게 보기`}
+          >
+            <img src={banner.src} alt={banner.description || project.title} />
+          </button>
+        )}
+
         {/* 이미지가 없는 프로젝트는 생성된 파형으로 머리그림을 대신한다 */}
         {galleryImages.length === 0 && (
           <div className="md-cover">
@@ -178,11 +202,11 @@ const ProjectDetail: React.FC = () => {
           ))}
         </div>
 
-        {galleryImages.length > 0 && (
+        {listedImages.length > 0 && (
           <>
             <H2>이미지</H2>
             <div className="md-gallery">
-              {galleryImages.map((image, i) => (
+              {listedImages.map(({ image, i }) => (
                 <figure key={`${image.src}-${i}`} className="md-figure">
                   <button
                     type="button"
@@ -291,7 +315,13 @@ const ProjectDetail: React.FC = () => {
         {links.length > 0 && (
           <div className="md-links">
             {links.map((l) => (
-              <a key={l.href} className="btn" href={l.href} target="_blank" rel="noopener noreferrer">
+              <a
+                key={l.href}
+                className={`btn ${l.primary ? 'btn-primary' : ''}`}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {l.icon}
                 {l.label}
               </a>

@@ -173,6 +173,31 @@
   font-size: 13px;
 }
 
+/* 대표 그림 배너 (coverBanner): 게임 타이틀처럼 가로로 긴 그림 */
+.md-banner {
+  display: block;
+  width: 100%;
+  margin-top: 24px;
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-code);
+  overflow: hidden;
+  cursor: zoom-in;
+  transition: border-color 0.2s;
+}
+
+.md-banner:hover {
+  border-color: var(--accent);
+}
+
+.md-banner img {
+  width: 100%;
+  height: auto;
+  max-height: 520px;
+  object-fit: contain;
+}
+
 .md-cover {
   margin-top: 24px;
   padding: 10px 0;
